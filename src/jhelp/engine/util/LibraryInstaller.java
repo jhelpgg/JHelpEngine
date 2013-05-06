@@ -7,10 +7,19 @@ import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
 import jhelp.util.io.UtilIO;
 
+/**
+ * Install libraries need for communicate with Open GL
+ * 
+ * @author JHelp
+ */
 public class LibraryInstaller
 {
+   /** Indicates that the libraries are all ready installed */
    private static boolean alreadyInstall = false;
 
+   /**
+    * Install the libraries
+    */
    public static void install()
    {
       if(LibraryInstaller.alreadyInstall == true)
@@ -28,10 +37,8 @@ public class LibraryInstaller
 
       // Open the jar file
       final File file = UtilIO.obtainExternalFile("jar/" + jarFileName);
-      Debug.println(DebugLevel.VERBOSE, "file=", file.getAbsolutePath(), file == null
-            ? ""
-            : " | " + file.exists());
-      if((file == null) || (file.exists() == false))
+      Debug.println(DebugLevel.VERBOSE, "file=", file.getAbsolutePath(), " | ", file.exists());
+      if(file.exists() == false)
       {
          return;
       }

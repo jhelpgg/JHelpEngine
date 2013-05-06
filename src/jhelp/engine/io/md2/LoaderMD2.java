@@ -863,7 +863,7 @@ public class LoaderMD2
       Triangle triangle;
       Frame frame;
 
-      int index;
+      long index;
 
       while(indexedInputStream.isFinish() == false)
       {

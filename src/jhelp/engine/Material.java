@@ -119,6 +119,13 @@ public class Material
       return Material.materialForPickUV;
    }
 
+   /**
+    * Obtain a material or create a new one if not exists
+    * 
+    * @param name
+    *           Material name
+    * @return Searched material or newly created
+    */
    public static Material obtainMaterialOrCreate(final String name)
    {
       if(name == null)
@@ -140,6 +147,13 @@ public class Material
       return material;
    }
 
+   /**
+    * Parse a XML markup to create a material
+    * 
+    * @param markupXML
+    *           Markup XML to parse
+    * @return Created material
+    */
    public static Material parseXML(final MarkupXML markupXML)
    {
       final Material material = Material.obtainMaterialOrCreate(markupXML.obtainParameter(ConstantsXML.MARKUP_MATERIAL_name));
@@ -618,6 +632,11 @@ public class Material
       gl.glMateriali(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, this.shininess);
    }
 
+   /**
+    * Serialize the mateirl in XML markup
+    * 
+    * @return Markup represents the material
+    */
    public MarkupXML saveToXML()
    {
       final MarkupXML markupXML = new MarkupXML(ConstantsXML.MARKUP_MATERIAL);

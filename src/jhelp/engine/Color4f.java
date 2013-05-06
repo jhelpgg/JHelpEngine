@@ -126,6 +126,18 @@ public class Color4f
       return color;
    }
 
+   /**
+    * Parse a string to a color.<br>
+    * Format is 4 floats sperate by one space, they represents in the order : red, green, blue and alpha
+    * 
+    * @param color
+    *           String to parse
+    * @return Color result
+    * @throws NumberFormatException
+    *            If string not represents a color
+    * @throws NullPointerException
+    *            If string not represents a color
+    */
    public static Color4f parse(final String color)
    {
       final StringCutter stringCutter = new StringCutter(color, ' ');
@@ -308,6 +320,12 @@ public class Color4f
       return true;
    }
 
+   /**
+    * Fill the color with values from {@link Color}
+    * 
+    * @param color
+    *           Color to extract information
+    */
    public void fromColor(final Color color)
    {
       if(this.defaultColor)
@@ -392,6 +410,17 @@ public class Color4f
       return this.defaultColor;
    }
 
+   /**
+    * Parse a string to a color.<br>
+    * Format is 4 floats sperate by one space, they represents in the order : red, green, blue and alpha
+    * 
+    * @param color
+    *           String to parse
+    * @throws NumberFormatException
+    *            If string not represents a color
+    * @throws NullPointerException
+    *            If string not represents a color
+    */
    public void parseString(final String color)
    {
       final StringCutter stringCutter = new StringCutter(color, ' ');
@@ -438,6 +467,12 @@ public class Color4f
       return BufferUtils.TEMPORARY_FLOAT_BUFFER;
    }
 
+   /**
+    * Serialize color to String.<br>
+    * Can be later used by {@link #parseString(String)} or {@link #parse(String)}
+    * 
+    * @return Serialized color
+    */
    public String serialize()
    {
       return UtilText.concatenate(this.red, ' ', this.green, ' ', this.blue, ' ', this.alpha);
@@ -644,6 +679,11 @@ public class Color4f
       this.red = red;
    }
 
+   /**
+    * Convert to a {@link Color}
+    * 
+    * @return Color result
+    */
    public Color toColor()
    {
       return new Color(this.red, this.green, this.blue, this.alpha);

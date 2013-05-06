@@ -19,12 +19,6 @@ import jhelp.engine.Node;
  */
 public class PositionNode
 {
-   /** X */
-   public float x;
-   /** Y */
-   public float y;
-   /** z */
-   public float z;
    /** Angle for X axis */
    public float angleX;
    /** Angle for Y axis */
@@ -37,12 +31,20 @@ public class PositionNode
    public float scaleY;
    /** Scale on Z axis */
    public float scaleZ;
+   /** X */
+   public float x;
+   /** Y */
+   public float y;
+   /** z */
+   public float z;
 
    /**
     * Constructs PositionNode
     */
    public PositionNode()
    {
+      this.x = this.y = this.z = this.angleX = this.angleY = this.angleZ = 0;
+      this.scaleX = this.scaleY = this.scaleZ = 1;
    }
 
    /**
@@ -51,7 +53,7 @@ public class PositionNode
     * @param node
     *           Base node
     */
-   public PositionNode(Node node)
+   public PositionNode(final Node node)
    {
       this.x = node.getX();
       this.y = node.getY();

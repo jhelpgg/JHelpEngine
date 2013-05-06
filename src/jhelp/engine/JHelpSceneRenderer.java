@@ -1393,6 +1393,16 @@ public class JHelpSceneRenderer
       }
    }
 
+   /**
+    * Load scene from file
+    * 
+    * @param file
+    *           File to read
+    * @return Extracted scene
+    * @throws Exception
+    *            On reading issue or if file is not a valid scene
+    */
+   @SuppressWarnings("unchecked")
    public Scene load(final File file) throws Exception
    {
       final ZipFile zipFile = new ZipFile(file);
@@ -1833,6 +1843,14 @@ public class JHelpSceneRenderer
       }
    }
 
+   /**
+    * Save the current scene in a file
+    * 
+    * @param file
+    *           File where save
+    * @throws IOException
+    *            On writing issue
+    */
    public void save(final File file) throws IOException
    {
       if(UtilIO.createFile(file) == false)

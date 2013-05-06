@@ -31,6 +31,7 @@ import jhelp.xml.MarkupXML;
  */
 public class Mesh
 {
+   /** Indicates if have to print "OUPS" messages (Unexpected error while rendering) */
    private static final boolean              PRINT_OUPS       = false;
 
    /** Compute UV in separate process */
@@ -716,14 +717,14 @@ public class Mesh
       }
       catch(final Exception exception)
       {
-         if(Mesh.PRINT_OUPS == true)
+         if(Mesh.PRINT_OUPS)
          {
             Debug.printException(exception, "Oups in rendering");
          }
       }
       catch(final Error error)
       {
-         if(Mesh.PRINT_OUPS == true)
+         if(Mesh.PRINT_OUPS)
          {
             Debug.printError(error, "Oups in rendering");
          }
@@ -1371,6 +1372,11 @@ public class Mesh
       }
    }
 
+   /**
+    * Triangularize the mesh
+    * 
+    * @return Triangle set
+    */
    public Triangles obtainTriangles()
    {
       final Triangles triangles = new Triangles();

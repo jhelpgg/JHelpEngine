@@ -99,7 +99,7 @@ public class FrameView3D
 
             if((left == true) && (right == true))
             {
-               FrameView3D.this.manipulatedNode.translate((e.getX() - this.x) * FrameView3D.FACTOR, (this.y - e.getY()) * 0.1f, 0);
+               FrameView3D.this.manipulatedNode.translate((e.getX() - this.x) * 0.1f, (this.y - e.getY()) * 0.1f, 0);
             }
             else if(left == true)
             {

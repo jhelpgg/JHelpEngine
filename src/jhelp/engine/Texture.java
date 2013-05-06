@@ -1632,14 +1632,6 @@ public class Texture
       this.destroy();
    }
 
-   @Override
-   protected void finalize() throws Throwable
-   {
-      // {@todo} TODO Implements finalize
-      Debug.printTodo("Implements finalize");
-      super.finalize();
-   }
-
    /**
     * Add a texture (pixel by pixel).<br>
     * Added texture must have same dimensions

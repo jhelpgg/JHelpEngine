@@ -671,7 +671,7 @@ public final class Light
     */
    public void setSpotDirection(final Point3D spotDirection)
    {
-      this.spotDirection.substract(spotDirection);
+      this.spotDirection.set(spotDirection);
 
       this.asChanged = this.needRefresh = true;
    }

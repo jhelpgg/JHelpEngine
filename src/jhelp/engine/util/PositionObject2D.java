@@ -33,6 +33,8 @@ public class PositionObject2D
     */
    public PositionObject2D()
    {
+      this.x = this.y = 0;
+      this.width = this.height = 1;
    }
 
    /**
