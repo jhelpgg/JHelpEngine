@@ -323,14 +323,20 @@ public class Tool3D
     *           multiplier
     * @param linearize
     *           Indicates if we want try to linearize UV
+    * @param reverseNormals
+    *           Indicates if normals must be reversed
     * @return Constructed mesh
     */
-   public static Mesh createJoinedMesh(final Path pathU, final int precisionU, final Path pathV, final int precisionV, final float multU, final boolean linearize)
+   public static Mesh createJoinedMesh(final Path pathU, final int precisionU, final Path pathV, final int precisionV, final float multU, final boolean linearize, final boolean reverseNormals)
    {
+      final float mult = reverseNormals == true
+            ? -1
+            : 1;
       // Initialization
       final Mesh mesh = new Mesh();
 
       final ArrayList<Line2D> linesU = pathU.computePath(precisionU);
+      linesU.add(linesU.get(0));
       final ArrayList<Line2D> linesV = pathV.computePath(precisionV);
 
       float x00 = 0, y00 = 0, z00 = 0, u00 = 0, v00 = 0, nx00 = 0, ny00 = 0, nz00 = 0;
@@ -417,36 +423,36 @@ public class Tool3D
             y00 = b0 + (x * xp0);
             z00 = yp0;
 
-            nx00 = (x + (a0 - (y * xx))) / 2f;
-            ny00 = (y + (b0 + (x * xx))) / 2f;
-            nz00 = (0 + (yy)) / 2f;
+            nx00 = (mult * (x + (a0 - (y * xx)))) / 2f;
+            ny00 = (mult * (y + (b0 + (x * xx)))) / 2f;
+            nz00 = (mult * yy) / 2f;
 
             // Up right position and normal
             x10 = a1 - (y * xp0);
             y10 = b1 + (x * xp0);
             z10 = yp0;
 
-            nx10 = (x + (a1 - (y * xx))) / 2f;
-            ny10 = (y + (b1 + (x * xx))) / 2f;
-            nz10 = (0 + (yy)) / 2f;
+            nx10 = (mult * (x + (a1 - (y * xx)))) / 2f;
+            ny10 = (mult * (y + (b1 + (x * xx)))) / 2f;
+            nz10 = (mult * yy) / 2f;
 
             // Down left position and normal
             x01 = a0 - (y * xp1);
             y01 = b0 + (x * xp1);
             z01 = yp1;
 
-            nx01 = (x + (a0 - (y * xx))) / 2f;
-            ny01 = (y + (b0 + (x * xx))) / 2f;
-            nz01 = (0 + (yy)) / 2f;
+            nx01 = (mult * (x + (a0 - (y * xx)))) / 2f;
+            ny01 = (mult * (y + (b0 + (x * xx)))) / 2f;
+            nz01 = (mult * yy) / 2f;
 
             // Down right position and normal
             x11 = a1 - (y * xp1);
             y11 = b1 + (x * xp1);
             z11 = yp1;
 
-            nx11 = (x + (a1 - (y * xx))) / 2f;
-            ny11 = (y + (b1 + (x * xx))) / 2f;
-            nz11 = (0 + (yy)) / 2f;
+            nx11 = (mult * (x + (a1 - (y * xx)))) / 2f;
+            ny11 = (mult * (y + (b1 + (x * xx)))) / 2f;
+            nz11 = (mult * yy) / 2f;
 
             // If it is not the first face time we goes on V path, join with old
             // face
@@ -708,6 +714,10 @@ public class Tool3D
       {
          mesh.multUV(multU / Math.max(oldU0, oldU1), 1);
       }
+      else
+      {
+         mesh.multUV(multU, 1);
+      }
 
       return mesh;
    }
@@ -794,7 +804,7 @@ public class Tool3D
 
             nx00 = (x + (a0 - (y * xx))) / 2f;
             ny00 = (y + (b0 + (x * xx))) / 2f;
-            nz00 = (0 + (yy)) / 2f;
+            nz00 = yy / 2f;
 
             // Up right position and normal
             x10 = a1 - (y * xp0);
@@ -803,7 +813,7 @@ public class Tool3D
 
             nx10 = (x + (a1 - (y * xx))) / 2f;
             ny10 = (y + (b1 + (x * xx))) / 2f;
-            nz10 = (0 + (yy)) / 2f;
+            nz10 = yy / 2f;
 
             // Down left position and normal
             x01 = a0 - (y * xp1);
@@ -812,7 +822,7 @@ public class Tool3D
 
             nx01 = (x + (a0 - (y * xx))) / 2f;
             ny01 = (y + (b0 + (x * xx))) / 2f;
-            nz01 = (0 + (yy)) / 2f;
+            nz01 = yy / 2f;
 
             // Down right position and normal
             x11 = a1 - (y * xp1);
@@ -821,7 +831,7 @@ public class Tool3D
 
             nx11 = (x + (a1 - (y * xx))) / 2f;
             ny11 = (y + (b1 + (x * xx))) / 2f;
-            nz11 = (0 + (yy)) / 2f;
+            nz11 = yy / 2f;
 
             // Create the face
             mesh.addVertexToTheActualFace(new Vertex(x00, y00, z00, u00, v00, nx00, ny00, nz00));

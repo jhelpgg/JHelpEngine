@@ -127,20 +127,20 @@ public class Mesh
 
             if(hasUV == true)
             {
-               mesh.actualFaceUV.add(uvFace.getInteger(index) - startUV);
+               mesh.actualFaceUV.insert(uvFace.getInteger(index) - startUV, 0);
             }
             else
             {
-               mesh.actualFaceUV.add(0);
+               mesh.actualFaceUV.insert(0, 0);
             }
 
             if(hasNormal == true)
             {
-               mesh.actualFaceNormals.add(normalFace.getInteger(index) - startNormal);
+               mesh.actualFaceNormals.insert(normalFace.getInteger(index) - startNormal, 0);
             }
             else
             {
-               mesh.actualFaceNormals.add(0);
+               mesh.actualFaceNormals.insert(0, 0);
             }
 
             index++;

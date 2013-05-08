@@ -291,7 +291,7 @@ public class Equation3D
       this.nodeType = NodeType.EQUATION;
       this.equation3DListener = equation3DListener;
 
-      ThreadManager.THREAD_MANAGER.doThread(new Creator(border, borderPrecision, tStart, tEnd, tStep, fonctionX, fonctionY, fonctionZ), null);
+      ThreadManager.THREAD_MANAGER.doThread(new Creator(border, borderPrecision, tStart, tEnd, tStep, fonctionX.simplifyMaximum(), fonctionY.simplifyMaximum(), fonctionZ.simplifyMaximum()), null);
    }
 
    /**

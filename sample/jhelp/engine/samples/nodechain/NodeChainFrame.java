@@ -89,14 +89,14 @@ public class NodeChainFrame
       final AnimationPositionNode animationPositionNode = new AnimationPositionNode(this.head);
       final PositionNode positionNode = new PositionNode();
       positionNode.x = 10;
-      positionNode.y = -2 * Math3D.DEUX_PI;
+      positionNode.y = -2 * Math3D.TWO_PI;
       positionNode.z = 0;
       animationPositionNode.addFrame(100, positionNode);
 
       ((MultiAnimation) this.animationSpace).addAnimation(animationPositionNode);
 
       // Create and add the animation it self
-      ((MultiAnimation) this.animationSpace).addAnimation(new AnimationEquation(Function.parse("10*cos(t)"), Function.parse("t"), Function.parse("10*sin(t)"), -2 * Math3D.DEUX_PI, 2 * Math3D.DEUX_PI, 1000, this.head));
+      ((MultiAnimation) this.animationSpace).addAnimation(new AnimationEquation(Function.parse("10*cos(t)"), Function.parse("t"), Function.parse("10*sin(t)"), -2 * Math3D.TWO_PI, 2 * Math3D.TWO_PI, 1000, this.head));
 
       // Defines the key listener
       sceneRenderer.addKeyListener(this);

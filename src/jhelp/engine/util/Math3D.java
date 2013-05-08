@@ -13,46 +13,44 @@ package jhelp.engine.util;
  */
 public class Math3D
 {
-   /** 2 PI */
-   public static final float  DEUX_PI                             = (float) (2d * Math.PI);
-   /** 255 in byte */
-   public static final byte   BYTE_255                            = (byte) 255;
-   /** 0 in byte */
-   public static final byte   BYTE_0                              = (byte) 0;
-   /** Difference between tow succeed picking color number */
-   public static final int    PICKING_PRECISION                   = 8;
-   /** Epsilon to say if two color are the same */
-   public static final float  PICK_EPSILON                        = 1e-5f;
-   /** Theorical maximum of objects */
-   public static final int    NUMBER_THEORICAL_MAXIMUM_OF_OBJECTS = (256 * 256 * 256) / PICKING_PRECISION;
    /** Power of 2 list */
    private static final int[] powerOf2                            =
                                                                   {
          1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024
                                                                   };
+   /** 0 in byte */
+   public static final byte   BYTE_0                              = (byte) 0;
+   /** 255 in byte */
+   public static final byte   BYTE_255                            = (byte) 255;
+   /** Theorical maximum of objects */
+   public static final int    NUMBER_THEORICAL_MAXIMUM_OF_OBJECTS = (256 * 256 * 256) / Math3D.PICKING_PRECISION;
+   /** PI */
+   public static final float  PI                                  = (float) (Math.PI);
+   /** PI / 2 */
+   public static final float  PI_TWO                              = (float) (Math.PI / 2);
+   /** Epsilon to say if two color are the same */
+   public static final float  PICK_EPSILON                        = 1e-5f;
+   /** Difference between tow succeed picking color number */
+   public static final int    PICKING_PRECISION                   = 8;
+   /** 2 PI */
+   public static final float  TWO_PI                              = (float) (2d * Math.PI);
 
    /**
-    * Compute square of a number
+    * Compute the nearest power of 2 of an integer
     * 
-    * @param f
-    *           Number to multiply by himself
-    * @return The square
+    * @param integer
+    *           Integer considered
+    * @return Nearest power of 2
     */
-   public static float square(float f)
+   public static int computeNearestPowerOf2(final int integer)
    {
-      return f * f;
-   }
-
-   /**
-    * Compute square of a number
-    * 
-    * @param f
-    *           Number to multiply by himself
-    * @return The square
-    */
-   public static double square(double f)
-   {
-      return f * f;
+      final int nb = Math3D.powerOf2.length - 1;
+      int index = 0;
+      while((index < nb) && (integer > Math3D.powerOf2[index]))
+      {
+         index++;
+      }
+      return Math3D.powerOf2[index];
    }
 
    /**
@@ -65,7 +63,7 @@ public class Math3D
     *           Integer look for near power of 2
     * @return The (LOG2, power 2) couple
     */
-   public static int[] computePowerOf2couple(int integer)
+   public static int[] computePowerOf2couple(final int integer)
    {
       // For integer less or equal than 1, the return couple is (0, 1)
       if(integer <= 1)
@@ -78,21 +76,21 @@ public class Math3D
 
       // If the integer is bigger or equal than the maximum value, the return
       // the maximum
-      int end = powerOf2.length - 1;
-      if(integer >= powerOf2[end])
+      int end = Math3D.powerOf2.length - 1;
+      if(integer >= Math3D.powerOf2[end])
       {
          return new int[]
          {
-               end, powerOf2[end]
+               end, Math3D.powerOf2[end]
          };
       }
 
       // Search the value
       int start = 0;
-      while(start + 1 < end)
+      while((start + 1) < end)
       {
-         int middle = (start + end) >> 1;
-         int pui = powerOf2[middle];
+         final int middle = (start + end) >> 1;
+         final int pui = Math3D.powerOf2[middle];
          if(pui == integer)
          {
             return new int[]
@@ -112,26 +110,32 @@ public class Math3D
 
       return new int[]
       {
-            start, powerOf2[start]
+            start, Math3D.powerOf2[start]
       };
    }
 
    /**
-    * Compute the nearest power of 2 of an integer
+    * Extract decimal part
     * 
-    * @param integer
-    *           Integer considered
-    * @return Nearest power of 2
+    * @param f
+    *           Float to extract
+    * @return Decimal part
     */
-   public static int computeNearestPowerOf2(int integer)
+   public static float decimalPart(final float f)
    {
-      int nb = powerOf2.length - 1;
-      int index = 0;
-      while(index < nb && integer > powerOf2[index])
-      {
-         index++;
-      }
-      return powerOf2[index];
+      return f - (int) f;
+   }
+
+   /**
+    * Transform degre angle to radian
+    * 
+    * @param degre
+    *           Degre angle
+    * @return Radian angle
+    */
+   public static float degreToRadian(final float degre)
+   {
+      return (Math3D.TWO_PI * degre) / 360f;
    }
 
    /**
@@ -143,7 +147,7 @@ public class Math3D
     *           Second float
     * @return {@code true} if floats are equal
     */
-   public static final boolean equal(float f1, float f2)
+   public static final boolean equal(final float f1, final float f2)
    {
       return Math.abs(f1 - f2) < 1e-5f;
    }
@@ -157,21 +161,9 @@ public class Math3D
     *           Second float
     * @return {@code true} if floats are equal
     */
-   public static final boolean equalPick(float f1, float f2)
+   public static final boolean equalPick(final float f1, final float f2)
    {
-      return Math.abs(f1 - f2) < PICK_EPSILON;
-   }
-
-   /**
-    * Indicates if a float is nul
-    * 
-    * @param f
-    *           Float to test
-    * @return {@code true} if the float is nul
-    */
-   public static final boolean nul(float f)
-   {
-      return Math.abs(f) < 1e-5f;
+      return Math.abs(f1 - f2) < Math3D.PICK_EPSILON;
    }
 
    /**
@@ -181,11 +173,13 @@ public class Math3D
     *           Array to copy
     * @return Copy
     */
-   public static final float[] getCopy(float[] array)
+   public static final float[] getCopy(final float[] array)
    {
       if(array == null)
+      {
          return null;
-      float[] copy = new float[array.length];
+      }
+      final float[] copy = new float[array.length];
       System.arraycopy(array, 0, copy, 0, array.length);
       return copy;
    }
@@ -197,37 +191,15 @@ public class Math3D
     *           Array to copy
     * @return Copy
     */
-   public static final int[] getCopy(int[] array)
+   public static final int[] getCopy(final int[] array)
    {
       if(array == null)
+      {
          return null;
-      int[] copy = new int[array.length];
+      }
+      final int[] copy = new int[array.length];
       System.arraycopy(array, 0, copy, 0, array.length);
       return copy;
-   }
-
-   /**
-    * Transform radian angle to degre
-    * 
-    * @param radian
-    *           Radian angle
-    * @return Degre angle
-    */
-   public static float radianToDegre(float radian)
-   {
-      return (360f * radian) / DEUX_PI;
-   }
-
-   /**
-    * Transform degre angle to radian
-    * 
-    * @param degre
-    *           Degre angle
-    * @return Radian angle
-    */
-   public static float degreToRadian(float degre)
-   {
-      return (DEUX_PI * degre) / 360f;
    }
 
    /**
@@ -237,20 +209,56 @@ public class Math3D
     *           Linear progression
     * @return Sinusoidal progression
     */
-   public static float linearToSinusoidal(float rate)
+   public static float linearToSinusoidal(final float rate)
    {
-      return (float) ((Math.sin(rate * Math.PI - Math.PI / 2d) + 1d) / 2d);
+      return (float) ((Math.sin((rate * Math.PI) - (Math.PI / 2d)) + 1d) / 2d);
    }
 
    /**
-    * Extract decimal part
+    * Indicates if a float is nul
     * 
     * @param f
-    *           Float to extract
-    * @return Decimal part
+    *           Float to test
+    * @return {@code true} if the float is nul
     */
-   public static float decimalPart(float f)
+   public static final boolean nul(final float f)
    {
-      return f - (int) f;
+      return Math.abs(f) < 1e-5f;
+   }
+
+   /**
+    * Transform radian angle to degre
+    * 
+    * @param radian
+    *           Radian angle
+    * @return Degre angle
+    */
+   public static float radianToDegre(final float radian)
+   {
+      return (360f * radian) / Math3D.TWO_PI;
+   }
+
+   /**
+    * Compute square of a number
+    * 
+    * @param f
+    *           Number to multiply by himself
+    * @return The square
+    */
+   public static double square(final double f)
+   {
+      return f * f;
+   }
+
+   /**
+    * Compute square of a number
+    * 
+    * @param f
+    *           Number to multiply by himself
+    * @return The square
+    */
+   public static float square(final float f)
+   {
+      return f * f;
    }
 }

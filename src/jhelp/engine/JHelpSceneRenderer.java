@@ -59,6 +59,33 @@ import jhelp.xml.MarkupXML;
 public class JHelpSceneRenderer
       implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener, KeyListener, Runnable
 {
+   static class DetectionInfo
+   {
+      int      detectX;
+      int      detectY;
+      GUI2D    gui2d;
+      boolean  mouseButtonLeft;
+      boolean  mouseButtonRight;
+      boolean  mouseDrag;
+      Node     nodeDetect;
+      Object2D object2DDetect;
+      Scene    scene;
+
+      DetectionInfo(final Object2D object2dDetect, final GUI2D gui2d, final int detectX, final int detectY, final boolean mouseButtonLeft, final boolean mouseButtonRight, final boolean mouseDrag, final Scene scene,
+            final Node nodeDetect)
+      {
+         this.object2DDetect = object2dDetect;
+         this.gui2d = gui2d;
+         this.detectX = detectX;
+         this.detectY = detectY;
+         this.mouseButtonLeft = mouseButtonLeft;
+         this.mouseButtonRight = mouseButtonRight;
+         this.mouseDrag = mouseDrag;
+         this.scene = scene;
+         this.nodeDetect = nodeDetect;
+      }
+   }
+
    /**
     * Delayed action to fire events to listeners <br>
     * <br>
@@ -95,127 +122,153 @@ public class JHelpSceneRenderer
       }
    }
 
+   static class UpdateMouseDetection
+         extends ThreadedSimpleTask<DetectionInfo>
+   {
+      UpdateMouseDetection()
+      {
+      }
+
+      @Override
+      protected void doSimpleAction(final DetectionInfo detectionInfo)
+      {
+         // If a 2D object is detect
+         if(detectionInfo.object2DDetect != null)
+         {
+            // Update mouse state for 2D objects
+            detectionInfo.gui2d.mouseState(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight, detectionInfo.mouseDrag, detectionInfo.object2DDetect);
+         }
+         else if(detectionInfo.mouseDrag == false)
+         {
+            // If it is not a mouse drag, update mouse state for scene
+            detectionInfo.scene.mouseState(detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight, detectionInfo.nodeDetect);
+         }
+      }
+   }
+
    /** Time between 2 evaluation of FPS value */
-   private static final long                evaluteTime                               = 1000L;
-
+   private static final long                 evaluteTime                               = 1000L;
    /** Transparent color (Use as background on FPS print) */
-   private static final Color               TR                                        = new Color(1, 1, 1, 0.0f);
+   private static final Color                TR                                        = new Color(1, 1, 1, 0.0f);
 
+   private static final UpdateMouseDetection UPDATE_MOUSE_DETECTION                    = new UpdateMouseDetection();
    /** Action ID for alert listener that the scene renderer is initialized */
-   static final int                         ACTION_FIRE_SCENE_RENDERER_IS_INITIALIZED = 0;
+   static final int                          ACTION_FIRE_SCENE_RENDERER_IS_INITIALIZED = 0;
    /** Actual absolute frame */
-   private float                            absoluteFrame;
-
+   private float                             absoluteFrame;
    /** Animations played list */
-   private final Vector<Animation>          animations;
+   private final Vector<Animation>           animations;
    /** FPS for play animations */
-   private int                              animationsFps;
+   private int                               animationsFps;
    /** Time to synchronize animations */
-   private long                             animationTime;
+   private long                              animationTime;
    /** Canvas where OpenGL is draw */
-   private GLCanvas                         canvas;
+   private GLCanvas                          canvas;
    /** Indicates if detection is activate */
-   private boolean                          detectionActivate;
+   private boolean                           detectionActivate;
    /** X of detection point */
-   private int                              detectX;
+   private int                               detectX;
    /** Y of detection point */
-   private int                              detectY;
+   private int                               detectY;
    /** Delayed action to fire events to listeners */
-   private final FireEventScheduleAction    fireEventScheduleAction                   = new FireEventScheduleAction();
+   private final FireEventScheduleAction     fireEventScheduleAction                   = new FireEventScheduleAction();
    /** Font use to print FPS information */
-   private Font                             font;
+   private Font                              font;
    /** Actual Field Of View */
-   private final float                      fov;
+   private final float                       fov;
    /** Actual FPS */
-   private float                            fps;
+   private float                             fps;
    /** Count number of refresh between t<o evaluation of FPS */
-   private int                              fpsCount;
+   private int                               fpsCount;
    /** Reference time for FPS */
-   private long                             fpsStart;
+   private long                              fpsStart;
    /** 2D manager */
-   private final GUI2D                      gui2d;
+   private final GUI2D                       gui2d;
    /** OpenGL view height */
-   private int                              height;
+   private int                               height;
    /** Last U pick */
-   private int                              lastPickU;
+   private int                               lastPickU;
    /** Last V pick */
-   private int                              lastPickV;
+   private int                               lastPickV;
    /** Lights list */
-   private Lights                           lights;
+   private Lights                            lights;
    /** Listeners of events appends on OpenGL view */
-   private final EventListenerList          listeners;
+   private final EventListenerList           listeners;
    /** LOCK for synchronization */
-   private final Object                     LOCK                                      = new Object();
+   private final Object                      LOCK                                      = new Object();
    /**
     * Indicates if a screen shot has to make as soon as possible (That is to say when the current display is finish to draw)
     */
-   private boolean                          makeAScreenShot;
+   private boolean                           makeAScreenShot;
    /** Material use for 2D objects */
-   private Material                         material2D;
+   private Material                          material2D;
    /** Temporary matrix for convert object space to view space */
-   private double[]                         modelView;
+   private double[]                          modelView;
    /** Indicates if mouse left button is down */
-   private boolean                          mouseButtonLeft;
+   private boolean                           mouseButtonLeft;
    /** Indicates if mouse right button is down */
-   private boolean                          mouseButtonRight;
+   private boolean                           mouseButtonRight;
    /** Indicated if the mouse drag (Move with at least button down) */
-   private boolean                          mouseDrag;
+   private boolean                           mouseDrag;
    /**
     * New scene, it replace the actual scene as soon as possible.<br>
     * It is not do immediatly to avoid array index of bound or null pointer exception if the change append when the OpenGL view
     * is drawing
     */
-   private Scene                            newScene;
+   private Scene                             newScene;
    /**
     * Actual detected node : (detectX, detectY) say the location of the detection
     */
-   private Node                             nodeDetect;
+   private Node                              nodeDetect;
    /**
     * Actual detected 2D object : (detectX, detectY) say the location of the detection
     */
-   private Object2D                         object2DDetect;
+   private Object2D                          object2DDetect;
    /**
     * Indicates if the render is in pause.<br>
     * Remember, you have to make a pause before hide the component (or make zero size), when is view again you can release the
     * pause
     */
-   private boolean                          pause;
+   private boolean                           pause;
    /** Actual pick color */
-   private Color4f                          pickColor;
+   private Color4f                           pickColor;
    /** Last UV node pick */
-   private Node                             pickUVnode;
+   private Node                              pickUVnode;
    /** Temporary pixels used in snapshot */
-   private int[]                            pixels;
+   private int[]                             pixels;
    /** Plane use for 2D objects */
-   private final Plane                      planeFor2D;
+   private final Plane                       planeFor2D;
    /** Projection matrix for pass view to screen */
-   private double[]                         projection;
+   private double[]                          projection;
    /**
     * Indicates if the render is ready.<br>
     * It is not ready on drawing, but when draw is finish, it becomes ready again<br>
     * Use for snapshot wait and to synchronize screen refresh
     */
-   private boolean                          ready;
+   private boolean                           ready;
    /** Actual render scene */
-   private Scene                            scene;
+   private Scene                             scene;
    /** The last screen shot */
-   private BufferedImage                    screenShot;
+   private BufferedImage                     screenShot;
    /** Indicates if FPS is print */
-   private boolean                          showFPS;
+   private boolean                           showFPS;
    /** Texture use for FPS print */
-   private Texture                          textureFPS;
+   private Texture                           textureFPS;
    /** List of textures to remove from video memory */
-   private final QueueSynchronized<Texture> texturesToRemove;
+   private final QueueSynchronized<Texture>  texturesToRemove;
    /** Thread witch manage the screen refresh */
-   private Thread                           thread;
+   private Thread                            thread;
    /** View port to consider the FOV */
-   private int[]                            viewPort;
+   private int[]                             viewPort;
+
    /** OpenGL view width */
-   private int                              width;
+   private int                               width;
+
    /** Window material list to refresh */
-   private final Vector<WindowMaterial>     windowMaterials;
+   private final Vector<WindowMaterial>      windowMaterials;
+
    /** Listener of scene renderer */
-   ArrayList<JHelpSceneRendererListener>    sceneListeners;
+   ArrayList<JHelpSceneRendererListener>     sceneListeners;
 
    /**
     * Create a render
@@ -830,26 +883,24 @@ public class JHelpSceneRenderer
          this.object2DDetect = null;
       }
 
-      // If a 2D object is detect
-      if(this.object2DDetect != null)
-      {
-         // Update mouse state for 2D objects
-         this.gui2d.mouseState(this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag, this.object2DDetect);
-      }
-      else if(/* this.nodeDetect != null && */this.mouseDrag == false)
-      {
-         // If it is not a mouse drag, update mouse state for scene
-         this.scene.mouseState(this.mouseButtonLeft, this.mouseButtonRight, this.nodeDetect);
-      }
+      // // If a 2D object is detect
+      // if(this.object2DDetect != null)
+      // {
+      // // Update mouse state for 2D objects
+      // this.gui2d.mouseState(this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag,
+      // this.object2DDetect);
+      // }
+      // else if(this.mouseDrag == false)
+      // {
+      // // If it is not a mouse drag, update mouse state for scene
+      // this.scene.mouseState(this.mouseButtonLeft, this.mouseButtonRight, this.nodeDetect);
+      // }
+
+      ThreadManager.THREAD_MANAGER.doThread(JHelpSceneRenderer.UPDATE_MOUSE_DETECTION, new DetectionInfo(this.object2DDetect, this.gui2d, this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag,
+            this.scene, this.nodeDetect));
 
       this.mouseButtonLeft = false;
       this.mouseButtonRight = false;
-      if(this.mouseDrag == false)
-      {
-         // this.detectX = -1;
-         // this.detectY = -1;
-      }
-      // this.mouseDrag = false;
    }
 
    /**

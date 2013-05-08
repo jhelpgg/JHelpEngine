@@ -48,6 +48,81 @@ public class PositionNode
    }
 
    /**
+    * Create a new instance of PositionNode
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    */
+   public PositionNode(final float x, final float y, final float z)
+   {
+      this();
+
+      this.x = x;
+      this.y = y;
+      this.z = z;
+   }
+
+   /**
+    * Create a new instance of PositionNode
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param angleX
+    *           Angle X
+    * @param angleY
+    *           Angle Y
+    * @param angleZ
+    *           Angle Z
+    */
+   public PositionNode(final float x, final float y, final float z, final float angleX, final float angleY, final float angleZ)
+   {
+      this(x, y, z);
+
+      this.angleX = angleX;
+      this.angleY = angleY;
+      this.angleZ = angleZ;
+   }
+
+   /**
+    * Create a new instance of PositionNode
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param angleX
+    *           Angle X
+    * @param angleY
+    *           Angle Y
+    * @param angleZ
+    *           Angle Z
+    * @param scaleX
+    *           Scale X
+    * @param scaleY
+    *           Scale Y
+    * @param scaleZ
+    *           Scale Z
+    */
+   public PositionNode(final float x, final float y, final float z, final float angleX, final float angleY, final float angleZ, final float scaleX, final float scaleY, final float scaleZ)
+   {
+      this(x, y, z, angleX, angleY, angleZ);
+
+      this.scaleX = scaleX;
+      this.scaleY = scaleY;
+      this.scaleZ = scaleZ;
+   }
+
+   /**
     * Constructs PositionNode
     * 
     * @param node
@@ -64,5 +139,26 @@ public class PositionNode
       this.scaleX = node.getScaleX();
       this.scaleY = node.getScaleY();
       this.scaleZ = node.getScaleZ();
+   }
+
+   /**
+    * Create a new instance of PositionNode copy of an other one
+    * 
+    * @param positionNode
+    *           Position to copy
+    */
+   public PositionNode(final PositionNode positionNode)
+   {
+      this(positionNode.x, positionNode.y, positionNode.z, positionNode.angleX, positionNode.angleY, positionNode.angleZ, positionNode.scaleX, positionNode.scaleY, positionNode.scaleZ);
+   }
+
+   /**
+    * Create a copy of the position
+    * 
+    * @return The copy
+    */
+   public PositionNode copy()
+   {
+      return new PositionNode(this);
    }
 }

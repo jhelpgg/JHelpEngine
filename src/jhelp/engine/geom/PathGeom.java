@@ -438,10 +438,25 @@ public class PathGeom
     */
    public void refreshJoinedPath(final float multU, final boolean linearize)
    {
+      this.refreshJoinedPath(multU, linearize, false);
+   }
+
+   /**
+    * Refresh path and force join each part
+    * 
+    * @param multU
+    *           U multiplier
+    * @param linearize
+    *           Indicates if we try to linearize (Some try done good effect, some don't, so try)
+    * @param reverseNormals
+    *           Indicates if normals must be reversed
+    */
+   public void refreshJoinedPath(final float multU, final boolean linearize, final boolean reverseNormals)
+   {
       this.joined = true;
       this.multU = multU;
       this.linearize = linearize;
-      this.mesh = Tool3D.createJoinedMesh(this.pathU, this.precisionU, this.pathV, this.precisionV, multU, linearize);
+      this.mesh = Tool3D.createJoinedMesh(this.pathU, this.precisionU, this.pathV, this.precisionV, multU, linearize, reverseNormals);
       this.reconstructTheList();
    }
 
