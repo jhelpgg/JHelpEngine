@@ -59,18 +59,54 @@ import jhelp.xml.MarkupXML;
 public class JHelpSceneRenderer
       implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener, KeyListener, Runnable
 {
+   /**
+    * Information about last object 2D or 3D detected
+    * 
+    * @author JHelp
+    */
    static class DetectionInfo
    {
+      /** X detection position */
       int      detectX;
+      /** Y detection position */
       int      detectY;
+      /** 2D manipulator */
       GUI2D    gui2d;
+      /** Indicates if mouse left is down */
       boolean  mouseButtonLeft;
+      /** Indicates if mouse right is down */
       boolean  mouseButtonRight;
+      /** Indicates if its is a drag (mouse move while at least one button is down) */
       boolean  mouseDrag;
+      /** Node detected */
       Node     nodeDetect;
+      /** Object 2D detected */
       Object2D object2DDetect;
+      /** Reference scene */
       Scene    scene;
 
+      /**
+       * Create a new instance of DetectionInfo
+       * 
+       * @param object2dDetect
+       *           Object 2D detected
+       * @param gui2d
+       *           2D manipulator
+       * @param detectX
+       *           X detection position
+       * @param detectY
+       *           Y detection position
+       * @param mouseButtonLeft
+       *           Indicates if mouse left is down
+       * @param mouseButtonRight
+       *           Indicates if mouse right is down
+       * @param mouseDrag
+       *           Indicates if its is a drag (mouse move while at least one button is down)
+       * @param scene
+       *           Reference scene
+       * @param nodeDetect
+       *           Node detected
+       */
       DetectionInfo(final Object2D object2dDetect, final GUI2D gui2d, final int detectX, final int detectY, final boolean mouseButtonLeft, final boolean mouseButtonRight, final boolean mouseDrag, final Scene scene,
             final Node nodeDetect)
       {
@@ -106,6 +142,9 @@ public class JHelpSceneRenderer
 
       /**
        * Fire the events
+       * 
+       * @param actionID
+       *           Action ID
        */
       @Override
       protected void doSimpleAction(final Integer actionID)
@@ -122,13 +161,31 @@ public class JHelpSceneRenderer
       }
    }
 
+   /**
+    * Task for signal to listeners the last detection
+    * 
+    * @author JHelp
+    */
    static class UpdateMouseDetection
          extends ThreadedSimpleTask<DetectionInfo>
    {
+      /**
+       * Create a new instance of UpdateMouseDetection
+       */
       UpdateMouseDetection()
       {
       }
 
+      /**
+       * Signal to listeners the last detection <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param detectionInfo
+       *           Last detection information
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
       @Override
       protected void doSimpleAction(final DetectionInfo detectionInfo)
       {
@@ -150,7 +207,7 @@ public class JHelpSceneRenderer
    private static final long                 evaluteTime                               = 1000L;
    /** Transparent color (Use as background on FPS print) */
    private static final Color                TR                                        = new Color(1, 1, 1, 0.0f);
-
+   /** Task for signal to listeners the last detection */
    private static final UpdateMouseDetection UPDATE_MOUSE_DETECTION                    = new UpdateMouseDetection();
    /** Action ID for alert listener that the scene renderer is initialized */
    static final int                          ACTION_FIRE_SCENE_RENDERER_IS_INITIALIZED = 0;
@@ -882,19 +939,6 @@ public class JHelpSceneRenderer
          this.nodeDetect = null;
          this.object2DDetect = null;
       }
-
-      // // If a 2D object is detect
-      // if(this.object2DDetect != null)
-      // {
-      // // Update mouse state for 2D objects
-      // this.gui2d.mouseState(this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag,
-      // this.object2DDetect);
-      // }
-      // else if(this.mouseDrag == false)
-      // {
-      // // If it is not a mouse drag, update mouse state for scene
-      // this.scene.mouseState(this.mouseButtonLeft, this.mouseButtonRight, this.nodeDetect);
-      // }
 
       ThreadManager.THREAD_MANAGER.doThread(JHelpSceneRenderer.UPDATE_MOUSE_DETECTION, new DetectionInfo(this.object2DDetect, this.gui2d, this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag,
             this.scene, this.nodeDetect));
