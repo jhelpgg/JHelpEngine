@@ -15,7 +15,6 @@ import javax.media.opengl.glu.GLU;
 
 import jhelp.engine.event.NodeListener;
 import jhelp.engine.io.ConstantsXML;
-
 import jhelp.engine.util.Math3D;
 import jhelp.engine.util.Tool3D;
 import jhelp.xml.MarkupXML;
@@ -31,7 +30,8 @@ public class Node
 {
    /** Color picking ID */
    private static int                    ID_PICKING = 0;
-
+   /** Additional information */
+   private Object                        additionalInformation;
    /** Angle X relative to it's parent */
    private float                         angleX;
    /** Angle Y relative to it's parent */
@@ -588,6 +588,16 @@ public class Node
    public void freeZ()
    {
       this.zLimited = false;
+   }
+
+   /**
+    * Developper addional information
+    * 
+    * @return Developper addional information
+    */
+   public Object getAdditionalInformation()
+   {
+      return this.additionalInformation;
    }
 
    /**
@@ -1640,6 +1650,17 @@ public class Node
       this.scaleX *= x;
       this.scaleY *= y;
       this.scaleZ *= z;
+   }
+
+   /**
+    * Defines/changes developper addional information
+    * 
+    * @param additionalInformation
+    *           New developper addional information
+    */
+   public void setAdditionalInformation(final Object additionalInformation)
+   {
+      this.additionalInformation = additionalInformation;
    }
 
    /**

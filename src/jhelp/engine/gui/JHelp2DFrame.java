@@ -43,6 +43,9 @@ public class JHelp2DFrame
       }
 
       final ComponentView3D componentView3D = new ComponentView3D(width, height);
+      componentView3D.setFocusable(true);
+      componentView3D.requestFocus();
+      componentView3D.requestFocusInWindow();
 
       return new JHelpComponent2DView3D(width, height, componentView3D, this);
    }
