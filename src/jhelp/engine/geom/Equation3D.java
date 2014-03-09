@@ -235,8 +235,24 @@ public class Equation3D
       }
    }
 
+   /** Border repeated pth */
+   private final Path     border;
+   /** Precision used for border */
+   private final int      borderPrecision;
+   /** Function X(t) */
+   private final Function fonctionX;
+   /** Function Y(t) */
+   private final Function fonctionY;
+   /** Function Z(t) */
+   private final Function fonctionZ;
+   /** t value at end */
+   private final float    tEnd;
+   /** t value at start */
+   private final float    tStart;
+   /** t step size to use */
+   private final float    tStep;
    /** Listener of equation computing */
-   Equation3DListener equation3DListener;
+   Equation3DListener     equation3DListener;
 
    /**
     * Constructs Equation3D
@@ -290,6 +306,15 @@ public class Equation3D
    {
       this.nodeType = NodeType.EQUATION;
       this.equation3DListener = equation3DListener;
+
+      this.border = border;
+      this.borderPrecision = borderPrecision;
+      this.tStart = tStart;
+      this.tEnd = tEnd;
+      this.tStep = tStep;
+      this.fonctionX = fonctionX.simplifyMaximum();
+      this.fonctionY = fonctionY.simplifyMaximum();
+      this.fonctionZ = fonctionZ.simplifyMaximum();
 
       ThreadManager.THREAD_MANAGER.doThread(new Creator(border, borderPrecision, tStart, tEnd, tStep, fonctionX.simplifyMaximum(), fonctionY.simplifyMaximum(), fonctionZ.simplifyMaximum()), null);
    }
@@ -345,5 +370,85 @@ public class Equation3D
          final Equation3DListener equation3DListener)
    {
       this(border, borderPrecision, tStart, tEnd, tStep, Function.parse(fonctionX), Function.parse(fonctionY), Function.parse(fonctionZ), equation3DListener);
+   }
+
+   /**
+    * Border path (Path repeat along the equation)
+    * 
+    * @return Border path
+    */
+   public Path getBorder()
+   {
+      return this.border;
+   }
+
+   /**
+    * Border precision
+    * 
+    * @return Border precision
+    */
+   public int getBorderPrecision()
+   {
+      return this.borderPrecision;
+   }
+
+   /**
+    * X(t)
+    * 
+    * @return X(t)
+    */
+   public Function getFonctionX()
+   {
+      return this.fonctionX;
+   }
+
+   /**
+    * Y(t)
+    * 
+    * @return Y(t)
+    */
+   public Function getFonctionY()
+   {
+      return this.fonctionY;
+   }
+
+   /**
+    * Z(t)
+    * 
+    * @return Z(t)
+    */
+   public Function getFonctionZ()
+   {
+      return this.fonctionZ;
+   }
+
+   /**
+    * t value at end
+    * 
+    * @return t value at end
+    */
+   public float getTEnd()
+   {
+      return this.tEnd;
+   }
+
+   /**
+    * t value at start
+    * 
+    * @return t value at start
+    */
+   public float getTStart()
+   {
+      return this.tStart;
+   }
+
+   /**
+    * t step size
+    * 
+    * @return t step size
+    */
+   public float getTStep()
+   {
+      return this.tStep;
    }
 }

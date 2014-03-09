@@ -350,6 +350,16 @@ public class Color4f
    }
 
    /**
+    * Color in ARGB format
+    * 
+    * @return ARGB format
+    */
+   public int getARGB()
+   {
+      return ((((int) (this.alpha * 255)) & 0xFF) << 24) | ((((int) (this.red * 255)) & 0xFF) << 16) | ((((int) (this.green * 255)) & 0xFF) << 8) | (((int) (this.blue * 255)) & 0xFF);
+   }
+
+   /**
     * Blue part
     * 
     * @return Blue part
@@ -613,10 +623,10 @@ public class Color4f
       {
          throw new IllegalStateException("A default color couldn't be change");
       }
-      this.red = (color >> 16) & 0xFF;
-      this.green = (color >> 8) & 0xFF;
-      this.blue = color & 0xFF;
-      this.alpha = (color >> 24) & 0xFF;
+      this.red = ((color >> 16) & 0xFF) / 255f;
+      this.green = ((color >> 8) & 0xFF) / 255f;
+      this.blue = (color & 0xFF) / 255f;
+      this.alpha = ((color >> 24) & 0xFF) / 255f;
    }
 
    /**

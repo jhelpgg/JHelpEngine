@@ -4,6 +4,8 @@ package jhelp.engine;
 
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.media.opengl.GL;
@@ -474,6 +476,26 @@ public class Mesh
          }
          faceUV.add(index);
       }
+   }
+
+   /**
+    * Create a copy of an array of integers
+    * 
+    * @param list
+    *           Array to copy
+    * @return Copy
+    */
+   private List<ArrayInt> copy(final List<ArrayInt> list)
+   {
+      final ArrayList<ArrayInt> copy = new ArrayList<ArrayInt>();
+
+      for(final ArrayInt arrayInt : list)
+      {
+         copy.add(arrayInt.createCopy());
+      }
+
+      copy.trimToSize();
+      return Collections.unmodifiableList(copy);
    }
 
    /**
@@ -1108,6 +1130,66 @@ public class Mesh
       this.facesPoints.add(this.actualFacePoints);
       this.facesUV.add(this.actualFaceUV);
       this.facesNormals.add(this.actualFaceNormals);
+   }
+
+   /**
+    * Normals index list for each face
+    * 
+    * @return Normals index list for each face
+    */
+   public List<ArrayInt> getFaceNormals()
+   {
+      return this.copy(this.facesNormals);
+   }
+
+   /**
+    * Points index list for each face
+    * 
+    * @return Points index list for each face
+    */
+   public List<ArrayInt> getFacePoints()
+   {
+      return this.copy(this.facesPoints);
+   }
+
+   /**
+    * UV index list for each face
+    * 
+    * @return UV index list for each face
+    */
+   public List<ArrayInt> getFaceUV()
+   {
+      return this.copy(this.facesUV);
+   }
+
+   /**
+    * Normals list
+    * 
+    * @return Normals list
+    */
+   public List<Point3D> getNormals()
+   {
+      return Collections.unmodifiableList(this.normals);
+   }
+
+   /**
+    * Points list
+    * 
+    * @return Points list
+    */
+   public List<Point3D> getPoints()
+   {
+      return Collections.unmodifiableList(this.points);
+   }
+
+   /**
+    * UV list
+    * 
+    * @return UV list
+    */
+   public List<Point2D> getUV()
+   {
+      return Collections.unmodifiableList(this.uv);
    }
 
    /**

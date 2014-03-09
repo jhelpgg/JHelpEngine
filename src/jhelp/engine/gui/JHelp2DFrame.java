@@ -1,5 +1,9 @@
 package jhelp.engine.gui;
 
+import java.util.Stack;
+
+import jhelp.gui.twoD.JHelpComponent2D;
+import jhelp.gui.twoD.JHelpContainer2D;
 import jhelp.gui.twoD.JHelpFrame2D;
 import jhelp.gui.twoD.JHelpLayout;
 
@@ -22,6 +26,62 @@ public class JHelp2DFrame
    public JHelp2DFrame(final String title, final JHelpLayout layout)
    {
       super(title, layout);
+   }
+
+   /**
+    * Called when all dialog are hide, reactivate 3D screens
+    */
+   @Override
+   protected final void allDialogAreHiden()
+   {
+      final Stack<JHelpComponent2D> stack = new Stack<JHelpComponent2D>();
+      stack.push(this.getPanelRoot());
+      JHelpComponent2D component2d;
+
+      while(stack.isEmpty() == false)
+      {
+         component2d = stack.pop();
+
+         if(component2d instanceof JHelpComponent2DView3D)
+         {
+            ((JHelpComponent2DView3D) component2d).resume();
+         }
+         else if(component2d instanceof JHelpContainer2D)
+         {
+            for(final JHelpComponent2D child : ((JHelpContainer2D) component2d).children())
+            {
+               stack.push(child);
+            }
+         }
+      }
+   }
+
+   /**
+    * Called when first dialog is shown, pause 3D screens
+    */
+   @Override
+   protected final void atLeastOneDialogIsVisible()
+   {
+      final Stack<JHelpComponent2D> stack = new Stack<JHelpComponent2D>();
+      stack.push(this.getPanelRoot());
+      JHelpComponent2D component2d;
+
+      while(stack.isEmpty() == false)
+      {
+         component2d = stack.pop();
+
+         if(component2d instanceof JHelpComponent2DView3D)
+         {
+            ((JHelpComponent2DView3D) component2d).pause();
+         }
+         else if(component2d instanceof JHelpContainer2D)
+         {
+            for(final JHelpComponent2D child : ((JHelpContainer2D) component2d).children())
+            {
+               stack.push(child);
+            }
+         }
+      }
    }
 
    /**

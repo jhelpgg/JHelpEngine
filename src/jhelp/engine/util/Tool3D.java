@@ -872,7 +872,7 @@ public class Tool3D
                node = new Box();
             break;
             case CLONE:
-               node = new ObjectClone(null);
+               node = new ObjectClone((Object3D) null);
             break;
             case NODE:
                node = new Node();

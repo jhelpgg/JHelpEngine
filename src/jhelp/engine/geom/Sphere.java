@@ -22,16 +22,19 @@ import jhelp.xml.MarkupXML;
 public class Sphere
       extends Object3D
 {
+   /** Last point index */
+   private final int lastPoint;
    /** U multiplier */
-   private float multU;
+   private float     multU;
    /** V multiplier */
-   private float multV;
+   private float     multV;
    /** Number of slice */
-   private int   slice;
+   private int       slice;
    /** Number of stack */
-   private int   stack;
+   private int       stack;
+
    /** South pole index */
-   protected int southPole;
+   protected int     southPole;
 
    /**
     * Constructs default Sphere
@@ -158,8 +161,8 @@ public class Sphere
          sinSliceAngleFutur = Math.sin(sliceAngleFutur);
 
          // Computes U (Slice walk throw U)
-         uA = (multU * sli) / slice;
-         uF = (multU * (sli + 1)) / slice;
+         uA = multU - ((multU * sli) / slice);
+         uF = multU - ((multU * (sli + 1)) / slice);
 
          // For each stack
          for(sta = 0; sta < stack; sta++)
@@ -221,6 +224,8 @@ public class Sphere
             this.southPole = this.mesh.lastIndexPoint();
          }
       }
+
+      this.lastPoint = this.mesh.lastIndexPoint();
    }
 
    /**
@@ -266,6 +271,16 @@ public class Sphere
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_multV, this.multV);
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_slice, this.slice);
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_stack, this.stack);
+   }
+
+   /**
+    * Last draw point index
+    * 
+    * @return Last draw point index
+    */
+   public int lastPoint()
+   {
+      return this.lastPoint;
    }
 
    /**

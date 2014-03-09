@@ -48,7 +48,7 @@ public class VirtualBox
     */
    public void add(final float x, final float y, final float z)
    {
-      if(this.empty)
+      if(this.empty == true)
       {
          this.minX = this.maxX = x;
          this.minY = this.maxY = y;
@@ -74,6 +74,48 @@ public class VirtualBox
    public void add(final Point3D point)
    {
       this.add(point.getX(), point.getY(), point.getZ());
+   }
+
+   /**
+    * Add a virtual box inside this box.<br>
+    * It act like add each point of the box inside this box
+    * 
+    * @param virtualBox
+    *           Virtual box to add
+    */
+   public void add(final VirtualBox virtualBox)
+   {
+      if(virtualBox.isEmpty() == true)
+      {
+         return;
+      }
+
+      this.add(virtualBox.minX, virtualBox.minY, virtualBox.minZ);
+      this.add(virtualBox.maxX, virtualBox.maxY, virtualBox.maxZ);
+   }
+
+   /**
+    * Add a virtual box translated to a vector inside this box.<br>
+    * It act like add each point of the box tranlated by the vector inside this box
+    * 
+    * @param virtualBox
+    *           Box to add
+    * @param vx
+    *           Translation X
+    * @param vy
+    *           Translation Y
+    * @param vz
+    *           Translation Z
+    */
+   public void add(final VirtualBox virtualBox, final float vx, final float vy, final float vz)
+   {
+      if(virtualBox.isEmpty() == true)
+      {
+         return;
+      }
+
+      this.add(virtualBox.minX + vx, virtualBox.minY + vy, virtualBox.minZ + vz);
+      this.add(virtualBox.maxX + vx, virtualBox.maxY + vy, virtualBox.maxZ + vz);
    }
 
    /**
@@ -165,6 +207,11 @@ public class VirtualBox
    @Override
    public String toString()
    {
+      if(this.empty == true)
+      {
+         return "VirtualBox empty !";
+      }
+
       return UtilText.concatenate("VirtualBox [", this.minX, ", ", this.minY, ", ", this.minZ, "] x [", this.maxX, ", ", this.maxY, ", ", this.maxZ, ']');
    }
 }

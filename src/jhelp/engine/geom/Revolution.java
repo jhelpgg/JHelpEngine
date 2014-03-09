@@ -7,6 +7,8 @@
  */
 package jhelp.engine.geom;
 
+import java.util.ArrayList;
+
 import jhelp.engine.Mesh;
 import jhelp.engine.NodeType;
 import jhelp.engine.Object3D;
@@ -38,6 +40,7 @@ public class Revolution
    private final Path path;
    /** Precision used to draw the path */
    private int        pathPrecision;
+
    /** Precision for rotation */
    private int        rotationPrecision;
 
@@ -76,7 +79,22 @@ public class Revolution
     */
    private void recomputeTheMesh()
    {
-      // NInitialization
+      this.recomputeTheMesh(false, 0, 1);
+   }
+
+   /**
+    * Refresh the revolution's mesh.
+    * 
+    * @param omogeonous
+    *           Indicates if try to make it omogenous or not
+    * @param start
+    *           Interpolation value at path start (Available only for omogenous at {@code true})
+    * @param end
+    *           Interpolation value at path end (Available only for omogenous at {@code true})
+    */
+   private void recomputeTheMesh(final boolean omogeonous, final float start, final float end)
+   {
+      // Initialization
       final Mesh mesh = new Mesh();
 
       final double radian = Math.toRadians(this.angle);
@@ -93,8 +111,18 @@ public class Revolution
 
       int an;
 
+      ArrayList<Line2D> list;
+      if(omogeonous == true)
+      {
+         list = this.path.computePathOmogenous(this.pathPrecision, start, end);
+      }
+      else
+      {
+         list = this.path.computePath(this.pathPrecision);
+      }
+
       // For each line of the path
-      for(final Line2D line2D : this.path.computePath(this.pathPrecision))
+      for(final Line2D line2D : list)
       {
          // Get start and end point
          x0 = line2D.pointStart.getX();
@@ -181,6 +209,19 @@ public class Revolution
 
       // Change object's mesh by the computed one
       this.mesh = mesh;
+   }
+
+   /**
+    * Refresh the revolution's mesh omogeously
+    * 
+    * @param start
+    *           Interpolation value at path start
+    * @param end
+    *           Interpolation value at path
+    */
+   private void recomputeTheMesh(final float start, final float end)
+   {
+      this.recomputeTheMesh(true, start, end);
    }
 
    /**
@@ -368,6 +409,16 @@ public class Revolution
    }
 
    /**
+    * Obtain revolution path
+    * 
+    * @return Revolution path
+    */
+   public Path getPath()
+   {
+      return this.path;
+   }
+
+   /**
     * Return pathPrecision
     * 
     * @return pathPrecision
@@ -407,6 +458,20 @@ public class Revolution
    public void refreshRevolution()
    {
       this.recomputeTheMesh();
+      this.reconstructTheList();
+   }
+
+   /**
+    * Refresh the revolution's mesh omogeously
+    * 
+    * @param start
+    *           Interpolation value at path start
+    * @param end
+    *           Interpolation value at path
+    */
+   public void refreshRevolution(final float start, final float end)
+   {
+      this.recomputeTheMesh(start, end);
       this.reconstructTheList();
    }
 

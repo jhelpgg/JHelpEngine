@@ -3,6 +3,9 @@
  */
 package jhelp.engine.util;
 
+import jhelp.engine.Point2D;
+import jhelp.engine.Point3D;
+
 /**
  * Math for 3D and utilities <br>
  * <br>
@@ -16,7 +19,7 @@ public class Math3D
    /** Power of 2 list */
    private static final int[] powerOf2                            =
                                                                   {
-         1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024
+         1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096
                                                                   };
    /** 0 in byte */
    public static final byte   BYTE_0                              = (byte) 0;
@@ -136,6 +139,74 @@ public class Math3D
    public static float degreToRadian(final float degre)
    {
       return (Math3D.TWO_PI * degre) / 360f;
+   }
+
+   /**
+    * Compute distance between 2 points
+    * 
+    * @param x1
+    *           First point X
+    * @param y1
+    *           First point Y
+    * @param x2
+    *           Second point X
+    * @param y2
+    *           Second point Y
+    * @return Distance between them
+    */
+   public static float distance(final float x1, final float y1, final float x2, final float y2)
+   {
+      return Math3D.squareRoot(Math3D.square(x1 - x2) + Math3D.square(y1 - y2));
+   }
+
+   /**
+    * Compute distance between 2 points
+    * 
+    * @param x1
+    *           First point X
+    * @param y1
+    *           First point Y
+    * @param z1
+    *           First point Z
+    * @param x2
+    *           Second point X
+    * @param y2
+    *           Second point Y
+    * @param z2
+    *           Second point Z
+    * @return Distance between them
+    */
+   public static float distance(final float x1, final float y1, final float z1, final float x2, final float y2, final float z2)
+   {
+      return Math3D.squareRoot(Math3D.square(x1 - x2) + Math3D.square(y1 - y2) + Math3D.square(z1 - z2));
+   }
+
+   /**
+    * Compute distance between 2 points
+    * 
+    * @param p1
+    *           First point
+    * @param p2
+    *           Second point
+    * @return Distance between them
+    */
+   public static float distance(final Point2D p1, final Point2D p2)
+   {
+      return Math3D.distance(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+   }
+
+   /**
+    * Compute distance between 2 points
+    * 
+    * @param p1
+    *           First point
+    * @param p2
+    *           Second point
+    * @return Distance between them
+    */
+   public static float distance(final Point3D p1, final Point3D p2)
+   {
+      return Math3D.distance(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
    }
 
    /**
@@ -260,5 +331,17 @@ public class Math3D
    public static float square(final float f)
    {
       return f * f;
+   }
+
+   /**
+    * Compute square root with float precision
+    * 
+    * @param f
+    *           Number to have its suare root
+    * @return Suare root
+    */
+   public static float squareRoot(final float f)
+   {
+      return (float) Math.sqrt(f);
    }
 }

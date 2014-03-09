@@ -1,0 +1,18 @@
+Color4f : Add ARGB export + correction of ARGB import
+CubeMap : Add possibility to retreive original cross texture used and get/set each part
+JHelpSceneRenderer : Add possibility to know if user click nowhere. Better pause management
+Material : Add material creation with a specific base name. Zdd pssobolity to refresh all materials at once. 
+Mesh : Obtain mesh inforamtios like face normals, UV, points. 
+Node : Able to translate the grab point. Compute minimal box that contains node and all its children. Change the visibility for the node and all its children.
+ObjectClone : Create a clone with a reference Object3D name. 
+Texture : Interaction with JHelpImage (Convertion, draw). Able to refresh all textures at once. Compare 2 textures. 
+VirtualBox : Add an other box inside. More explicit empty case in String representation.
+MultiAnimation : Comment correction
+Box : UV correction
+Equation3D : Possibility to see how equation was constructed (Get original parameters). 
+PathGeom : U issue correction while refresh. 
+Plane : Get construction information.
+Add label for show texture in 2D
+Add label for edit path
+Add flexible path editor
+

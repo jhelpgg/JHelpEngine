@@ -30,19 +30,19 @@ public class PathGeom
       extends Object3D
 {
    /** Indicates if path is joined */
-   private boolean joined;
+   private boolean   joined;
    /** Indicates if path is linearize */
-   private boolean linearize;
+   private boolean   linearize;
    /** U multiplier */
-   private float   multU;
+   private float     multU;
    /** precision for U path */
-   private int     precisionU;
+   private int       precisionU;
    /** precision for V path */
-   private int     precisionV;
+   private int       precisionV;
    /** U path */
-   public Path     pathU;
+   public final Path pathU;
    /** V path */
-   public Path     pathV;
+   public final Path pathV;
 
    /**
     * Constructs default PathGeom
@@ -466,6 +466,8 @@ public class PathGeom
    public void refreshPath()
    {
       this.joined = false;
+      this.multU = 1;
+      this.linearize = false;
       this.mesh = Tool3D.createMesh(this.pathU, this.precisionU, this.pathV, this.precisionV);
       this.reconstructTheList();
    }

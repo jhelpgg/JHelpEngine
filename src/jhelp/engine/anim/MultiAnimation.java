@@ -81,7 +81,7 @@ public class MultiAnimation
     *           Open GL context
     * @param absoluteFrame
     *           Absolute frame
-    * @return {@code true} if animation list finished and no more loop left
+    * @return {@code false} if animation list finished and no more loop left
     * @see jhelp.engine.Animation#animate(javax.media.opengl.GL, float)
     */
    @Override

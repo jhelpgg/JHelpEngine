@@ -421,6 +421,45 @@ public class Path
    }
 
    /**
+    * Compute omogenus version of the path
+    * 
+    * @param precision
+    *           Precision to use
+    * @param start
+    *           Start value associated at path start (Can be use for interpolated u, v, ...)
+    * @param end
+    *           End value associated at path end (Can be use for interpolated u, v, ...)
+    * @return Line list computed, each line have interpolation value computed
+    */
+   public ArrayList<Line2D> computePathOmogenous(final int precision, final float start, final float end)
+   {
+      final ArrayList<Line2D> line2ds = this.computePath(precision);
+
+      float size = 0;
+      for(final Line2D line2d : line2ds)
+      {
+         line2d.additonal = Math3D.distance(line2d.pointStart, line2d.pointEnd);
+         size += line2d.additonal;
+      }
+
+      if(Math3D.nul(size) == true)
+      {
+         return line2ds;
+      }
+
+      float value = start;
+      final float diff = end - start;
+      for(final Line2D line2d : line2ds)
+      {
+         line2d.start = value;
+         value += (line2d.additonal * diff) / size;
+         line2d.end = value;
+      }
+
+      return line2ds;
+   }
+
+   /**
     * Try to compute the path size<br>
     * TODO make a better algorithm
     * 
@@ -738,7 +777,7 @@ public class Path
     *           What near mean. Its the distance maximum form position
     * @return List of elements founds
     */
-   public ArrayList<Couple> obtainCoupleNear(final int x, final int y, int precision)
+   public ArrayList<Couple> obtainCoupleNear(final float x, final float y, float precision)
    {
       if(precision < 0)
       {
@@ -783,7 +822,7 @@ public class Path
     *           Maximum distance to consider
     * @return {@code true} if position is over a control point
     */
-   public boolean overControlPoint(final int x, final int y, int precision)
+   public boolean overControlPoint(final float x, final float y, float precision)
    {
       if(precision < 0)
       {

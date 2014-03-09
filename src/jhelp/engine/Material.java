@@ -9,6 +9,8 @@ import javax.media.opengl.glu.GLU;
 
 import jhelp.engine.io.ConstantsXML;
 import jhelp.engine.util.Math3D;
+import jhelp.util.list.EnumerationIterator;
+import jhelp.util.text.UtilText;
 import jhelp.xml.MarkupXML;
 
 /**
@@ -66,6 +68,30 @@ public class Material
       {
          name = Material.NEW_MATERIAL_HEADER + (Material.nextID++);
       }
+      return new Material(name);
+   }
+
+   /**
+    * Create a new maetirial with a specific base name
+    * 
+    * @param name
+    *           Base name
+    * @return Created material
+    */
+   public static Material createNewMaterial(String name)
+   {
+      if(Material.hashtableMaterials == null)
+      {
+         Material.hashtableMaterials = new Hashtable<String, Material>();
+      }
+
+      if((name == null) || ((name = name.trim()).length() == 0))
+      {
+         name = Material.NEW_MATERIAL_HEADER + "0";
+      }
+
+      name = UtilText.computeNotInsideName(name, Material.hashtableMaterials.keySet());
+
       return new Material(name);
    }
 
@@ -184,6 +210,35 @@ public class Material
    }
 
    /**
+    * Force refresh all materials
+    */
+   public static final void refreshAllMaterials()
+   {
+      if(Material.hashtableMaterials == null)
+      {
+         return;
+      }
+
+      for(final Material material : new EnumerationIterator<Material>(Material.hashtableMaterials.elements()))
+      {
+         if(material.textureDiffuse != null)
+         {
+            material.textureDiffuse.flush();
+         }
+
+         if(material.textureSpheric != null)
+         {
+            material.textureSpheric.flush();
+         }
+
+         if(material.cubeMap != null)
+         {
+            material.cubeMap.flush();
+         }
+      }
+   }
+
+   /**
     * Rename a material
     * 
     * @param material
@@ -241,7 +296,6 @@ public class Material
    private Texture textureSpheric;
    /** Transparency (0 <-> 1) */
    private float   transparency;
-
    /** Indicates if the material is two sided */
    private boolean twoSided;
 

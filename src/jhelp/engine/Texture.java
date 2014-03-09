@@ -29,6 +29,8 @@ import jhelp.engine.util.ColorsUtil;
 import jhelp.engine.util.Math3D;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
+import jhelp.util.gui.JHelpImage;
+import jhelp.util.list.EnumerationIterator;
 
 /**
  * Texture, you can draw on the texture<br>
@@ -61,6 +63,8 @@ public class Texture
 
    /** Reference for image */
    public static final String                REFERENCE_IMAGE          = "ReferenceImage";
+   /** Reference to a JHelpImage */
+   public static final String                REFERENCE_JHELP_IMAGE    = "ReferenceJHelpImage";
 
    /** Reference for array pixels */
    public static final String                REFERENCE_PIXELS         = "ReferencePixels";
@@ -406,6 +410,22 @@ public class Texture
    }
 
    /**
+    * Forcec refresh all textures
+    */
+   public static void refreshAllTextures()
+   {
+      if(Texture.hashtableTextures == null)
+      {
+         return;
+      }
+
+      for(final Texture texture : new EnumerationIterator<Texture>(Texture.hashtableTextures.elements()))
+      {
+         texture.flush();
+      }
+   }
+
+   /**
     * Rename a texture
     * 
     * @param texture
@@ -652,6 +672,26 @@ public class Texture
       this(name, Texture.REFERENCE_PIXELS);
       this.videoMemoryId = -1;
       this.needToRefresh = true;
+      this.setPixels(width, height, pixels);
+      this.autoFlush = true;
+   }
+
+   /**
+    * Create a new instance of Texture based on JHelpImage
+    * 
+    * @param name
+    *           Texture name
+    * @param image
+    *           Image to base on
+    */
+   public Texture(final String name, final JHelpImage image)
+   {
+      this(name, Texture.REFERENCE_JHELP_IMAGE);
+      this.videoMemoryId = -1;
+      this.needToRefresh = true;
+      final int width = image.getWidth();
+      final int height = image.getHeight();
+      final int[] pixels = image.getPixels(0, 0, width, height);
       this.setPixels(width, height, pixels);
       this.autoFlush = true;
    }
@@ -1306,8 +1346,7 @@ public class Texture
             alp = (((((alphaTopLeft * ax) + (alphaTopRight * xx)) * ay) + (((alphaBottomLeft * ax) + (alphaBottomRight * xx)) * yy)) / div);
             pla = 255 - alp;
 
-            this.pixels[index] = this.mix(this.pixels[index],//
-                  (((((redTopLeft * ax) + (redTopRight * xx)) * ay) + (((redBottomLeft * ax) + (redBottomRight * xx)) * yy)) / div), alp, pla);
+            this.pixels[index] = this.mix(this.pixels[index], (((((redTopLeft * ax) + (redTopRight * xx)) * ay) + (((redBottomLeft * ax) + (redBottomRight * xx)) * yy)) / div), alp, pla);
             this.pixels[index + 1] = this.mix(this.pixels[index + 1], (((((greenTopLeft * ax) + (greenTopRight * xx)) * ay) + (((greenBottomLeft * ax) + (greenBottomRight * xx)) * yy)) / div), alp, pla);
             this.pixels[index + 2] = this.mix(this.pixels[index + 2], (((((blueTopLeft * ax) + (blueTopRight * xx)) * ay) + (((blueBottomLeft * ax) + (blueBottomRight * xx)) * yy)) / div), alp, pla);
             this.pixels[index + 3] = this.add(this.pixels[index + 3], alp);
@@ -2067,6 +2106,25 @@ public class Texture
    }
 
    /**
+    * Draw a JHelpImage in the texture
+    * 
+    * @param x
+    *           X of top-left corner
+    * @param y
+    *           Y of top left corner
+    * @param image
+    *           Image to draw
+    */
+   public void drawImage(final int x, final int y, final JHelpImage image)
+   {
+      final int width = image.getWidth();
+      final int height = image.getHeight();
+      final int[] pixels = image.getPixels(0, 0, width, height);
+
+      this.drawImage(x, y, pixels, width, height, true);
+   }
+
+   /**
     * Draw a line
     * 
     * @param x1
@@ -2596,6 +2654,37 @@ public class Texture
    }
 
    /**
+    * 
+    Indicaes if a texture is exactly the same as this one
+    * 
+    * @param texture
+    *           Texture to ccompre with
+    * @return {@code true} if excatly the same
+    */
+   public boolean isSameTexture(final Texture texture)
+   {
+      if(this.width != texture.width)
+      {
+         return false;
+      }
+
+      if(this.height != texture.height)
+      {
+         return false;
+      }
+
+      for(int pix = this.pixels.length - 1; pix >= 0; pix--)
+      {
+         if(this.pixels[pix] != texture.pixels[pix])
+         {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   /**
     * Make texture brighter
     */
    public void moreBright()
@@ -2768,6 +2857,21 @@ public class Texture
    public void setAutoFlush(final boolean autoFlush)
    {
       this.autoFlush = autoFlush;
+   }
+
+   /**
+    * Change the texture pixels with image ones
+    * 
+    * @param image
+    *           Image to put in the texture
+    */
+   public void setImage(final JHelpImage image)
+   {
+      final int width = image.getWidth();
+      final int height = image.getHeight();
+      final int[] pixels = image.getPixels(0, 0, width, height);
+
+      this.setPixels(width, height, pixels);
    }
 
    /**
@@ -3038,6 +3142,58 @@ public class Texture
       {
          this.flush();
       }
+   }
+
+   /**
+    * Convert to an image of the same size
+    * 
+    * @return Converted image
+    */
+   public JHelpImage toJHelpImage()
+   {
+      final int nb = this.width * this.height;
+      final int[] pixels = new int[nb];
+
+      int index = 0, r, g, b, a;
+      for(int i = 0; i < nb; i++)
+      {
+         r = this.pixels[index++] & 0xFF;
+         g = this.pixels[index++] & 0xFF;
+         b = this.pixels[index++] & 0xFF;
+         a = this.pixels[index++] & 0xFF;
+
+         pixels[i] = (a << 24) | (r << 16) | (g << 8) | b;
+      }
+
+      return new JHelpImage(this.width, this.height, pixels);
+   }
+
+   /**
+    * Transform the Texture in JHelpImage (It will be scaled if need)
+    * 
+    * @param width
+    *           Image width
+    * @param height
+    *           Image height
+    * @return Created image
+    */
+   public JHelpImage toJHelpImage(final int width, final int height)
+   {
+      final int nb = this.width * this.height;
+      final int[] pixels = new int[nb];
+
+      int index = 0, r, g, b, a;
+      for(int i = 0; i < nb; i++)
+      {
+         r = this.pixels[index++] & 0xFF;
+         g = this.pixels[index++] & 0xFF;
+         b = this.pixels[index++] & 0xFF;
+         a = this.pixels[index++] & 0xFF;
+
+         pixels[i] = (a << 24) | (r << 16) | (g << 8) | b;
+      }
+
+      return new JHelpImage(this.width, this.height, pixels, width, height);
    }
 
    /**

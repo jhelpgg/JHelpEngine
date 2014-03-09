@@ -19,6 +19,8 @@ import jhelp.engine.Point2D;
  */
 public class Line2D
 {
+   /** Additional information */
+   public float       additonal;
    /** End value */
    public float       end;
    /** Path element linked */

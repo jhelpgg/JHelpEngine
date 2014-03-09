@@ -26,30 +26,30 @@ public class Box
       this.nodeType = NodeType.BOX;
 
       this.add(new Vertex(-0.5f, 0.5f, 0.5f,//
-            0f, 1f,//
+            0f, 0f,//
             0f, 0f, -1f));
       this.add(new Vertex(0.5f, 0.5f, 0.5f,//
-            1f, 1f,//
-            0f, 0f, -1f));
-      this.add(new Vertex(0.5f, -0.5f, 0.5f,//
             1f, 0f,//
             0f, 0f, -1f));
+      this.add(new Vertex(0.5f, -0.5f, 0.5f,//
+            1f, 1f,//
+            0f, 0f, -1f));
       this.add(new Vertex(-0.5f, -0.5f, 0.5f,//
-            0f, 0f,//
+            0f, 1f,//
             0f, 0f, -1f));
       //
       this.nextFace();
       this.add(new Vertex(-0.5f, 0.5f, -0.5f,//
-            0f, 0f,//
+            1f, 1f,//
             0f, -1f, 0f));
       this.add(new Vertex(0.5f, 0.5f, -0.5f,//
-            1f, 0f,//
+            0f, 1f,//
             0f, -1f, 0f));
       this.add(new Vertex(0.5f, 0.5f, 0.5f,//
-            1f, 1f,//
+            0f, 0f,//
             0f, -1f, 0f));
       this.add(new Vertex(-0.5f, 0.5f, 0.5f,//
-            0f, 1f,//
+            1f, 0f,//
             0f, -1f, 0f));
       //
       this.nextFace();
@@ -57,55 +57,55 @@ public class Box
             0f, 1f,//
             -1f, 0f, 0f));
       this.add(new Vertex(0.5f, 0.5f, 0.5f,//
-            1f, 1f,//
+            0f, 0f,//
             -1f, 0f, 0f));
       this.add(new Vertex(0.5f, 0.5f, -0.5f,//
             1f, 0f,//
             -1f, 0f, 0f));
       this.add(new Vertex(0.5f, -0.5f, -0.5f,//
-            0f, 0f,//
+            1f, 1f,//
             -1f, 0f, 0f));
       //
       this.nextFace();
       this.add(new Vertex(-0.5f, -0.5f, -0.5f,//
-            0f, 0f,//
-            0f, 0f, 1f));
-      this.add(new Vertex(0.5f, -0.5f, -0.5f,//
-            1f, 0f,//
-            0f, 0f, 1f));
-      this.add(new Vertex(0.5f, 0.5f, -0.5f,//
             1f, 1f,//
             0f, 0f, 1f));
-      this.add(new Vertex(-0.5f, 0.5f, -0.5f,//
+      this.add(new Vertex(0.5f, -0.5f, -0.5f,//
             0f, 1f,//
+            0f, 0f, 1f));
+      this.add(new Vertex(0.5f, 0.5f, -0.5f,//
+            0f, 0f,//
+            0f, 0f, 1f));
+      this.add(new Vertex(-0.5f, 0.5f, -0.5f,//
+            1f, 0f,//
             0f, 0f, 1f));
       //
       this.nextFace();
       this.add(new Vertex(-0.5f, -0.5f, 0.5f,//
-            0f, 1f,//
+            0f, 0f,//
             0f, 1f, 0f));
       this.add(new Vertex(0.5f, -0.5f, 0.5f,//
-            1f, 1f,//
-            0f, 1f, 0f));
-      this.add(new Vertex(0.5f, -0.5f, -0.5f,//
             1f, 0f,//
             0f, 1f, 0f));
+      this.add(new Vertex(0.5f, -0.5f, -0.5f,//
+            1f, 1f,//
+            0f, 1f, 0f));
       this.add(new Vertex(-0.5f, -0.5f, -0.5f,//
-            0f, 0f,//
+            0f, 1f,//
             0f, 1f, 0f));
       //
       this.nextFace();
       this.add(new Vertex(-0.5f, -0.5f, -0.5f,//
-            0f, 0f,//
+            0f, 1f,//
             1f, 0f, 0f));
       this.add(new Vertex(-0.5f, 0.5f, -0.5f,//
-            1f, 0f,//
+            0f, 0f,//
             1f, 0f, 0f));
       this.add(new Vertex(-0.5f, 0.5f, 0.5f,//
-            1f, 1f,//
+            1f, 0f,//
             1f, 0f, 0f));
       this.add(new Vertex(-0.5f, -0.5f, 0.5f,//
-            0f, 1f,//
+            1f, 1f,//
             1f, 0f, 0f));
    }
 

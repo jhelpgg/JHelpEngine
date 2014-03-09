@@ -533,6 +533,16 @@ public class Node
    }
 
    /**
+    * Put the manipulation point to the center of the node
+    */
+   public final void centerGravityPoint()
+   {
+      final VirtualBox totalBox = this.computeTotalBox();
+      final Point3D center = totalBox.getCenter();
+      this.translateGravityPoint(-center.x, -center.y, -center.z);
+   }
+
+   /**
     * Number of children
     * 
     * @return Number of children
@@ -540,6 +550,28 @@ public class Node
    public int childCount()
    {
       return this.children.size();
+   }
+
+   /**
+    * Compute the minimal box that contains the node and its children
+    * 
+    * @return Computed box
+    */
+   public final VirtualBox computeTotalBox()
+   {
+      final VirtualBox virtualBox = new VirtualBox();
+
+      if(this instanceof NodeWithMaterial)
+      {
+         virtualBox.add(((NodeWithMaterial) this).getBox(), this.x, this.y, this.z);
+      }
+
+      for(final Node child : this.children)
+      {
+         virtualBox.add(child.computeTotalBox());
+      }
+
+      return virtualBox;
    }
 
    /**
@@ -1803,6 +1835,22 @@ public class Node
    }
 
    /**
+    * Change the visiblity of the node and all of its children
+    * 
+    * @param visible
+    *           New visibility state
+    */
+   public void setVisibleHierarchy(final boolean visible)
+   {
+      this.visible = visible;
+
+      for(final Node child : this.children)
+      {
+         child.setVisibleHierarchy(visible);
+      }
+   }
+
+   /**
     * Change wire frame color
     * 
     * @param wireColor
@@ -1845,5 +1893,23 @@ public class Node
       this.y += y;
       this.z += z;
       this.checkValues();
+   }
+
+   /**
+    * Translate the manipulation point of the node
+    * 
+    * @param vx
+    *           Translation X
+    * @param vy
+    *           Translation Y
+    * @param vz
+    *           Translation Z
+    */
+   public final void translateGravityPoint(final float vx, final float vy, final float vz)
+   {
+      for(final Node child : this.children)
+      {
+         child.translate(vx, vy, vz);
+      }
    }
 }

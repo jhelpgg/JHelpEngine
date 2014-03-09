@@ -55,6 +55,26 @@ public class ObjectClone
    }
 
    /**
+    * Constructs ObjectClone
+    * 
+    * @param reference
+    *           Reference object name
+    */
+   public ObjectClone(final String reference)
+   {
+      if(reference == null)
+      {
+         throw new NullPointerException("reference musn't be null");
+      }
+
+      this.nodeType = NodeType.CLONE;
+
+      this.setCanBePick(true);
+      this.material = Material.DEFAULT_MATERIAL;
+      this.referenceName = reference;
+   }
+
+   /**
     * @see jhelp.engine.Node#endParseXML()
     */
    @Override

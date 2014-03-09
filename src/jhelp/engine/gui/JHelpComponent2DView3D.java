@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 
 import jhelp.engine.JHelpSceneRenderer;
+import jhelp.engine.event.ClickInSpaceListener;
 import jhelp.gui.JHelpMouseListener;
 import jhelp.gui.twoD.JHelpComponent2D;
 import jhelp.util.debug.Debug;
@@ -23,6 +24,8 @@ public class JHelpComponent2DView3D
    private static final long        TIMEOUT_REFRESH = 1024;
    /** Indicates if 3D area is already add to the frame */
    private boolean                  alreadyAdded;
+   /** Listener of click in empty space */
+   private ClickInSpaceListener     clickInSpaceListener;
    /** Component that carry the 3D */
    private final ComponentView3D    componentView3D;
    /** Preffered size */
@@ -43,6 +46,8 @@ public class JHelpComponent2DView3D
    private int                      previousY;
    /** Scene renderer */
    private final JHelpSceneRenderer sceneRenderer;
+   /** Current/last screen shot used to show something even if the scene is in pause mode */
+   private JHelpImage               screenShot;
 
    /**
     * Create a new instance of JHelpComponent2DView3D
@@ -68,6 +73,45 @@ public class JHelpComponent2DView3D
    }
 
    /**
+    * Pause the 3D view
+    */
+   void pause()
+   {
+      if(this.sceneRenderer.isPause() == true)
+      {
+         return;
+      }
+
+      this.screenShot = JHelpImage.createImage(this.sceneRenderer.screenShot());
+
+      this.sceneRenderer.setPause(true);
+
+      this.frame.remove(this.componentView3D);
+      this.alreadyAdded = false;
+   }
+
+   /**
+    * Resume the 3D view
+    */
+   void resume()
+   {
+      if(this.sceneRenderer.isPause() == false)
+      {
+         return;
+      }
+
+      this.sceneRenderer.setPause(false);
+
+      this.alreadyAdded = true;
+      this.frame.add(this.componentView3D, 0);
+
+      synchronized(this.sceneRenderer)
+      {
+         this.screenShot = null;
+      }
+   }
+
+   /**
     * Compute component preferred szie <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -78,10 +122,10 @@ public class JHelpComponent2DView3D
     * @param parentHeight
     *           Parent height
     * @return Component preferred szie
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       return this.dimensionPreferred;
    }
@@ -103,6 +147,16 @@ public class JHelpComponent2DView3D
    @Override
    protected void paint(final int x, final int y, final JHelpImage parent)
    {
+      synchronized(this.sceneRenderer)
+      {
+         if(this.screenShot != null)
+         {
+            parent.drawImage(x, y, this.screenShot);
+
+            return;
+         }
+      }
+
       final Rectangle rectangle = this.getBounds();
 
       if(((this.previousX != x) || (this.previousY != y) || (this.previousWidth != rectangle.width) || (this.previousHeight != rectangle.height))
@@ -164,9 +218,31 @@ public class JHelpComponent2DView3D
     * 
     * @return The key listener
     */
+   @Override
    public KeyListener getKeyListener()
    {
       return this.keyListener;
+   }
+
+   /**
+    * Change/define the click on epty space listener
+    * 
+    * @param clickInSpaceListener
+    *           The click in empty space listener (Can us {@code null} for remove the current listener)
+    */
+   public void setClickInSpaceListener(final ClickInSpaceListener clickInSpaceListener)
+   {
+      if(this.clickInSpaceListener != null)
+      {
+         this.sceneRenderer.removeClickInSpaceListener(this.clickInSpaceListener);
+      }
+
+      this.clickInSpaceListener = clickInSpaceListener;
+
+      if(this.clickInSpaceListener != null)
+      {
+         this.sceneRenderer.addClickInSpaceListener(clickInSpaceListener);
+      }
    }
 
    /**

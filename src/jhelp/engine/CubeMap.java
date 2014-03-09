@@ -36,6 +36,8 @@ public class CubeMap
    /** For place a texture in the "top" face of the cube */
    public static final int TOP    = GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
 
+   /** Cross texture */
+   private Texture         crossTexture;
    /** Indicate if cube map need to be refresh */
    private boolean         neeedRefresh;
    /** Video memory ID */
@@ -48,7 +50,6 @@ public class CubeMap
    private Texture         yNegative;
    /** Top face */
    private Texture         yPositive;
-
    /** Back face */
    private Texture         zNegative;
    /** Face face */
@@ -142,6 +143,20 @@ public class CubeMap
     */
    public void crossTexture(final Texture texture)
    {
+      this.crossTexture = texture;
+
+      if(texture == null)
+      {
+         this.xPositive = null;
+         this.xNegative = null;
+         this.yPositive = null;
+         this.yNegative = null;
+         this.zPositive = null;
+         this.zNegative = null;
+
+         return;
+      }
+
       final int width = texture.width / 3;
       final int height = texture.height >> 2;
 
@@ -215,6 +230,76 @@ public class CubeMap
    }
 
    /**
+    * Original cross texture (Last Texture use in {@link #crossTexture(Texture)})
+    * 
+    * @return Original cross texture
+    */
+   public Texture getCrossTexture()
+   {
+      return this.crossTexture;
+   }
+
+   /**
+    * -X texture
+    * 
+    * @return -X texture
+    */
+   public Texture getxNegative()
+   {
+      return this.xNegative;
+   }
+
+   /**
+    * +X texture
+    * 
+    * @return +X texture
+    */
+   public Texture getxPositive()
+   {
+      return this.xPositive;
+   }
+
+   /**
+    * -Y texture
+    * 
+    * @return -Y texture
+    */
+   public Texture getyNegative()
+   {
+      return this.yNegative;
+   }
+
+   /**
+    * +Y texture
+    * 
+    * @return +Y texture
+    */
+   public Texture getyPositive()
+   {
+      return this.yPositive;
+   }
+
+   /**
+    * -Z texture
+    * 
+    * @return -Z texture
+    */
+   public Texture getzNegative()
+   {
+      return this.zNegative;
+   }
+
+   /**
+    * +Z texture
+    * 
+    * @return +Z texture
+    */
+   public Texture getzPositive()
+   {
+      return this.zPositive;
+   }
+
+   /**
     * Indicates if the cube map is complete defines (If it is not, it can't be used)
     * 
     * @return {@code true} if the cube map is complete defines
@@ -266,5 +351,83 @@ public class CubeMap
       }
 
       this.neeedRefresh = true;
+   }
+
+   /**
+    * Change define the -X texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param xNegative
+    *           New -X texture
+    */
+   public void setxNegative(final Texture xNegative)
+   {
+      this.xNegative = xNegative;
+   }
+
+   /**
+    * Change define the +X texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param xPositive
+    *           New +X texture
+    */
+   public void setxPositive(final Texture xPositive)
+   {
+      this.xPositive = xPositive;
+   }
+
+   /**
+    * Change define the -Y texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param yNegative
+    *           New -Y texture
+    */
+   public void setyNegative(final Texture yNegative)
+   {
+      this.yNegative = yNegative;
+   }
+
+   /**
+    * Change define the +Y texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param yPositive
+    *           New +Y texture
+    */
+   public void setyPositive(final Texture yPositive)
+   {
+      this.yPositive = yPositive;
+   }
+
+   /**
+    * Change define the -Z texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param zNegative
+    *           New -Z texture
+    */
+   public void setzNegative(final Texture zNegative)
+   {
+      this.zNegative = zNegative;
+   }
+
+   /**
+    * Change define the +Z texture (Remeber that the result will be better and more croos computer if you use same sizes for
+    * each part and sizes are power of 2).<br>
+    * Can Use {@code null} to remove (Rember that cube map be be show only if all textures are sets)
+    * 
+    * @param zPositive
+    *           New +Z texture
+    */
+   public void setzPositive(final Texture zPositive)
+   {
+      this.zPositive = zPositive;
    }
 }

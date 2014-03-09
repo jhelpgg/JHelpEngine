@@ -161,4 +161,39 @@ public class PositionNode
    {
       return new PositionNode(this);
    }
+
+   /**
+    * String representation <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @return String representation
+    * @see java.lang.Object#toString()
+    */
+   @Override
+   public String toString()
+   {
+      final StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append('(');
+      stringBuilder.append(this.x);
+      stringBuilder.append(", ");
+      stringBuilder.append(this.y);
+      stringBuilder.append(", ");
+      stringBuilder.append(this.z);
+      stringBuilder.append(") RX=");
+      stringBuilder.append(this.angleX);
+      stringBuilder.append(" RY=");
+      stringBuilder.append(this.angleY);
+      stringBuilder.append(" RZ=");
+      stringBuilder.append(this.angleZ);
+      stringBuilder.append(" [");
+      stringBuilder.append(this.scaleX);
+      stringBuilder.append('x');
+      stringBuilder.append(this.scaleY);
+      stringBuilder.append('x');
+      stringBuilder.append(this.scaleZ);
+      stringBuilder.append(']');
+      return stringBuilder.toString();
+   }
 }

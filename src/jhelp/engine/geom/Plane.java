@@ -230,4 +230,44 @@ public class Plane
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_invU, this.invU);
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_invV, this.invV);
    }
+
+   /**
+    * Number part in horizontal
+    * 
+    * @return Number part in horizontal
+    */
+   public int getHorizontal()
+   {
+      return this.horizontal;
+   }
+
+   /**
+    * Number part in vertical
+    * 
+    * @return Number part in vertical
+    */
+   public int getVertical()
+   {
+      return this.vertical;
+   }
+
+   /**
+    * Indicates if U are inverted
+    * 
+    * @return {@code true} if U are inverted
+    */
+   public boolean isInvU()
+   {
+      return this.invU;
+   }
+
+   /**
+    * Indicates if V are inverted
+    * 
+    * @return {@code true} if V are inverted
+    */
+   public boolean isInvV()
+   {
+      return this.invV;
+   }
 }
