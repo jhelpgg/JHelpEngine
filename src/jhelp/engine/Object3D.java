@@ -261,8 +261,11 @@ public class Object3D
    @Override
    protected final void startParseXML()
    {
-      this.box = null;
-      this.center = null;
+      synchronized(Object3D.LOCK)
+      {
+         this.box = null;
+         this.center = null;
+      }
    }
 
    /**
@@ -439,11 +442,14 @@ public class Object3D
    @Override
    public VirtualBox getBox()
    {
-      if(this.box == null)
+      synchronized(Object3D.LOCK)
       {
-         this.box = this.mesh.computeBox();
+         if(this.box == null)
+         {
+            this.box = this.mesh.computeBox();
+         }
+         return this.box;
       }
-      return this.box;
    }
 
    /**
@@ -455,15 +461,18 @@ public class Object3D
    @Override
    public Point3D getCenter()
    {
-      if(this.center == null)
+      synchronized(Object3D.LOCK)
       {
-         if(this.box == null)
+         if(this.center == null)
          {
-            this.box = this.mesh.computeBox();
+            if(this.box == null)
+            {
+               this.box = this.mesh.computeBox();
+            }
+            this.center = this.box.getCenter();
          }
-         this.center = this.box.getCenter();
+         return this.center;
       }
-      return this.center;
    }
 
    /**
@@ -550,9 +559,12 @@ public class Object3D
     */
    public void reconstructTheList()
    {
-      this.box = null;
-      this.center = null;
-      this.needReconstructTheList = true;
+      synchronized(Object3D.LOCK)
+      {
+         this.box = null;
+         this.center = null;
+         this.needReconstructTheList = true;
+      }
    }
 
    /**

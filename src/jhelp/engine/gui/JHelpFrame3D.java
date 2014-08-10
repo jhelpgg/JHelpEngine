@@ -34,9 +34,11 @@ import jhelp.engine.event.NodeListener;
 import jhelp.engine.twoD.Object2D;
 import jhelp.engine.util.CanvasOpenGLMaker;
 import jhelp.gui.LabelBufferedImage;
+import jhelp.gui.LabelJHelpImage;
 import jhelp.util.MemorySweeper;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
+import jhelp.util.gui.JHelpImage;
 
 /**
  * Frame with 3D inside<br>
@@ -405,11 +407,11 @@ public class JHelpFrame3D
     */
    void runScreenShot()
    {
-      final BufferedImage screenShot = this.sceneRenderer.screenShot();
+      final JHelpImage screenShot = this.sceneRenderer.screenShot();
       final JFrame frame = new JFrame();
       frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
       frame.setLayout(new BorderLayout());
-      frame.add(new LabelBufferedImage(screenShot), BorderLayout.CENTER);
+      frame.add(new LabelJHelpImage(screenShot), BorderLayout.CENTER);
       frame.pack();
       frame.setVisible(true);
    }

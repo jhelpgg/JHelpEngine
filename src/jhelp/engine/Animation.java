@@ -7,7 +7,7 @@ import javax.media.opengl.GL;
 /**
  * Animation.<br>
  * When animation is add to the play list, the render give him the absolute frame of the start,. And on play it gives the actual
- * absulute frame. So to know the relative frame for the animation, you have to store the start absolute frame, and make the
+ * absolute frame. So to know the relative frame for the animation, you have to store the start absolute frame, and make the
  * difference between the given on play and the start.<br>
  * See <code>jhelp.engine.anim.AnimationKeyFrame</code> for an example <br>
  * <br>
@@ -19,14 +19,6 @@ import javax.media.opengl.GL;
 public interface Animation
 {
    /**
-    * Call by the renderer to indicates the start absolute frame
-    * 
-    * @param startAbsoluteFrame
-    *           Start absolute frame
-    */
-   public void setStartAbsoluteFrame(float startAbsoluteFrame);
-
-   /**
     * Call by the renderer each time the animation is refresh on playing
     * 
     * @param gl
@@ -36,4 +28,12 @@ public interface Animation
     * @return {@code true} if the animation need to be refresh one more time. {@code false} if the animation is end
     */
    public boolean animate(GL gl, float absoluteFrame);
+
+   /**
+    * Call by the renderer to indicates the start absolute frame
+    * 
+    * @param startAbsoluteFrame
+    *           Start absolute frame
+    */
+   public void setStartAbsoluteFrame(float startAbsoluteFrame);
 }

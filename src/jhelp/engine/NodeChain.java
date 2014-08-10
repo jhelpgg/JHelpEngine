@@ -5,7 +5,7 @@ import javax.media.opengl.GL;
 /**
  * Chain of node.<br>
  * All nodes are attached to previous one. Move the head, will move other nodes when animation refresh.<br>
- * All node must be placed to theire start position, constraints are computed at creation of the chain and cn't be changed after
+ * All node must be placed to their start position, constraints are computed at creation of the chain and can't be changed after
  * (For now)
  * 
  * @author JHelp
@@ -13,7 +13,7 @@ import javax.media.opengl.GL;
 public class NodeChain
       implements Animation
 {
-   /** Main node, the jead, that all other nodes will follow */
+   /** Main node, the head, that all other nodes will follow */
    private final Node      head;
    /** Queue size */
    private final int       length;
@@ -21,7 +21,7 @@ public class NodeChain
    private final Bone[]    links;
    /** Points reference */
    private final Point3D[] points;
-   /** Cahin queue */
+   /** Chain queue */
    private final Node[]    queue;
 
    /**
@@ -30,8 +30,8 @@ public class NodeChain
     * @param head
     *           Head node (All other nodes will follow it)
     * @param queue
-    *           Queue list, must have at least 1 node. Order is important, first of the queue follow the head, secon,d follow
-    *           the first, third follow the second, ...
+    *           Queue list, must have at least 1 node. Order is important, first of the queue follow the head, second follow the
+    *           first, third follow the second, ...
     */
    public NodeChain(final Node head, final Node... queue)
    {

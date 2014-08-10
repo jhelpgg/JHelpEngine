@@ -15,6 +15,8 @@ import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
@@ -46,32 +48,36 @@ public class Texture
 {
    /** Textures table */
    private static Hashtable<String, Texture> hashtableTextures;
-
+   /** Synchronization lock */
+   private static final Object               LOCK                     = new Object();
    /** Next texture ID */
    private static int                        nextTextureID            = 0;
+
    /** Texture for pick UV */
    private static Texture                    textureForPickUV;
 
    /** Font render context */
    public final static FontRenderContext     CONTEXT                  = new FontRenderContext(Texture.TRANSFORM, false, false);
+   /** Dummy texture */
+   public static final Texture               DUMMY                    = new Texture("JHelpDummyTexture", 1, 1);
 
    /** Reference for buffered image */
    public static final String                REFERENCE_BUFFERED_IMAGE = "ReferenceBufferedImage";
-
    /** Reference for buffered icon */
    public static final String                REFERENCE_ICON           = "ReferenceIcon";
-
    /** Reference for image */
    public static final String                REFERENCE_IMAGE          = "ReferenceImage";
+   /** Reference for GIF image */
+   public static final String                REFERENCE_IMAGE_GIF      = "ReferenceImageGIF";
    /** Reference to a JHelpImage */
    public static final String                REFERENCE_JHELP_IMAGE    = "ReferenceJHelpImage";
-
    /** Reference for array pixels */
    public static final String                REFERENCE_PIXELS         = "ReferencePixels";
    /** Reference for resources */
    public static final String                REFERENCE_RESOURCES      = "ReferecneResources";
    /** Reference for video */
    public static final String                REFERENCE_VIDEO          = "ReferenceVideo";
+
    /** Identity transformation */
    public static final AffineTransform       TRANSFORM                = new AffineTransform();
 
@@ -298,6 +304,41 @@ public class Texture
    }
 
    /**
+    * Load texture from file
+    * 
+    * @param file
+    *           Image file
+    * @return The texture loaded
+    */
+   public static Texture load(final File file)
+   {
+      InputStream inputStream = null;
+
+      try
+      {
+         inputStream = new FileInputStream(file);
+         return new Texture(file.getAbsolutePath(), Texture.REFERENCE_IMAGE, inputStream);
+      }
+      catch(final Exception exception)
+      {
+         return Texture.DUMMY;
+      }
+      finally
+      {
+         if(inputStream != null)
+         {
+            try
+            {
+               inputStream.close();
+            }
+            catch(final Exception exception)
+            {
+            }
+         }
+      }
+   }
+
+   /**
     * Obtain a texture by its name
     * 
     * @param name
@@ -461,8 +502,10 @@ public class Texture
    private boolean   autoFlush;
    /** Indicates if the texture need to be refresh */
    private boolean   needToRefresh;
+
    /** Texture ID */
    private final int textureID;
+
    /** Texture name */
    private String    textureName;
 
@@ -651,7 +694,7 @@ public class Texture
     */
    public Texture(final String name, final int width, final int height, final int color)
    {
-      this(name, width, height, new Color(color));
+      this(name, width, height, new Color(color, true));
       this.autoFlush = true;
    }
 
@@ -1669,6 +1712,55 @@ public class Texture
       }
 
       this.destroy();
+   }
+
+   /**
+    * Get pixels inside the byte buffer to create the new texture content
+    * 
+    * @param width
+    *           New texture width
+    * @param height
+    *           New texture height
+    */
+   void setPixelsFromByteBuffer(final int width, final int height)
+   {
+      BufferUtils.TEMPORARY_BYTE_BUFFER.rewind();
+      this.width = width;
+      this.height = height;
+      final int nb = (width * height) << 2;
+      this.pixels = new byte[nb];
+
+      for(int i = 0; i < nb; i++)
+      {
+         this.pixels[i] = (byte) (BufferUtils.TEMPORARY_BYTE_BUFFER.get() << 1);
+      }
+
+      BufferUtils.TEMPORARY_BYTE_BUFFER.rewind();
+      this.needToRefresh = true;
+   }
+
+   /**
+    * Get pixels inside the float buffer to create the new texture content
+    * 
+    * @param width
+    *           New texture width
+    * @param height
+    *           New texture height
+    */
+   void setPixelsFromFloatBuffer(final int width, final int height)
+   {
+      BufferUtils.TEMPORARY_FLOAT_BUFFER.rewind();
+      this.width = width;
+      this.height = height;
+      final int nb = (width * height) << 2;
+      this.pixels = new byte[nb];
+
+      for(int i = 0; i < nb; i++)
+      {
+         this.pixels[i] = (byte) (BufferUtils.TEMPORARY_FLOAT_BUFFER.get() * 255f);
+      }
+      BufferUtils.TEMPORARY_FLOAT_BUFFER.rewind();
+      this.needToRefresh = true;
    }
 
    /**
@@ -2804,6 +2896,37 @@ public class Texture
       }
 
       return texture;
+   }
+
+   /**
+    * Try to reduce texture in memory, <br>
+    * The texture will take less memory, be will be less defined also
+    */
+   public void reduce()
+   {
+      synchronized(Texture.LOCK)
+      {
+         int w = this.width >> 1;
+         int h = this.height >> 1;
+
+         if(w == 0)
+         {
+            if(h == 0)
+            {
+               return;
+            }
+
+            w = 1;
+         }
+
+         if(h == 0)
+         {
+            h = 1;
+         }
+
+         final JHelpImage image = this.toJHelpImage(w, h);
+         this.setImage(image);
+      }
    }
 
    /**

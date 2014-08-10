@@ -62,6 +62,22 @@ public class GUI2D
       this.exclusiveObject = null;
    }
 
+   public void clearAll()
+   {
+      this.clearUnder3D();
+      this.clearOver3D();
+   }
+
+   public void clearOver3D()
+   {
+      this.arrayListObject2DOver3D.clear();
+   }
+
+   public void clearUnder3D()
+   {
+      this.arrayListObject2DUnder3D.clear();
+   }
+
    /**
     * Looking for an object over 3D and under a position
     * 

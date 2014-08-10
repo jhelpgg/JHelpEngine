@@ -71,6 +71,25 @@ public class VirtualPlane
    }
 
    /**
+    * Constructs plane with normal vector and one point of the plane
+    * 
+    * @param normal
+    *           Normal vector of the plane
+    * @param point
+    *           Point on the plane
+    */
+   public VirtualPlane(final Point3D normal, final Point3D point)
+   {
+      this.normal = normal;
+      this.normal.normalize();
+      this.a = this.normal.getX();
+      this.b = this.normal.getY();
+      this.c = this.normal.getZ();
+      this.d = (-this.a * point.getX()) - (this.b * point.getY()) - (this.c * point.getZ());
+      this.plane = -1;
+   }
+
+   /**
     * Constructs a plane with 3 points
     * 
     * @param point1
@@ -206,7 +225,7 @@ public class VirtualPlane
    }
 
    /**
-    * Compute symetric orthogonal of a point
+    * Compute symmetric orthogonal of a point
     * 
     * @param point
     *           Point to symetize
@@ -236,7 +255,7 @@ public class VirtualPlane
    }
 
    /**
-    * Compute the side of a point from the point
+    * Compute the side of a point from the plane
     * 
     * @param point
     *           Point test

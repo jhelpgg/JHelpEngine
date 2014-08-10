@@ -82,10 +82,8 @@ public class JHelpComponent2DView3D
          return;
       }
 
-      this.screenShot = JHelpImage.createImage(this.sceneRenderer.screenShot());
-
+      this.screenShot = this.sceneRenderer.screenShot();
       this.sceneRenderer.setPause(true);
-
       this.frame.remove(this.componentView3D);
       this.alreadyAdded = false;
    }

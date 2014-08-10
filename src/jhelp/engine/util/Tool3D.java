@@ -19,6 +19,7 @@ import jhelp.engine.Material;
 import jhelp.engine.Mesh;
 import jhelp.engine.Node;
 import jhelp.engine.NodeType;
+import jhelp.engine.NodeWithMaterial;
 import jhelp.engine.Object3D;
 import jhelp.engine.ObjectClone;
 import jhelp.engine.Point3D;
@@ -35,6 +36,7 @@ import jhelp.engine.twoD.GUI2D;
 import jhelp.engine.twoD.Line2D;
 import jhelp.engine.twoD.Object2D;
 import jhelp.engine.twoD.Path;
+import jhelp.util.debug.Debug;
 import jhelp.util.text.UtilText;
 import jhelp.xml.MarkupXML;
 
@@ -107,31 +109,25 @@ public class Tool3D
       Node node = scene.getRoot();
       final Stack<Node> stack = new Stack<Node>();
       stack.push(node);
+      NodeWithMaterial nodeWithMaterial;
       Material material;
+
       while(stack.isEmpty() == false)
       {
          node = stack.pop();
-         if(node instanceof Object3D)
+
+         if(node instanceof NodeWithMaterial)
          {
-            material = ((Object3D) node).getMaterial();
+            nodeWithMaterial = (NodeWithMaterial) node;
+            material = nodeWithMaterial.getMaterial();
+
             if(arrayList.contains(material) == false)
             {
                arrayList.add(material);
             }
-            material = ((Object3D) node).getMaterialForSelection();
-            if((material != null) && (arrayList.contains(material) == false))
-            {
-               arrayList.add(material);
-            }
-         }
-         if(node instanceof ObjectClone)
-         {
-            material = ((ObjectClone) node).getMaterial();
-            if(arrayList.contains(material) == false)
-            {
-               arrayList.add(material);
-            }
-            material = ((ObjectClone) node).getMaterialForSelection();
+
+            material = nodeWithMaterial.getMaterialForSelection();
+
             if((material != null) && (arrayList.contains(material) == false))
             {
                arrayList.add(material);
@@ -139,6 +135,7 @@ public class Tool3D
          }
 
          final Iterator<Node> children = node.getChildren();
+
          while(children.hasNext() == true)
          {
             stack.push(children.next());
@@ -161,62 +158,46 @@ public class Tool3D
       final ArrayList<Texture> arrayList = new ArrayList<Texture>();
       Texture texture;
       Material material;
+      NodeWithMaterial nodeWithMaterial;
       Node node = scene.getRoot();
       final Stack<Node> stack = new Stack<Node>();
       stack.push(node);
+
       while(stack.isEmpty() == false)
       {
          node = stack.pop();
-         if(node instanceof Object3D)
+
+         if(node instanceof NodeWithMaterial)
          {
-            material = ((Object3D) node).getMaterial();
+            nodeWithMaterial = (NodeWithMaterial) node;
+            material = nodeWithMaterial.getMaterial();
             texture = material.getTextureDiffuse();
+
             if((texture != null) && (arrayList.contains(texture) == false))
             {
                arrayList.add(texture);
             }
+
             texture = material.getTextureSpheric();
+
             if((texture != null) && (arrayList.contains(texture) == false))
             {
                arrayList.add(texture);
             }
-            material = ((Object3D) node).getMaterialForSelection();
+
+            material = nodeWithMaterial.getMaterialForSelection();
+
             if(material != null)
             {
                texture = material.getTextureDiffuse();
+
                if((texture != null) && (arrayList.contains(texture) == false))
                {
                   arrayList.add(texture);
                }
+
                texture = material.getTextureSpheric();
-               if((texture != null) && (arrayList.contains(texture) == false))
-               {
-                  arrayList.add(texture);
-               }
-            }
-         }
-         if(node instanceof ObjectClone)
-         {
-            material = ((ObjectClone) node).getMaterial();
-            texture = material.getTextureDiffuse();
-            if((texture != null) && (arrayList.contains(texture) == false))
-            {
-               arrayList.add(texture);
-            }
-            texture = material.getTextureSpheric();
-            if((texture != null) && (arrayList.contains(texture) == false))
-            {
-               arrayList.add(texture);
-            }
-            material = ((ObjectClone) node).getMaterialForSelection();
-            if(material != null)
-            {
-               texture = material.getTextureDiffuse();
-               if((texture != null) && (arrayList.contains(texture) == false))
-               {
-                  arrayList.add(texture);
-               }
-               texture = material.getTextureSpheric();
+
                if((texture != null) && (arrayList.contains(texture) == false))
                {
                   arrayList.add(texture);
@@ -225,12 +206,14 @@ public class Tool3D
          }
 
          texture = node.getTextureHotspot();
+
          if((texture != null) && (arrayList.contains(texture) == false))
          {
             arrayList.add(texture);
          }
 
          final Iterator<Node> children = node.getChildren();
+
          while(children.hasNext() == true)
          {
             stack.push(children.next());
@@ -240,6 +223,7 @@ public class Tool3D
       Object2D object2D;
       boolean visible;
       Iterator<Object2D> iterator = gui2d.getIteratorOver3D();
+
       while(iterator.hasNext() == true)
       {
          object2D = iterator.next();
@@ -247,6 +231,7 @@ public class Tool3D
          object2D.setVisible(true);
          texture = object2D.getTexture();
          object2D.setVisible(visible);
+
          if((texture != null) && (arrayList.contains(texture) == false))
          {
             arrayList.add(texture);
@@ -254,6 +239,7 @@ public class Tool3D
       }
 
       iterator = gui2d.getIteratorUnder3D();
+
       while(iterator.hasNext() == true)
       {
          object2D = iterator.next();
@@ -261,6 +247,7 @@ public class Tool3D
          object2D.setVisible(true);
          texture = object2D.getTexture();
          object2D.setVisible(visible);
+
          if((texture != null) && (arrayList.contains(texture) == false))
          {
             arrayList.add(texture);
@@ -299,6 +286,7 @@ public class Tool3D
       clone.setAngleZ(node.getAngleZ());
 
       final int nb = node.childCount();
+
       for(int i = 0; i < nb; i++)
       {
          clone.addChild(Tool3D.createCloneHierarchy(node.getChild(i)));
@@ -376,6 +364,7 @@ public class Tool3D
          b1 = lineU.pointEnd.getY();
          x = a1 - a0;
          y = b1 - b0;
+
          // Normalize(x, y)
          length = (float) Math.sqrt((x * x) + (y * y));
          if(Math3D.nul(length) == false)
@@ -387,6 +376,7 @@ public class Tool3D
          // Compute U values of each face at this step
          u00 = u01 = lineU.start;
          u10 = u11 = lineU.end;
+
          // If we try to linearize, base on old values
          if(linearize == true)
          {
@@ -396,6 +386,7 @@ public class Tool3D
 
          index = 0;
          temp = new ArrayList<Vertex>();
+
          // For each step in V path
          for(final Line2D lineV : linesV)
          {
@@ -407,6 +398,7 @@ public class Tool3D
             yp1 = lineV.pointEnd.getY();
             xx = xp1 - xp0;
             yy = yp1 - yp0;
+
             // Normalize (xx, yy)
             length = (float) Math.sqrt((xx * xx) + (yy * yy));
             if(Math3D.nul(length) == false)
@@ -414,6 +406,7 @@ public class Tool3D
                xx /= length;
                yy /= length;
             }
+
             // Compute V for actual face
             v00 = v10 = lineV.start;
             v01 = v11 = lineV.end;
@@ -487,8 +480,10 @@ public class Tool3D
                   vx10 = x10 - x00;
                   vy10 = y10 - y00;
                   vz10 = z10 - z00;
+
                   // If the direction is not zero vector
                   length = (float) Math.sqrt((vx10 * vx10) + (vy10 * vy10) + (vz10 * vz10));
+
                   if(Math3D.nul(length) == false)
                   {
                      // Normalize the vector
@@ -507,6 +502,7 @@ public class Tool3D
                         vx01 = dir1.getPosition().getX();
                         vy01 = dir1.getPosition().getY();
                         vz01 = dir1.getPosition().getZ();
+
                         // Normalize direction
                         length = (float) Math.sqrt((vx01 * vx01) + (vy01 * vy01) + (vz01 * vz01));
                         vx01 /= length;
@@ -520,6 +516,7 @@ public class Tool3D
                         vx11 = x11 - x01;
                         vy11 = y11 - y01;
                         vz11 = z11 - z01;
+
                         // Normalize direction
                         length = (float) Math.sqrt((vx11 * vx11) + (vy11 * vy11) + (vz11 * vz11));
                         vx11 /= length;
@@ -891,6 +888,16 @@ public class Tool3D
             break;
             case SPHERE:
                node = new Sphere();
+            break;
+            case EQUATION:
+               // {@todo} TODO Implements createNode in jhelp.engine.util [JHelpEngine]
+               Debug.printTodo("Implements createNode in jhelp.engine.util [JHelpEngine] Eqaution case");
+               node = new Node();
+            break;
+            default:
+               // {@todo} TODO Implements createNode in jhelp.engine.util [JHelpEngine]
+               Debug.printTodo("Implements createNode in jhelp.engine.util [JHelpEngine] Missing case");
+               node = new Node();
             break;
          }
 

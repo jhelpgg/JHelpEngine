@@ -8,7 +8,7 @@ import jhelp.util.math.formal.Function;
 import jhelp.util.math.formal.Variable;
 
 /**
- * Animation basedon 3D equation.<br>
+ * Animation based on 3D equation.<br>
  * The linked node, will follow the equation.<br>
  * Equation is x=X(t), y=Y(t) and z=Z(t). Each equation use only the {@link #T t} variable
  * 

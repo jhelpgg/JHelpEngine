@@ -11,13 +11,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
@@ -40,6 +40,7 @@ import jhelp.engine.twoD.GUI2D;
 import jhelp.engine.twoD.Object2D;
 import jhelp.engine.util.BufferUtils;
 import jhelp.engine.util.Tool3D;
+import jhelp.util.gui.JHelpImage;
 import jhelp.util.io.UtilIO;
 import jhelp.util.list.QueueSynchronized;
 import jhelp.util.thread.ThreadManager;
@@ -262,6 +263,7 @@ public class JHelpSceneRenderer
    private boolean                          makeAScreenShot;
    /** Material use for 2D objects */
    private Material                         material2D;
+   private final List<Miror>                mirors;
    /** Temporary matrix for convert object space to view space */
    private double[]                         modelView;
    /** Indicates if mouse left button is down */
@@ -309,7 +311,7 @@ public class JHelpSceneRenderer
    /** Actual render scene */
    private Scene                            scene;
    /** The last screen shot */
-   private BufferedImage                    screenShot;
+   private JHelpImage                       screenShot;
    /** Indicates if FPS is print */
    private boolean                          showFPS;
    /** Texture use for FPS print */
@@ -324,7 +326,6 @@ public class JHelpSceneRenderer
    private int[]                            viewPort;
    /** OpenGL view width */
    private int                              width;
-
    /** Window material list to refresh */
    private final Vector<WindowMaterial>     windowMaterials;
 
@@ -355,6 +356,7 @@ public class JHelpSceneRenderer
       this.windowMaterials = new Vector<WindowMaterial>();
       this.detectionActivate = true;
       this.texturesToRemove = new QueueSynchronized<Texture>();
+      this.mirors = new ArrayList<Miror>();
    }
 
    /**
@@ -558,9 +560,6 @@ public class JHelpSceneRenderer
          int g;
          int b;
          int a;
-         // For invert way, start at the last line
-         int indexStart = this.width * (this.height - 1);
-         int index = indexStart;
 
          // For each color
          for(int i = 0; i < nb; i++)
@@ -570,29 +569,19 @@ public class JHelpSceneRenderer
             g = (int) (BufferUtils.TEMPORARY_FLOAT_BUFFER.get() * 255f) & 0xFF;
             b = (int) (BufferUtils.TEMPORARY_FLOAT_BUFFER.get() * 255f) & 0xFF;
             a = (int) (BufferUtils.TEMPORARY_FLOAT_BUFFER.get() * 255f) & 0xFF;
-            if(invert == true)
-            {
-               // If invert vertical
-               this.pixels[index] = (a << 24) | (r << 16) | (g << 8) | b;
-               index++;
-               // If we are at the end of the line
-               if((i % this.width) == (this.width - 1))
-               {
-                  // Go one line up
-                  indexStart -= this.width;
-                  index = indexStart;
-               }
-            }
-            else
-            {
-               // Normal way
-               this.pixels[i] = (a << 24) | (r << 16) | (g << 8) | b;
-            }
+            this.pixels[i] = (a << 24) | (r << 16) | (g << 8) | b;
          }
 
          // Update the screen shot
-         this.screenShot.setRGB(0, 0, this.width, this.height, this.pixels, 0, this.width);
-         this.screenShot.flush();
+         this.screenShot.startDrawMode();
+         this.screenShot.setPixels(0, 0, this.width, this.height, this.pixels);
+
+         if(invert == true)
+         {
+            this.screenShot.flipVertical();
+         }
+
+         this.screenShot.endDrawMode();
          this.makeAScreenShot = false;
       }
    }
@@ -675,6 +664,44 @@ public class JHelpSceneRenderer
          this.material2D.setTwoSided(true);
       }
       this.material2D.prepareMaterial(gl);
+   }
+
+   private void renderMirors(final GL gl, final GLU glu, final Camera camera)
+   {
+      synchronized(this.mirors)
+      {
+         Texture texture;
+
+         for(final Miror miror : this.mirors)
+         {
+            texture = miror.startRender(this.scene);
+
+            if(texture != null)
+            {
+               // Draw the background and clear Z-Buffer
+               gl.glClearColor(miror.backgroundRed, miror.backgroundGreen, miror.backgroundBlue, miror.backgroundAlpha);
+               gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+
+               gl.glEnable(GL.GL_DEPTH_TEST);
+               gl.glPushMatrix();
+
+               // Put in camera view
+               camera.render(glu);
+
+               // Render the scene
+               this.scene.renderTheScene(gl, glu, this);
+
+               gl.glPopMatrix();
+               gl.glDisable(GL.GL_DEPTH_TEST);
+
+               BufferUtils.TEMPORARY_BYTE_BUFFER.rewind();
+               gl.glReadPixels(128, 128, this.width - 256, this.height - 256, GL.GL_RGBA, GL.GL_BYTE, BufferUtils.TEMPORARY_BYTE_BUFFER);
+               texture.setPixelsFromByteBuffer(this.width - 256, this.height - 256);
+
+               miror.endRender(this.scene);
+            }
+         }
+      }
    }
 
    /**
@@ -868,22 +895,34 @@ public class JHelpSceneRenderer
     */
    void render(final GL gl, final GLU glu, final Camera camera)
    {
-      // Draw the background and clear Z-Buffer
-      this.scene.drawBackground(gl);
-      gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-      // Draw 2D objects under 3D
-      gl.glDisable(GL.GL_DEPTH_TEST);
-      this.drawUnder3D(gl, glu);
-      gl.glEnable(GL.GL_DEPTH_TEST);
-      gl.glPushMatrix();
-      // Put in camera view
-      camera.render(glu);
-      // Render the scene
-      this.scene.renderTheScene(gl, glu, this);
-      gl.glPopMatrix();
-      gl.glDisable(GL.GL_DEPTH_TEST);
-      // Draw 2D objects over 3D
-      this.drawOver3D(gl, glu);
+      try
+      {
+         this.renderMirors(gl, glu, camera);
+
+         // Draw the background and clear Z-Buffer
+         this.scene.drawBackground(gl);
+         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+         // Draw 2D objects under 3D
+         gl.glDisable(GL.GL_DEPTH_TEST);
+         this.drawUnder3D(gl, glu);
+         gl.glEnable(GL.GL_DEPTH_TEST);
+         gl.glPushMatrix();
+         // Put in camera view
+         camera.render(glu);
+
+         // Render the scene
+         this.scene.renderTheScene(gl, glu, this);
+         gl.glPopMatrix();
+         gl.glDisable(GL.GL_DEPTH_TEST);
+         // Draw 2D objects over 3D
+         this.drawOver3D(gl, glu);
+      }
+      catch(final Exception exception)
+      {
+      }
+      catch(final Error error)
+      {
+      }
    }
 
    /**
@@ -1108,6 +1147,19 @@ public class JHelpSceneRenderer
       this.listeners.add(KeyListener.class, listener);
    }
 
+   public void addMiror(final Miror miror)
+   {
+      if(miror == null)
+      {
+         throw new NullPointerException("miror musn't be null");
+      }
+
+      synchronized(this.mirors)
+      {
+         this.mirors.add(miror);
+      }
+   }
+
    /**
     * Add mouse listener in 3D view
     * 
@@ -1184,7 +1236,7 @@ public class JHelpSceneRenderer
       if((this.screenShot == null) || (this.screenShot.getWidth() != this.width) || (this.screenShot.getHeight() != this.height))
       {
          this.screenShot = null;
-         this.screenShot = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
+         this.screenShot = new JHelpImage(this.width, this.height);
       }
 
       // Refresh window materials
@@ -1577,6 +1629,7 @@ public class JHelpSceneRenderer
       scene.loadFromXML(MarkupXML.load(zipFile.getInputStream(zipFile.getEntry("scene3D"))));
 
       this.newScene = scene;
+      zipFile.close();
 
       return scene;
    }
@@ -1825,6 +1878,14 @@ public class JHelpSceneRenderer
    public void removeKeyListener(final KeyListener listener)
    {
       this.listeners.remove(KeyListener.class, listener);
+   }
+
+   public void removeMiror(final Miror miror)
+   {
+      synchronized(this.mirors)
+      {
+         this.mirors.remove(miror);
+      }
    }
 
    /**
@@ -2082,7 +2143,7 @@ public class JHelpSceneRenderer
     * 
     * @return The screen shot
     */
-   public BufferedImage screenShot()
+   public JHelpImage screenShot()
    {
       // Wait for the render is ready
       while(this.ready == false)
@@ -2096,7 +2157,7 @@ public class JHelpSceneRenderer
          }
       }
       // Initialize the screen shot
-      this.screenShot = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
+      this.screenShot = new JHelpImage(this.width, this.height);
       this.makeAScreenShot = true;
       // Wait for the screen shot is done
       do

@@ -45,11 +45,7 @@ public class BufferUtils
    public static void fill(final byte[] array)
    {
       BufferUtils.TEMPORARY_BYTE_BUFFER.rewind();
-      final int size = array.length;
-      for(int i = 0; i < size; i++)
-      {
-         array[i] = BufferUtils.TEMPORARY_BYTE_BUFFER.get();
-      }
+      BufferUtils.TEMPORARY_BYTE_BUFFER.get(array);
       BufferUtils.TEMPORARY_BYTE_BUFFER.rewind();
    }
 
@@ -62,11 +58,7 @@ public class BufferUtils
    public static void fill(final double[] array)
    {
       BufferUtils.TEMPORARY_DOUBLE_BUFFER.rewind();
-      final int size = array.length;
-      for(int i = 0; i < size; i++)
-      {
-         array[i] = BufferUtils.TEMPORARY_DOUBLE_BUFFER.get();
-      }
+      BufferUtils.TEMPORARY_DOUBLE_BUFFER.get(array);
       BufferUtils.TEMPORARY_DOUBLE_BUFFER.rewind();
    }
 
@@ -79,11 +71,7 @@ public class BufferUtils
    public static void fill(final float[] array)
    {
       BufferUtils.TEMPORARY_FLOAT_BUFFER.rewind();
-      final int size = array.length;
-      for(int i = 0; i < size; i++)
-      {
-         array[i] = BufferUtils.TEMPORARY_FLOAT_BUFFER.get();
-      }
+      BufferUtils.TEMPORARY_FLOAT_BUFFER.get(array);
       BufferUtils.TEMPORARY_FLOAT_BUFFER.rewind();
    }
 
@@ -96,11 +84,7 @@ public class BufferUtils
    public static void fill(final int[] array)
    {
       BufferUtils.TEMPORARY_INT_BUFFER.rewind();
-      final int size = array.length;
-      for(int i = 0; i < size; i++)
-      {
-         array[i] = BufferUtils.TEMPORARY_INT_BUFFER.get();
-      }
+      BufferUtils.TEMPORARY_INT_BUFFER.get(array);
       BufferUtils.TEMPORARY_INT_BUFFER.rewind();
    }
 

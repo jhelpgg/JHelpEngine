@@ -12,7 +12,6 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 import jhelp.engine.io.ConstantsXML;
-
 import jhelp.engine.util.NodeComparatorZorder;
 import jhelp.engine.util.Tool3D;
 import jhelp.xml.MarkupXML;
@@ -315,6 +314,14 @@ public class Scene
    public void remove(final Node node)
    {
       this.root.removeChild(node);
+   }
+
+   /**
+    * Remove all nodes from scene
+    */
+   public void removeAllNodes()
+   {
+      this.root.removeAllChildren();
    }
 
    /**

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import jhelp.engine.Texture;
 import jhelp.engine.event.Object2DListener;
+import jhelp.util.list.Queue;
 
 /**
  * 2D object.<br>
@@ -25,10 +26,16 @@ public class Object2D
    private final ArrayList<Object2DListener> arrayListListeners;
    /** Indicates if the object signal events */
    private boolean                           canBeDetected;
+   /** Indicates if we are in firing events to listeners */
+   private boolean                           firing;
    /** Object's height */
    private int                               height;
    /** Indicates if the mouse is over the object */
    private boolean                           over;
+   /** List of listeners to add */
+   private final Queue<Object2DListener>     toAdd;
+   /** List of listeners to remove */
+   private final Queue<Object2DListener>     toRemove;
    /** Indicates if the object is visible */
    private boolean                           visible;
    /** Object's width */
@@ -61,6 +68,9 @@ public class Object2D
       this.canBeDetected = true;
       this.visible = true;
       this.arrayListListeners = new ArrayList<Object2DListener>();
+      this.firing = false;
+      this.toRemove = new Queue<Object2DListener>();
+      this.toAdd = new Queue<Object2DListener>();
       this.over = false;
    }
 
@@ -82,42 +92,61 @@ public class Object2D
     */
    void mouseState(int x, int y, final boolean buttonLeft, final boolean buttonRight, final boolean drag, final boolean over)
    {
-      // Compute relative object position
-      x -= this.x;
-      y -= this.y;
-      // If the over state change, the the mouse enter or exit
-      if(this.over != over)
+      this.firing = true;
+
+      try
       {
-         this.over = over;
-         if(this.over == true)
+         // Compute relative object position
+         x -= this.x;
+         y -= this.y;
+         // If the over state change, the the mouse enter or exit
+         if(this.over != over)
          {
-            this.fireMouseEnter(x, y);
+            this.over = over;
+            if(this.over == true)
+            {
+               this.fireMouseEnter(x, y);
+            }
+            else
+            {
+               this.fireMouseExit(x, y);
+            }
+            return;
          }
-         else
+         // If the mouse is not on the object, do nothing
+         if(over == false)
          {
-            this.fireMouseExit(x, y);
+            return;
          }
-         return;
+         // Drag mode test
+         if(drag)
+         {
+            this.fireMouseDrag(x, y, buttonLeft, buttonRight);
+            return;
+         }
+         // Click mode test
+         if(buttonLeft || buttonRight)
+         {
+            this.fireMouseClick(x, y, buttonLeft, buttonRight);
+            return;
+         }
+         // Move mode
+         this.fireMouseMove(x, y);
       }
-      // If the mouse is not on the object, do nothing
-      if(over == false)
+      finally
       {
-         return;
+         while(this.toRemove.isEmpty() == false)
+         {
+            this.arrayListListeners.remove(this.toRemove.outQueue());
+         }
+
+         while(this.toAdd.isEmpty() == false)
+         {
+            this.arrayListListeners.add(this.toAdd.outQueue());
+         }
+
+         this.firing = false;
       }
-      // Drag mode test
-      if(drag)
-      {
-         this.fireMouseDrag(x, y, buttonLeft, buttonRight);
-         return;
-      }
-      // Click mode test
-      if(buttonLeft || buttonRight)
-      {
-         this.fireMouseClick(x, y, buttonLeft, buttonRight);
-         return;
-      }
-      // Move mode
-      this.fireMouseMove(x, y);
    }
 
    /**
@@ -216,6 +245,12 @@ public class Object2D
     */
    public void addObject2DListener(final Object2DListener object2DListener)
    {
+      if(this.firing == true)
+      {
+         this.toAdd.inQueue(object2DListener);
+         return;
+      }
+
       this.arrayListListeners.add(object2DListener);
    }
 
@@ -241,6 +276,7 @@ public class Object2D
       {
          return null;
       }
+
       return this.texture;
    }
 
@@ -321,6 +357,12 @@ public class Object2D
     */
    public void removeObject2DListener(final Object2DListener object2DListener)
    {
+      if(this.firing == true)
+      {
+         this.toRemove.inQueue(object2DListener);
+         return;
+      }
+
       this.arrayListListeners.remove(object2DListener);
    }
 

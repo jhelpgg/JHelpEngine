@@ -5,7 +5,9 @@
  * Date : 12 aoet 2010<br>
  * By JHelp
  */
-package jhelp.engine.geom;
+package jhelp.engine.event;
+
+import jhelp.engine.geom.Equation3D;
 
 /**
  * Listener to know when equation 3D is ready<br>

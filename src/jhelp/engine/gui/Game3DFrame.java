@@ -263,6 +263,8 @@ public abstract class Game3DFrame
    private final File            gameDirectory;
    /** Game name */
    private final String          gameName;
+   /** Game resource directory */
+   private final File            gameResourcesDirectory;
    /** Actual keyboard mode */
    private KeyboardMode          keyboardMode;
    /** Game preferences */
@@ -278,7 +280,7 @@ public abstract class Game3DFrame
     * @param gameName
     *           Game name
     * @throws HeadlessException
-    *            If computer don't support diplay, manage key or mouse
+    *            If computer don't support display, manage key or mouse
     */
    public Game3DFrame(String gameName)
          throws HeadlessException
@@ -297,6 +299,7 @@ public abstract class Game3DFrame
 
       this.gameName = gameName;
       this.gameDirectory = UtilIO.obtainExternalFile("JHelp/Game3D/" + gameName);
+      this.gameResourcesDirectory = new File(this.gameDirectory, "resources");
 
       if(UtilIO.createDirectory(this.gameDirectory) == false)
       {
@@ -304,7 +307,7 @@ public abstract class Game3DFrame
       }
 
       this.preferences = new Preferences(new File(this.gameDirectory, "preferences"));
-      this.resources = new Resources(new File(this.gameDirectory, "resources"));
+      this.resources = new Resources(this.gameResourcesDirectory);
       this.resourceText = this.resources.obtainResourceText("texts/texts");
       this.actionKeyMap = new ActionKeyMap(this.preferences);
       this.eventManager = new EventManager();
@@ -379,7 +382,7 @@ public abstract class Game3DFrame
                   if(this.cursor < this.editText.length())
                   {
                      this.cursor++;
-                     this.editTextCursorMoved(this.otainCurrentChar(), this.cursor, this.gameName);
+                     this.editTextCursorMoved(this.otainCurrentChar(), this.cursor, this.editText.toString());
                   }
                break;
                case KeyEvent.VK_BACK_SPACE:
@@ -388,7 +391,7 @@ public abstract class Game3DFrame
                      this.cursor--;
                      final char character = this.editText.charAt(this.cursor);
                      this.editText.delete(this.cursor, this.cursor + 1);
-                     this.editTextDelete(character, this.cursor, this.gameName);
+                     this.editTextDelete(character, this.cursor, this.editText.toString());
                   }
                break;
                case KeyEvent.VK_DELETE:
@@ -396,7 +399,7 @@ public abstract class Game3DFrame
                   {
                      final char character = this.editText.charAt(this.cursor);
                      this.editText.delete(this.cursor, this.cursor + 1);
-                     this.editTextDelete(character, this.cursor, this.gameName);
+                     this.editTextDelete(character, this.cursor, this.editText.toString());
                   }
                break;
                case KeyEvent.VK_ENTER:
@@ -424,7 +427,7 @@ public abstract class Game3DFrame
 
       this.editText.insert(this.cursor, character);
       this.cursor++;
-      this.editTextAdd(character, this.cursor, this.gameName);
+      this.editTextAdd(character, this.cursor, this.editText.toString());
    }
 
    /**
@@ -544,7 +547,7 @@ public abstract class Game3DFrame
       this.editText.insert(this.cursor, text);
       this.cursor += text.length();
 
-      this.editTextAdd(this.otainCurrentChar(), this.cursor, text);
+      this.editTextAdd(this.otainCurrentChar(), this.cursor, this.editText.toString());
    }
 
    /**
@@ -607,6 +610,16 @@ public abstract class Game3DFrame
    public final String getGameName()
    {
       return this.gameName;
+   }
+
+   /**
+    * Game resource directory
+    * 
+    * @return Game resource directory
+    */
+   public File getGameResourcesDirectory()
+   {
+      return this.gameResourcesDirectory;
    }
 
    /**

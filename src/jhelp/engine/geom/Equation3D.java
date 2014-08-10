@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import jhelp.engine.NodeType;
 import jhelp.engine.Object3D;
 import jhelp.engine.Vertex;
+import jhelp.engine.event.Equation3DListener;
 import jhelp.engine.twoD.Line2D;
 import jhelp.engine.twoD.Path;
 import jhelp.engine.util.Math3D;
@@ -235,7 +236,7 @@ public class Equation3D
       }
    }
 
-   /** Border repeated pth */
+   /** Border repeated path */
    private final Path     border;
    /** Precision used for border */
    private final int      borderPrecision;

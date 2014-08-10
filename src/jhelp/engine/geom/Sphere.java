@@ -97,7 +97,7 @@ public class Sphere
       double sliceAngleFutur;
       double stackAngleFutur;
 
-      // Cosinus abd sinus of angles
+      // Cosinus and sinus of angles
       double cosSliceAngle;
       double cosStackAngle;
       double cosSliceAngleFutur;
