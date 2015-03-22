@@ -153,7 +153,8 @@ public class Object3D
       String material = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_material, "");
       if(material.length() < 1)
       {
-         throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory parameter ", ConstantsXML.MARKUP_NODE_material, " in ", markupXML.getName()));
+         throw new IllegalArgumentException(
+               UtilText.concatenate("Missing mendatory parameter ", ConstantsXML.MARKUP_NODE_material, " in ", markupXML.getName()));
       }
       this.material = Material.obtainMaterial(material);
       material = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_materialSelection, "");
@@ -552,6 +553,15 @@ public class Object3D
    public void nextFace()
    {
       this.mesh.endFace();
+   }
+
+   /**
+    * Make the center of object vertexes be also the center of the object
+    */
+   public void recenterObject()
+   {
+      this.mesh.centerMesh();
+      this.flush();
    }
 
    /**

@@ -26,4 +26,14 @@ abstract class DrawOnTexture
     *           Texture where draw
     */
    public abstract void draw(Texture texture);
+
+   /**
+    * Indicates if this draw change the texture so that any action before is useless
+    * 
+    * @return {@code true} if this draw change the texture so that any action before is useless
+    */
+   public boolean isAbsorber()
+   {
+      return false;
+   }
 }

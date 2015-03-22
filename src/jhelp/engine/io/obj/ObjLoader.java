@@ -44,7 +44,27 @@ public class ObjLoader
     * @throws IOException
     *            On reading issue
     */
-   public static Object3D loadObj(Object3D object3D, final InputStream inputStream) throws IOException
+   public static Object3D loadObj(final Object3D object3D, final InputStream inputStream) throws IOException
+   {
+      return ObjLoader.loadObj(object3D, inputStream, false);
+   }
+
+   /**
+    * Load a "obj" stream.<br>
+    * Its possible to modify an object or create a new one.<br>
+    * If there more than one object inside stream a complete hierarchy is created
+    * 
+    * @param object3D
+    *           Object to reuse. Can be {@code null} to create a new object
+    * @param inputStream
+    *           Stream to read. The stream is not closed, it up to caller to do it
+    * @param reveseNormals
+    *           Indicates if normal have to be reversed
+    * @return Created/modified object
+    * @throws IOException
+    *            On stream read issue
+    */
+   public static Object3D loadObj(Object3D object3D, final InputStream inputStream, final boolean reveseNormals) throws IOException
    {
       if(object3D == null)
       {
@@ -72,6 +92,12 @@ public class ObjLoader
       int startPoint = 1;
       int startUV = 1;
       int startNormal = 1;
+      float multiplier = 1;
+
+      if(reveseNormals == true)
+      {
+         multiplier = -1;
+      }
 
       String line = bufferedReader.readLine();
       while(line != null)
@@ -83,7 +109,7 @@ public class ObjLoader
             stringTokenizer = new StringTokenizer(line, " \n\t\f\r", false);
             word = stringTokenizer.nextToken();
 
-            if(word.equals("g") == true)
+            if((word.equals("g") == true) || (word.equals("o") == true))
             {
                if(pointFace.getSize() > 0)
                {
@@ -113,7 +139,8 @@ public class ObjLoader
             }
             else if(word.equals("v") == true)
             {
-               points.add(new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken())));
+               points.add(new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
+                     Float.parseFloat(stringTokenizer.nextToken())));
             }
             else if(word.equals("vt") == true)
             {
@@ -121,7 +148,8 @@ public class ObjLoader
             }
             else if(word.equals("vn") == true)
             {
-               normals.add(new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken())));
+               normals.add(new Point3D(multiplier * Float.parseFloat(stringTokenizer.nextToken()), multiplier * Float.parseFloat(stringTokenizer.nextToken()),
+                     multiplier * Float.parseFloat(stringTokenizer.nextToken())));
             }
             else if((word.equals("f") == true) || (word.equals("fo") == true))
             {

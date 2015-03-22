@@ -17,6 +17,9 @@ import jhelp.engine.event.NodeListener;
 import jhelp.engine.io.ConstantsXML;
 import jhelp.engine.util.Math3D;
 import jhelp.engine.util.Tool3D;
+import jhelp.util.list.Triplet;
+import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedSimpleTask;
 import jhelp.xml.MarkupXML;
 
 /**
@@ -28,8 +31,104 @@ import jhelp.xml.MarkupXML;
  */
 public class Node
 {
+   /**
+    * Task for say to one listener that a click happen on the node
+    * 
+    * @author JHelp
+    */
+   class TaskFireMouseClick
+         extends ThreadedSimpleTask<Triplet<NodeListener, Boolean, Boolean>>
+   {
+      /**
+       * Create a new instance of TaskFireMouseClick
+       */
+      TaskFireMouseClick()
+      {
+      }
+
+      /**
+       * Called when task turn comes <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parameter
+       *           The triplet of the listener to alert, left button state, right button state
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final Triplet<NodeListener, Boolean, Boolean> parameter)
+      {
+         parameter.element1.mouseClick(Node.this, parameter.element2, parameter.element3);
+      }
+   }
+
+   /**
+    * Task say to one listener that mouse enter the node
+    * 
+    * @author JHelp
+    */
+   class TaskFireMouseEnter
+         extends ThreadedSimpleTask<NodeListener>
+   {
+      /**
+       * Create a new instance of TaskFireMouseEnter
+       */
+      TaskFireMouseEnter()
+      {
+      }
+
+      /**
+       * Called when task turn comes <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parameter
+       *           The listener to alert
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final NodeListener parameter)
+      {
+         parameter.mouseEnter(Node.this);
+      }
+   }
+
+   /**
+    * Task say to one listener that mouse exit the node
+    * 
+    * @author JHelp
+    */
+   class TaskFireMouseExit
+         extends ThreadedSimpleTask<NodeListener>
+   {
+      /**
+       * Create a new instance of TaskFireMouseExit
+       */
+      TaskFireMouseExit()
+      {
+      }
+
+      /**
+       * Called when task turn comes <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parameter
+       *           The listener to alert
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final NodeListener parameter)
+      {
+         parameter.mouseExit(Node.this);
+      }
+   }
+
    /** Color picking ID */
-   private static int                    ID_PICKING = 0;
+   private static int                    ID_PICKING         = 0;
    /** Additional information */
    private Object                        additionalInformation;
    /** Angle X relative to it's parent */
@@ -64,6 +163,12 @@ public class Node
    private boolean                       selected;
    /** Indicates if the wire frame are showing */
    private boolean                       showWire;
+   /** Task for alert one listener that mouse click on the node */
+   private final TaskFireMouseClick      taskFireMouseClick = new TaskFireMouseClick();
+   /** Task for alert one listener that mouse enter on the node */
+   private final TaskFireMouseEnter      taskFireMouseEnter = new TaskFireMouseEnter();
+   /** Task for alert one listener that mouse exit from the node */
+   private final TaskFireMouseExit       taskFireMouseExit  = new TaskFireMouseExit();
    /** Color to use for wire frame */
    private Color4f                       wireColor;
    /** X relative to it's parent */
@@ -110,16 +215,22 @@ public class Node
    private float                         zMin;
    /** Node's children */
    Vector<Node>                          children;
+
    /** Texture hotspot linked to the node or {@code null} */
    Texture                               textureHotspot;
+
    /** Indicates if the node is visible */
    boolean                               visible;
+
    /** Node type */
    protected NodeType                    nodeType;
+
    /** Node's name */
    public String                         nodeName;
+
    /** Listener for UV picking */
    public PickUVlistener                 pickUVlistener;
+
    /** Order Z */
    public float                          zOrder;
 
@@ -369,9 +480,12 @@ public class Node
     */
    protected void fireMouseClick(final boolean leftButton, final boolean rightButton)
    {
-      for(final NodeListener nodeListener : this.arrayListListners)
+      synchronized(this.arrayListListners)
       {
-         nodeListener.mouseClick(this, leftButton, rightButton);
+         for(final NodeListener nodeListener : this.arrayListListners)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.taskFireMouseClick, new Triplet<NodeListener, Boolean, Boolean>(nodeListener, leftButton, rightButton));
+         }
       }
    }
 
@@ -380,9 +494,12 @@ public class Node
     */
    protected void fireMouseEnter()
    {
-      for(final NodeListener nodeListener : this.arrayListListners)
+      synchronized(this.arrayListListners)
       {
-         nodeListener.mouseEnter(this);
+         for(final NodeListener nodeListener : this.arrayListListners)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.taskFireMouseEnter, nodeListener);
+         }
       }
    }
 
@@ -391,9 +508,12 @@ public class Node
     */
    protected void fireMouseExit()
    {
-      for(final NodeListener nodeListener : this.arrayListListners)
+      synchronized(this.arrayListListners)
       {
-         nodeListener.mouseExit(this);
+         for(final NodeListener nodeListener : this.arrayListListners)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.taskFireMouseExit, nodeListener);
+         }
       }
    }
 
@@ -491,9 +611,17 @@ public class Node
     */
    public void addNodeListener(final NodeListener nodeListener)
    {
-      if(this.arrayListListners.contains(nodeListener) == false)
+      if(nodeListener == null)
       {
-         this.arrayListListners.add(nodeListener);
+         throw new NullPointerException("nodeListener musn't be null");
+      }
+
+      synchronized(this.arrayListListners)
+      {
+         if(this.arrayListListners.contains(nodeListener) == false)
+         {
+            this.arrayListListners.add(nodeListener);
+         }
       }
    }
 
@@ -550,6 +678,56 @@ public class Node
    public int childCount()
    {
       return this.children.size();
+   }
+
+   /**
+    * Compute the complete box that contains the node and all its hierarchy and projected it in world space
+    * 
+    * @return Total box projected in the world space
+    */
+   public VirtualBox computeProjectedTotalBox()
+   {
+      final VirtualBox projected = new VirtualBox();
+      final VirtualBox virtualBox = this.computeTotalBox();
+
+      if(virtualBox.isEmpty() == true)
+      {
+         return projected;
+      }
+
+      Point3D point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      return projected;
    }
 
    /**
@@ -1560,7 +1738,10 @@ public class Node
     */
    public void removeNodeListener(final NodeListener nodeListener)
    {
-      this.arrayListListners.remove(nodeListener);
+      synchronized(this.arrayListListners)
+      {
+         this.arrayListListners.remove(nodeListener);
+      }
    }
 
    /**

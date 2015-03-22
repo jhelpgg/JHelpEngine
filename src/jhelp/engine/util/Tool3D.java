@@ -26,6 +26,7 @@ import jhelp.engine.Point3D;
 import jhelp.engine.Scene;
 import jhelp.engine.Texture;
 import jhelp.engine.Vertex;
+import jhelp.engine.VirtualBox;
 import jhelp.engine.geom.Box;
 import jhelp.engine.geom.PathGeom;
 import jhelp.engine.geom.Plane;
@@ -268,28 +269,80 @@ public class Tool3D
     */
    public static Node createCloneHierarchy(final Node node)
    {
+      return Tool3D.createCloneHierarchy(node, "");
+   }
+
+   /**
+    * Create a clone and clone also the all hierarchy, and additional suffix is given to cloned node names
+    * 
+    * @param node
+    *           Node to clone
+    * @param suffix
+    *           Suffix to add to clones name
+    * @return Cloned hierarchy
+    */
+   public static Node createCloneHierarchy(final Node node, final String suffix)
+   {
       Node clone = new Node();
 
       if(node instanceof Object3D)
       {
          clone = new ObjectClone((Object3D) node);
+         ((NodeWithMaterial) clone).setTwoSidedState(((NodeWithMaterial) node).getTwoSidedState());
       }
       else if(node instanceof ObjectClone)
       {
          clone = new ObjectClone(((ObjectClone) node).getReference());
+         ((NodeWithMaterial) clone).setTwoSidedState(((NodeWithMaterial) node).getTwoSidedState());
       }
 
+      clone.nodeName = node.nodeName + suffix;
       clone.setPosition(node.getX(), node.getY(), node.getZ());
       clone.setScale(node.getScaleX(), node.getScaleY(), node.getScaleZ());
       clone.setAngleX(node.getAngleX());
       clone.setAngleY(node.getAngleY());
       clone.setAngleZ(node.getAngleZ());
+      clone.setVisible(node.isVisible());
+      clone.setCanBePick(node.isCanBePick());
+      clone.setShowWire(node.isShowWire());
+      clone.setWireColor(node.getWireColor());
+      clone.setAdditionalInformation(node.getAdditionalInformation());
+
+      if(node.isXLimited() == true)
+      {
+         clone.limitX(node.getXMin(), node.getXMax());
+      }
+
+      if(node.isYLimited() == true)
+      {
+         clone.limitY(node.getYMin(), node.getYMax());
+      }
+
+      if(node.isZLimited() == true)
+      {
+         clone.limitZ(node.getZMin(), node.getZMax());
+      }
+
+      if(node.isXAngleLimited() == true)
+      {
+         clone.limitAngleX(node.getXAngleMin(), node.getXAngleMax());
+      }
+
+      if(node.isYAngleLimited() == true)
+      {
+         clone.limitAngleY(node.getYAngleMin(), node.getYAngleMax());
+      }
+
+      if(node.isZAngleLimited() == true)
+      {
+         clone.limitAngleZ(node.getZAngleMin(), node.getZAngleMax());
+      }
 
       final int nb = node.childCount();
 
       for(int i = 0; i < nb; i++)
       {
-         clone.addChild(Tool3D.createCloneHierarchy(node.getChild(i)));
+         clone.addChild(Tool3D.createCloneHierarchy(node.getChild(i), suffix));
       }
 
       return clone;
@@ -315,7 +368,8 @@ public class Tool3D
     *           Indicates if normals must be reversed
     * @return Constructed mesh
     */
-   public static Mesh createJoinedMesh(final Path pathU, final int precisionU, final Path pathV, final int precisionV, final float multU, final boolean linearize, final boolean reverseNormals)
+   public static Mesh createJoinedMesh(final Path pathU, final int precisionU, final Path pathV, final int precisionV, final float multU,
+         final boolean linearize, final boolean reverseNormals)
    {
       final float mult = reverseNormals == true
             ? -1
@@ -626,8 +680,10 @@ public class Tool3D
                            u00 = p0.getUv().getX();
                            u01 = p1.getUv().getX();
 
-                           u00 += (float) Math.sqrt(Math3D.square(mx0 - p0.getPosition().getX()) + Math3D.square(my0 - p0.getPosition().getY()) + Math3D.square(mz0 - p0.getPosition().getZ()));
-                           u01 += (float) Math.sqrt(Math3D.square(mx1 - p1.getPosition().getX()) + Math3D.square(my1 - p1.getPosition().getY()) + Math3D.square(mz1 - p1.getPosition().getZ()));
+                           u00 += (float) Math.sqrt(Math3D.square(mx0 - p0.getPosition().getX()) + Math3D.square(my0 - p0.getPosition().getY())
+                                 + Math3D.square(mz0 - p0.getPosition().getZ()));
+                           u01 += (float) Math.sqrt(Math3D.square(mx1 - p1.getPosition().getX()) + Math3D.square(my1 - p1.getPosition().getY())
+                                 + Math3D.square(mz1 - p1.getPosition().getZ()));
                         }
 
                         // Create first part of the corner
@@ -659,8 +715,10 @@ public class Tool3D
                   u00 = p0.getUv().getX();
                   u01 = p1.getUv().getX();
 
-                  u00 += (float) Math.sqrt(Math3D.square(x00 - p0.getPosition().getX()) + Math3D.square(y00 - p0.getPosition().getY()) + Math3D.square(z00 - p0.getPosition().getZ()));
-                  u01 += (float) Math.sqrt(Math3D.square(x01 - p1.getPosition().getX()) + Math3D.square(y01 - p1.getPosition().getY()) + Math3D.square(z01 - p1.getPosition().getZ()));
+                  u00 += (float) Math.sqrt(Math3D.square(x00 - p0.getPosition().getX()) + Math3D.square(y00 - p0.getPosition().getY())
+                        + Math3D.square(z00 - p0.getPosition().getZ()));
+                  u01 += (float) Math.sqrt(Math3D.square(x01 - p1.getPosition().getX()) + Math3D.square(y01 - p1.getPosition().getY())
+                        + Math3D.square(z01 - p1.getPosition().getZ()));
                }
 
                mesh.addVertexToTheActualFace(p0);
@@ -912,6 +970,83 @@ public class Tool3D
    }
 
    /**
+    * Compute the volume of intersection that may append when given nodes will translates of given vectors
+    * 
+    * @param node1
+    *           First node
+    * @param vector1
+    *           Translation that will apply to first node
+    * @param node2
+    *           Second node
+    * @param vector2
+    *           Translation that will apply to second node
+    * @return Volume of future intersection. 0 means they will not have any intersection
+    */
+   public static float futureIntersectionVolume(final Node node1, final Point3D vector1, final Node node2, final Point3D vector2)
+   {
+      VirtualBox virtualBox = node1.computeProjectedTotalBox();
+      virtualBox.translate(vector1);
+
+      if(virtualBox.isEmpty() == true)
+      {
+         return 0;
+      }
+
+      final float xmin1 = virtualBox.getMinX();
+      final float ymin1 = virtualBox.getMinY();
+      final float zmin1 = virtualBox.getMinZ();
+      final float xmax1 = virtualBox.getMaxX();
+      final float ymax1 = virtualBox.getMaxY();
+      final float zmax1 = virtualBox.getMaxZ();
+
+      virtualBox = node2.computeProjectedTotalBox();
+      virtualBox.translate(vector2);
+
+      if(virtualBox.isEmpty() == true)
+      {
+         return 0;
+      }
+
+      final float xmin2 = virtualBox.getMinX();
+      final float ymin2 = virtualBox.getMinY();
+      final float zmin2 = virtualBox.getMinZ();
+      final float xmax2 = virtualBox.getMaxX();
+      final float ymax2 = virtualBox.getMaxY();
+      final float zmax2 = virtualBox.getMaxZ();
+
+      if((xmin1 > xmax2) || (ymin1 > ymax2) || (zmin1 > zmax2) || (xmin2 > xmax1) || (ymin2 > ymax1) || (zmin2 > zmax1))
+      {
+         return 0;
+      }
+
+      final float xmin = Math.max(xmin1, xmin2);
+      final float xmax = Math.min(xmax1, xmax2);
+
+      if(xmin >= xmax)
+      {
+         return 0;
+      }
+
+      final float ymin = Math.max(ymin1, ymin2);
+      final float ymax = Math.min(ymax1, ymax2);
+
+      if(ymin >= ymax)
+      {
+         return 0;
+      }
+
+      final float zmin = Math.max(zmin1, zmin2);
+      final float zmax = Math.min(zmax1, zmax2);
+
+      if(zmin >= zmax)
+      {
+         return 0;
+      }
+
+      return (xmax - xmin) * (ymax - ymin) * (zmax - zmin);
+   }
+
+   /**
     * Get a Color4f parameter from XML markup
     * 
     * @param markupXML
@@ -1055,5 +1190,23 @@ public class Tool3D
       bumped.flush();
 
       return bumped;
+   }
+
+   /**
+    * Indicates if given nodes will collide after a translation
+    * 
+    * @param node1
+    *           First node
+    * @param vector1
+    *           Translation that will apply to first node
+    * @param node2
+    *           Second node
+    * @param vector2
+    *           Translation that will apply to second node
+    * @return {@code ture} if collision will append
+    */
+   public static boolean willCollide(final Node node1, final Point3D vector1, final Node node2, final Point3D vector2)
+   {
+      return Tool3D.futureIntersectionVolume(node1, vector1, node2, vector2) > 0;
    }
 }

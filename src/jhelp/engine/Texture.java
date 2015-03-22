@@ -498,8 +498,11 @@ public class Texture
       Texture.hashtableTextures.put(newName, texture);
    }
 
+   /** Developer additional information */
+   private Object    additionalInformation;
    /** Indicates if auto flush is enable */
    private boolean   autoFlush;
+
    /** Indicates if the texture need to be refresh */
    private boolean   needToRefresh;
 
@@ -520,7 +523,6 @@ public class Texture
 
    /** Texture pixels */
    byte[]            pixels;
-
    /** Texture's width */
    int               width;
 
@@ -1389,9 +1391,12 @@ public class Texture
             alp = (((((alphaTopLeft * ax) + (alphaTopRight * xx)) * ay) + (((alphaBottomLeft * ax) + (alphaBottomRight * xx)) * yy)) / div);
             pla = 255 - alp;
 
-            this.pixels[index] = this.mix(this.pixels[index], (((((redTopLeft * ax) + (redTopRight * xx)) * ay) + (((redBottomLeft * ax) + (redBottomRight * xx)) * yy)) / div), alp, pla);
-            this.pixels[index + 1] = this.mix(this.pixels[index + 1], (((((greenTopLeft * ax) + (greenTopRight * xx)) * ay) + (((greenBottomLeft * ax) + (greenBottomRight * xx)) * yy)) / div), alp, pla);
-            this.pixels[index + 2] = this.mix(this.pixels[index + 2], (((((blueTopLeft * ax) + (blueTopRight * xx)) * ay) + (((blueBottomLeft * ax) + (blueBottomRight * xx)) * yy)) / div), alp, pla);
+            this.pixels[index] = this.mix(this.pixels[index],
+                  (((((redTopLeft * ax) + (redTopRight * xx)) * ay) + (((redBottomLeft * ax) + (redBottomRight * xx)) * yy)) / div), alp, pla);
+            this.pixels[index + 1] = this.mix(this.pixels[index + 1],
+                  (((((greenTopLeft * ax) + (greenTopRight * xx)) * ay) + (((greenBottomLeft * ax) + (greenBottomRight * xx)) * yy)) / div), alp, pla);
+            this.pixels[index + 2] = this.mix(this.pixels[index + 2],
+                  (((((blueTopLeft * ax) + (blueTopRight * xx)) * ay) + (((blueBottomLeft * ax) + (blueBottomRight * xx)) * yy)) / div), alp, pla);
             this.pixels[index + 3] = this.add(this.pixels[index + 3], alp);
 
             index += 4;
@@ -1544,7 +1549,8 @@ public class Texture
     * @param height
     *           Height
     */
-   private void fillWithMix(final Shape shape, final byte r, final byte g, final byte b, final byte a, final int x, final int y, final int width, final int height)
+   private void fillWithMix(final Shape shape, final byte r, final byte g, final byte b, final byte a, final int x, final int y, final int width,
+         final int height)
    {
       int line = (x + (y * this.width)) << 2;
       int index;
@@ -1599,7 +1605,8 @@ public class Texture
     * @param height
     *           Height
     */
-   private void fillWithoutMix(final Shape shape, final byte r, final byte g, final byte b, final byte a, final int x, final int y, final int width, final int height)
+   private void fillWithoutMix(final Shape shape, final byte r, final byte g, final byte b, final byte a, final int x, final int y, final int width,
+         final int height)
    {
       int line = (x + (y * this.width)) * 4;
       int index;
@@ -1894,6 +1901,30 @@ public class Texture
       if(this.autoFlush == true)
       {
          this.flush();
+      }
+   }
+
+   /**
+    * Clear the all texture with given color
+    * 
+    * @param color
+    *           Color to fill the texture
+    */
+   public void clear(final Color color)
+   {
+      final byte r = (byte) color.getRed();
+      final byte g = (byte) color.getGreen();
+      final byte b = (byte) color.getBlue();
+      final byte a = (byte) color.getAlpha();
+      final int nb = this.width * this.height;
+      int pix = 0;
+
+      for(int i = 0; i < nb; i++)
+      {
+         this.pixels[pix++] = r;
+         this.pixels[pix++] = g;
+         this.pixels[pix++] = b;
+         this.pixels[pix++] = a;
       }
    }
 
@@ -2238,6 +2269,7 @@ public class Texture
       final byte g = (byte) color.getGreen();
       final byte b = (byte) color.getBlue();
       final byte a = (byte) color.getAlpha();
+
       if((a == Math3D.BYTE_255) || (mix == false))
       {
          this.drawLineWithoutMix(x1, y1, x2, y2, r, g, b, a);
@@ -2248,6 +2280,68 @@ public class Texture
          return;
       }
       this.drawLineWithMix(x1, y1, x2, y2, r, g, b, a);
+   }
+
+   /**
+    * Draw one pixel on the texture
+    * 
+    * @param x
+    *           Pixel X
+    * @param y
+    *           Pixel Y
+    * @param color
+    *           Pixel color
+    * @param mix
+    *           Indicates if mix mode or overwrite mode
+    */
+   public void drawPixel(final int x, final int y, final Color color, final boolean mix)
+   {
+      if((x < 0) || (y < 0) || (x >= this.width) || (y >= this.height))
+      {
+         return;
+      }
+
+      final byte r = (byte) color.getRed();
+      final byte g = (byte) color.getGreen();
+      final byte b = (byte) color.getBlue();
+      final byte a = (byte) color.getAlpha();
+      int pix = (x + (y * this.width)) << 2;
+
+      if((a == Math3D.BYTE_255) || (mix == false))
+      {
+         this.pixels[pix++] = r;
+         this.pixels[pix++] = g;
+         this.pixels[pix++] = b;
+         this.pixels[pix++] = a;
+
+         if(this.autoFlush == true)
+         {
+            this.flush();
+         }
+
+         return;
+      }
+
+      if(a == Math3D.BYTE_0)
+      {
+         return;
+      }
+
+      final int red = r & 0xFF;
+      final int green = g & 0xFF;
+      final int blue = b & 0xFF;
+      final int alp = a & 0xFF;
+      final int pla = 255 - alp;
+
+      this.pixels[pix] = this.mix(this.pixels[pix], red, alp, pla);
+      this.pixels[pix + 1] = this.mix(this.pixels[pix + 1], green, alp, pla);
+      this.pixels[pix + 2] = this.mix(this.pixels[pix + 2], blue, alp, pla);
+      this.pixels[pix + 3] = this.add(this.pixels[pix + 3], alp);
+
+      if(this.autoFlush == true)
+      {
+         this.flush();
+      }
    }
 
    /**
@@ -2556,7 +2650,8 @@ public class Texture
     * @param mix
     *           Indicates if we mix alpha or not
     */
-   public void fillRect(int x, int y, int width, int height, final Color colorTopLeft, final Color colorTopRight, final Color colorBottomLeft, final Color colorBottomRight, final boolean mix)
+   public void fillRect(int x, int y, int width, int height, final Color colorTopLeft, final Color colorTopRight, final Color colorBottomLeft,
+         final Color colorBottomRight, final boolean mix)
    {
       final int atl = colorTopLeft.getAlpha();
       final int atr = colorTopRight.getAlpha();
@@ -2654,11 +2749,49 @@ public class Texture
    }
 
    /**
+    * Flip texture horizontally
+    */
+   public void flipHorizontal()
+   {
+      final int time = this.height >> 1;
+      final int size = this.width << 2;
+      final byte[] line = new byte[size];
+      int up = 0;
+      int down = this.pixels.length - size;
+
+      for(int i = 0; i < time; i++)
+      {
+         System.arraycopy(this.pixels, up, line, 0, size);
+         System.arraycopy(this.pixels, down, this.pixels, up, size);
+         System.arraycopy(line, 0, this.pixels, down, size);
+         up += size;
+         down -= size;
+      }
+
+      if(this.autoFlush == true)
+      {
+         this.flush();
+      }
+   }
+
+   /**
     * Refresh last change
     */
    public void flush()
    {
       this.needToRefresh = true;
+   }
+
+   /**
+    * Developer additional information.<br>
+    * Its an opaque value, that can be use by the API user.<br>
+    * The texture just carry it
+    * 
+    * @return Developer additional information
+    */
+   public Object getAdditionalInformation()
+   {
+      return this.additionalInformation;
    }
 
    /**
@@ -2930,6 +3063,19 @@ public class Texture
    }
 
    /**
+    * Modify developer additional information.<br>
+    * Its an opaque value, that can be use by the API user.<br>
+    * The texture just carry it
+    * 
+    * @param additionalInformation
+    *           Information to carry
+    */
+   public void setAdditionalInformation(final Object additionalInformation)
+   {
+      this.additionalInformation = additionalInformation;
+   }
+
+   /**
     * Apply an alpha map.<br>
     * Alpha map must have same dimensions
     * 
@@ -3103,6 +3249,7 @@ public class Texture
       final int nb = this.width * this.height;
       final int nb4 = nb << 2;
       int indice = (x + (y * this.width)) * 4;
+
       while(indice < nb4)
       {
          indice += nb4;

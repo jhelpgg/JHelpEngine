@@ -22,6 +22,8 @@ public class GUI2D
    private final ArrayList<Object2D> arrayListObject2DUnder3D;
    /** If not {@code null} only this object can be detected */
    private Object2D                  exclusiveObject;
+   /** Synchronization lock */
+   private final Object              lock = new Object();
 
    /**
     * Constructs GUI2D
@@ -40,7 +42,10 @@ public class GUI2D
     */
    public void addOver3D(final Object2D object2D)
    {
-      this.arrayListObject2DOver3D.add(object2D);
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DOver3D.add(object2D);
+      }
    }
 
    /**
@@ -51,7 +56,10 @@ public class GUI2D
     */
    public void addUnder3D(final Object2D object2D)
    {
-      this.arrayListObject2DUnder3D.add(object2D);
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DUnder3D.add(object2D);
+      }
    }
 
    /**
@@ -59,23 +67,44 @@ public class GUI2D
     */
    public void allCanBeDetected()
    {
-      this.exclusiveObject = null;
+      synchronized(this.lock)
+      {
+         this.exclusiveObject = null;
+      }
    }
 
+   /**
+    * Clear the GUI2D, all over and under 3D, 2D objects are removed
+    */
    public void clearAll()
    {
-      this.clearUnder3D();
-      this.clearOver3D();
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DUnder3D.clear();
+         this.arrayListObject2DOver3D.clear();
+      }
    }
 
+   /**
+    * Remove all over 3D, 2D objects
+    */
    public void clearOver3D()
    {
-      this.arrayListObject2DOver3D.clear();
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DOver3D.clear();
+      }
    }
 
+   /**
+    * Remove all under 3D, 2D objects
+    */
    public void clearUnder3D()
    {
-      this.arrayListObject2DUnder3D.clear();
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DUnder3D.clear();
+      }
    }
 
    /**
@@ -89,27 +118,30 @@ public class GUI2D
     */
    public Object2D detectOver3D(final int x, final int y)
    {
-      if(this.exclusiveObject != null)
+      synchronized(this.lock)
       {
-         if(this.exclusiveObject.isDetected(x, y) == true)
+         if(this.exclusiveObject != null)
          {
-            return this.exclusiveObject;
+            if(this.exclusiveObject.isDetected(x, y) == true)
+            {
+               return this.exclusiveObject;
+            }
+
+            return null;
          }
 
+         final int nb = this.arrayListObject2DOver3D.size();
+         Object2D object2D;
+         for(int i = nb - 1; i >= 0; i--)
+         {
+            object2D = this.arrayListObject2DOver3D.get(i);
+            if(object2D.isDetected(x, y) == true)
+            {
+               return object2D;
+            }
+         }
          return null;
       }
-
-      final int nb = this.arrayListObject2DOver3D.size();
-      Object2D object2D;
-      for(int i = nb - 1; i >= 0; i--)
-      {
-         object2D = this.arrayListObject2DOver3D.get(i);
-         if(object2D.isDetected(x, y) == true)
-         {
-            return object2D;
-         }
-      }
-      return null;
    }
 
    /**
@@ -123,14 +155,17 @@ public class GUI2D
     */
    public Object2D detectOver3DorUnder3D(final int x, final int y)
    {
-      if(this.exclusiveObject != null)
+      synchronized(this.lock)
       {
-         if(this.exclusiveObject.isDetected(x, y) == true)
+         if(this.exclusiveObject != null)
          {
-            return this.exclusiveObject;
-         }
+            if(this.exclusiveObject.isDetected(x, y) == true)
+            {
+               return this.exclusiveObject;
+            }
 
-         return null;
+            return null;
+         }
       }
 
       // search over first
@@ -140,18 +175,21 @@ public class GUI2D
          return object2D;
       }
 
-      // Search under
-      final int nb = this.arrayListObject2DUnder3D.size();
-      for(int i = nb - 1; i >= 0; i--)
+      synchronized(this.lock)
       {
-         object2D = this.arrayListObject2DUnder3D.get(i);
-         if(object2D.isDetected(x, y) == true)
+         // Search under
+         final int nb = this.arrayListObject2DUnder3D.size();
+         for(int i = nb - 1; i >= 0; i--)
          {
-            return object2D;
+            object2D = this.arrayListObject2DUnder3D.get(i);
+            if(object2D.isDetected(x, y) == true)
+            {
+               return object2D;
+            }
          }
-      }
 
-      return null;
+         return null;
+      }
    }
 
    /**
@@ -161,7 +199,10 @@ public class GUI2D
     */
    public Iterator<Object2D> getIteratorOver3D()
    {
-      return this.arrayListObject2DOver3D.iterator();
+      synchronized(this.lock)
+      {
+         return this.arrayListObject2DOver3D.iterator();
+      }
    }
 
    /**
@@ -171,7 +212,10 @@ public class GUI2D
     */
    public Iterator<Object2D> getIteratorUnder3D()
    {
-      return this.arrayListObject2DUnder3D.iterator();
+      synchronized(this.lock)
+      {
+         return this.arrayListObject2DUnder3D.iterator();
+      }
    }
 
    /**
@@ -192,13 +236,17 @@ public class GUI2D
     */
    public void mouseState(final int x, final int y, final boolean buttonLeft, final boolean buttonRight, final boolean drag, final Object2D over)
    {
-      for(final Object2D object2D : this.arrayListObject2DUnder3D)
+      synchronized(this.lock)
       {
-         object2D.mouseState(x, y, buttonLeft, buttonRight, drag, over == object2D);
-      }
-      for(final Object2D object2D : this.arrayListObject2DOver3D)
-      {
-         object2D.mouseState(x, y, buttonLeft, buttonRight, drag, over == object2D);
+         for(final Object2D object2D : this.arrayListObject2DUnder3D)
+         {
+            object2D.mouseState(x, y, buttonLeft, buttonRight, drag, over == object2D);
+         }
+
+         for(final Object2D object2D : this.arrayListObject2DOver3D)
+         {
+            object2D.mouseState(x, y, buttonLeft, buttonRight, drag, over == object2D);
+         }
       }
    }
 
@@ -210,7 +258,10 @@ public class GUI2D
     */
    public void removeOver3D(final Object2D object2D)
    {
-      this.arrayListObject2DOver3D.remove(object2D);
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DOver3D.remove(object2D);
+      }
    }
 
    /**
@@ -221,7 +272,10 @@ public class GUI2D
     */
    public void removeUnder3D(final Object2D object2D)
    {
-      this.arrayListObject2DUnder3D.remove(object2D);
+      synchronized(this.lock)
+      {
+         this.arrayListObject2DUnder3D.remove(object2D);
+      }
    }
 
    /**
@@ -233,6 +287,9 @@ public class GUI2D
     */
    public void setExclusiveDetection(final Object2D object2d)
    {
-      this.exclusiveObject = object2d;
+      synchronized(this.lock)
+      {
+         this.exclusiveObject = object2d;
+      }
    }
 }

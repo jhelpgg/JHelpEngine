@@ -17,6 +17,38 @@ import jhelp.engine.twoD.Object2D;
 public class AnimationTexture
       implements Animation
 {
+   /**
+    * Create an animation texture for color to grey or grey to color
+    * 
+    * @param numberOfFrame
+    *           Number of frame to do the transition
+    * @param texture
+    *           Texture to modify
+    * @param pingPong
+    *           Indicates if transformation are ping-pong
+    * @param numberOfLoop
+    *           Number of loop to repeat the transformation
+    * @param interpolationType
+    *           Interpolation type
+    * @param toGray
+    *           Grey way. {@code true} goto grey. {@code false} goto color
+    * @return Created Animation
+    */
+   public static AnimationTexture graySwitch(final int numberOfFrame, final Texture texture, final boolean pingPong, final int numberOfLoop,
+         final InterpolationType interpolationType, final boolean toGray)
+   {
+      final Texture gray = new Texture(texture.getTextureName() + "_gray", texture.getWidth(), texture.getHeight());
+      gray.setPixels(texture);
+      gray.toGray();
+
+      if(toGray == true)
+      {
+         return new AnimationTexture(numberOfFrame, texture, gray, pingPong, numberOfLoop, interpolationType);
+      }
+
+      return new AnimationTexture(numberOfFrame, gray, texture, pingPong, numberOfLoop, interpolationType);
+   }
+
    /** Number of loop left */
    private int                       loopLeft;
    /** Numbre of frame to do the transition between 2 textures */
@@ -99,13 +131,15 @@ public class AnimationTexture
     * @param interpolationType
     *           Interpaolation type
     */
-   public AnimationTexture(final int numberOfFrame, final Texture textureStart, final Texture textureEnd, final boolean pingPong, final int numberOfLoop, final InterpolationType interpolationType)
+   public AnimationTexture(final int numberOfFrame, final Texture textureStart, final Texture textureEnd, final boolean pingPong, final int numberOfLoop,
+         final InterpolationType interpolationType)
    {
       this.pingPong = pingPong;
       this.numberOfLoop = Math.max(1, numberOfLoop);
       this.loopLeft = this.numberOfLoop;
       this.numberOfFrame = Math.max(1, numberOfFrame);
-      this.textureInterpolator = new TextureInterpolator(textureStart, textureEnd, textureStart.getTextureName() + "_" + textureEnd.getTextureName() + "_interpolation", interpolationType);
+      this.textureInterpolator = new TextureInterpolator(textureStart, textureEnd, textureStart.getTextureName() + "_" + textureEnd.getTextureName()
+            + "_interpolation", interpolationType);
    }
 
    /**
@@ -122,7 +156,8 @@ public class AnimationTexture
     * @param interpolationType
     *           Interpaolation type
     */
-   public AnimationTexture(final int numberOfFrame, final Texture textureStart, final Texture textureEnd, final boolean pingPong, final InterpolationType interpolationType)
+   public AnimationTexture(final int numberOfFrame, final Texture textureStart, final Texture textureEnd, final boolean pingPong,
+         final InterpolationType interpolationType)
    {
       this(numberOfFrame, textureStart, textureEnd, pingPong, Integer.MAX_VALUE, interpolationType);
    }
@@ -200,9 +235,9 @@ public class AnimationTexture
    }
 
    /**
-    * Interpolated texture, can be use by exemple in {@link Material} or {@link Object2D}
+    * Interpolated texture, can be use by example in {@link Material} or {@link Object2D}
     * 
-    * @return Intyerpolated texture
+    * @return Interpolated texture
     */
    public Texture getInterpolatedTexture()
    {

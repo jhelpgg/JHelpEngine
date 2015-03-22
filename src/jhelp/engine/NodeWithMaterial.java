@@ -30,14 +30,95 @@ public abstract class NodeWithMaterial
    {
       /** Use the material setting for the tow side mode */
       AS_MATERIAL,
-      /** Force the object be 2 sided */
-      FORCE_TWO_SIDE,
       /** Force the object be one sided */
-      FORCE_ONE_SIDE
+      FORCE_ONE_SIDE,
+      /** Force the object be 2 sided */
+      FORCE_TWO_SIDE
    }
 
    /** 2 sided "philosophy" */
    private TwoSidedState twoSidedState = TwoSidedState.AS_MATERIAL;
+
+   /**
+    * Bonding box
+    * 
+    * @return Bonding box
+    */
+   public abstract VirtualBox getBox();
+
+   /**
+    * Object material
+    * 
+    * @return Object material
+    */
+   public abstract Material getMaterial();
+
+   /**
+    * Selection material
+    * 
+    * @return Selection material
+    */
+   public abstract Material getMaterialForSelection();
+
+   /**
+    * Compute the bounding box and projected it in world space
+    * 
+    * @return Computed projected in world space bounding box
+    */
+   public VirtualBox getProjectedBox()
+   {
+      final VirtualBox projected = new VirtualBox();
+      final VirtualBox virtualBox = this.getBox();
+
+      if(virtualBox.isEmpty() == true)
+      {
+         return projected;
+      }
+
+      Point3D point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMinZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
+      point = this.getProjection(point);
+      projected.add(point);
+
+      return projected;
+   }
+
+   /**
+    * Return twoSidedState
+    * 
+    * @return twoSidedState
+    */
+   public final TwoSidedState getTwoSidedState()
+   {
+      return this.twoSidedState;
+   }
 
    /**
     * Change material
@@ -56,43 +137,12 @@ public abstract class NodeWithMaterial
    public abstract void setMaterialForSelection(Material materialForSelection);
 
    /**
-    * Object material
-    * 
-    * @return Object material
-    */
-   public abstract Material getMaterial();
-
-   /**
-    * Selection material
-    * 
-    * @return Selection material
-    */
-   public abstract Material getMaterialForSelection();
-
-   /**
-    * Bonding box
-    * 
-    * @return Bonding box
-    */
-   public abstract VirtualBox getBox();
-
-   /**
-    * Return twoSidedState
-    * 
-    * @return twoSidedState
-    */
-   public final TwoSidedState getTwoSidedState()
-   {
-      return this.twoSidedState;
-   }
-
-   /**
     * Modify twoSidedState
     * 
     * @param twoSidedState
     *           New twoSidedState value
     */
-   public final void setTwoSidedState(TwoSidedState twoSidedState)
+   public final void setTwoSidedState(final TwoSidedState twoSidedState)
    {
       if(twoSidedState == null)
       {

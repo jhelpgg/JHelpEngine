@@ -7,7 +7,7 @@ import javax.media.opengl.GL;
 import jhelp.engine.Animation;
 
 /**
- * List of animation played sequentialy.<br>
+ * List of animation played sequentially.<br>
  * In other worlds, when first animation of the list is finish, second start, then third, ....<br>
  * List of animation can be loop several times
  * 

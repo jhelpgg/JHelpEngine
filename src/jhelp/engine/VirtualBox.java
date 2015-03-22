@@ -214,4 +214,40 @@ public class VirtualBox
 
       return UtilText.concatenate("VirtualBox [", this.minX, ", ", this.minY, ", ", this.minZ, "] x [", this.maxX, ", ", this.maxY, ", ", this.maxZ, ']');
    }
+
+   /**
+    * Translate the box
+    * 
+    * @param vx
+    *           Translation X
+    * @param vy
+    *           Translation Y
+    * @param vz
+    *           Translation Z
+    */
+   public void translate(final float vx, final float vy, final float vz)
+   {
+      if(this.empty == true)
+      {
+         return;
+      }
+
+      this.minX += vx;
+      this.minY += vy;
+      this.minZ += vz;
+      this.maxX += vx;
+      this.maxY += vy;
+      this.maxZ += vz;
+   }
+
+   /**
+    * Translate the box
+    * 
+    * @param vector
+    *           Translation vector
+    */
+   public void translate(final Point3D vector)
+   {
+      this.translate(vector.x, vector.y, vector.z);
+   }
 }

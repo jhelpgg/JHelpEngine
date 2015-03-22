@@ -8,25 +8,26 @@
 package jhelp.engine.graphics;
 
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 
 import jhelp.engine.Texture;
 
 /**
- * Line on texture<br>
+ * Rectangle on texture<br>
  * <br>
  * Last modification : 23 juin 2009<br>
  * Version 0.0.0<br>
  * 
  * @author JHelp
  */
-class LineOnTexture
+class OvalOnTexture
       extends DrawOnTexture
 {
    /** Line color */
    private final Color   color;
-   /**
-    * Indicates if we mix with alpha ({@code true}) or override ( {@code false})
-    */
+   /** Indicates if oval should be fill */
+   private final boolean fill;
+   /** Indicates if we mix with alpha ({@code true}) or override ( {@code false}) */
    private final boolean mix;
    /** First point's X */
    private final int     x1;
@@ -38,7 +39,7 @@ class LineOnTexture
    private int           y2;
 
    /**
-    * Constructs LineOnTexture
+    * Constructs RectangleOnTexture
     * 
     * @param x1
     *           First point's X
@@ -50,26 +51,29 @@ class LineOnTexture
     *           Second point's Y
     * @param color
     *           Line color
+    * @param fill
+    *           Indicate if have to fill the oval
     * @param mix
     *           Indicates if we mix with alpha ({@code true}) or override ({@code false})
     */
-   LineOnTexture(final int x1, final int y1, final int x2, final int y2, final Color color, final boolean mix)
+   OvalOnTexture(final int x1, final int y1, final int x2, final int y2, final Color color, final boolean fill, final boolean mix)
    {
       this.x1 = x1;
       this.y1 = y1;
       this.x2 = x2;
       this.y2 = y2;
       this.color = color;
+      this.fill = fill;
       this.mix = mix;
    }
 
    /**
-    * Change line last point
+    * Change oval last point
     * 
     * @param x
-    *           New last X
+    *           Last X
     * @param y
-    *           New last Y
+    *           Last Y
     */
    public void changeLastPoint(final int x, final int y)
    {
@@ -78,7 +82,7 @@ class LineOnTexture
    }
 
    /**
-    * Draw line on texture
+    * Draw rectangle on texture
     * 
     * @param texture
     *           Texture where draw
@@ -87,6 +91,16 @@ class LineOnTexture
    @Override
    public void draw(final Texture texture)
    {
-      texture.drawLine(this.x1, this.y1, this.x2, this.y2, this.color, this.mix);
+
+      if(this.fill == true)
+      {
+         texture.fillOval(Math.min(this.x1, this.x2), Math.min(this.y1, this.y2), Math.abs(this.x1 - this.x2) + 1, Math.abs(this.y1 - this.y2) + 1, this.color,
+               this.mix);
+      }
+      else
+      {
+         texture.draw(new Ellipse2D.Double(Math.min(this.x1, this.x2), Math.min(this.y1, this.y2), Math.abs(this.x1 - this.x2) + 1,
+               Math.abs(this.y1 - this.y2) + 1), this.color, this.mix, 5);
+      }
    }
 }

@@ -20,6 +20,8 @@ import java.util.ArrayList;
  */
 public class Group2D
 {
+   /** Developer additional information */
+   private Object                    additionalInformation;
    /** Members of the group */
    private final ArrayList<Object2D> members;
 
@@ -46,6 +48,27 @@ public class Group2D
       }
 
       this.members.add(member);
+   }
+
+   /**
+    * Actual additionalInformation value
+    * 
+    * @return Actual additionalInformation value
+    */
+   public Object getAdditionalInformation()
+   {
+      return this.additionalInformation;
+   }
+
+   /**
+    * Change additionalInformation
+    * 
+    * @param additionalInformation
+    *           New additionalInformation value
+    */
+   public void setAdditionalInformation(final Object additionalInformation)
+   {
+      this.additionalInformation = additionalInformation;
    }
 
    /**

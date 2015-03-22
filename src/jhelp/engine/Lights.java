@@ -19,12 +19,12 @@ import javax.media.opengl.GL;
  */
 public class Lights
 {
-   /** Maximum number of lights that the video card can manage */
-   private final int     maximumNumberOfLights;
    /** Actual number of created lights */
    private int           actualNumberOfLights;
    /** Created lights */
    private final Light[] lights;
+   /** Maximum number of lights that the video card can manage */
+   private final int     maximumNumberOfLights;
 
    /**
     * Constructs Lights
@@ -217,7 +217,7 @@ public class Lights
     */
    public Light obtainLight(final int id)
    {
-      if(id < 0 || id >= this.actualNumberOfLights)
+      if((id < 0) || (id >= this.actualNumberOfLights))
       {
          throw new IllegalArgumentException("id must be in [0, " + this.actualNumberOfLights + "[ not " + id);
       }

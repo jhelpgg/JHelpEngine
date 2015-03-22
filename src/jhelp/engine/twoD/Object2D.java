@@ -22,6 +22,8 @@ import jhelp.util.list.Queue;
  */
 public class Object2D
 {
+   /** Developer additional information */
+   private Object                            additionalInformation;
    /** Listeners register for this object */
    private final ArrayList<Object2DListener> arrayListListeners;
    /** Indicates if the object signal events */
@@ -255,6 +257,16 @@ public class Object2D
    }
 
    /**
+    * Actual additionalInformation value
+    * 
+    * @return Actual additionalInformation value
+    */
+   public Object getAdditionalInformation()
+   {
+      return this.additionalInformation;
+   }
+
+   /**
     * Object's height
     * 
     * @return Object's height
@@ -364,6 +376,17 @@ public class Object2D
       }
 
       this.arrayListListeners.remove(object2DListener);
+   }
+
+   /**
+    * Change additionalInformation
+    * 
+    * @param additionalInformation
+    *           New additionalInformation value
+    */
+   public void setAdditionalInformation(final Object additionalInformation)
+   {
+      this.additionalInformation = additionalInformation;
    }
 
    /**

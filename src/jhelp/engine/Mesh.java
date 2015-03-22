@@ -78,8 +78,8 @@ public class Mesh
     * @param startNormal
     *           Offset where start read normals
     */
-   public static void fillObjectOBJ(final Object3D object3D, final ArrayList<Point3D> points, final ArrayList<Point3D> normals, final ArrayList<Point2D> uv, final ArrayInt pointFace, final ArrayInt normalFace, final ArrayInt uvFace,
-         final int startPoint, final int startUV, final int startNormal)
+   public static void fillObjectOBJ(final Object3D object3D, final ArrayList<Point3D> points, final ArrayList<Point3D> normals, final ArrayList<Point2D> uv,
+         final ArrayInt pointFace, final ArrayInt normalFace, final ArrayInt uvFace, final int startPoint, final int startUV, final int startNormal)
    {
       final Mesh mesh = object3D.mesh;
 
@@ -966,6 +966,24 @@ public class Mesh
    }
 
    /**
+    * Translate mesh's vertex in order to their center become the center of the object
+    */
+   public void centerMesh()
+   {
+      final VirtualBox virtualBox = this.computeBox();
+      final float centerX = (virtualBox.getMaxX() + virtualBox.getMinX()) / 2f;
+      final float centerY = (virtualBox.getMaxY() + virtualBox.getMinY()) / 2f;
+      final float centerZ = (virtualBox.getMaxZ() + virtualBox.getMinZ()) / 2f;
+
+      for(final Point3D point3d : this.points)
+      {
+         point3d.translate(-centerX, -centerY, -centerZ);
+      }
+
+      this.recomputeTheBox();
+   }
+
+   /**
     * Compute bounding box
     * 
     * @return Bounding box
@@ -1237,7 +1255,8 @@ public class Mesh
          Point3D point;
          while(stringTokenizer.hasMoreElements() == true)
          {
-            point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()));
+            point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
+                  Float.parseFloat(stringTokenizer.nextToken()));
             this.points.add(point);
          }
       }
@@ -1283,7 +1302,8 @@ public class Mesh
          Point3D point;
          while(stringTokenizer.hasMoreElements() == true)
          {
-            point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()));
+            point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
+                  Float.parseFloat(stringTokenizer.nextToken()));
             this.normals.add(point);
          }
       }

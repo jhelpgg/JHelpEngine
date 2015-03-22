@@ -292,7 +292,7 @@ public class Polygon3D
    }
 
    /**
-    * Add vertex ad first element
+    * Add vertex as first element
     * 
     * @param vertex
     *           Vertex to add

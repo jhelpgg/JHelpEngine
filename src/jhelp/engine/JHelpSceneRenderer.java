@@ -108,8 +108,8 @@ public class JHelpSceneRenderer
        * @param nodeDetect
        *           Node detected
        */
-      DetectionInfo(final Object2D object2dDetect, final GUI2D gui2d, final int detectX, final int detectY, final boolean mouseButtonLeft, final boolean mouseButtonRight, final boolean mouseDrag, final Scene scene,
-            final Node nodeDetect)
+      DetectionInfo(final Object2D object2dDetect, final GUI2D gui2d, final int detectX, final int detectY, final boolean mouseButtonLeft,
+            final boolean mouseButtonRight, final boolean mouseDrag, final Scene scene, final Node nodeDetect)
       {
          this.object2DDetect = object2dDetect;
          this.gui2d = gui2d;
@@ -194,7 +194,8 @@ public class JHelpSceneRenderer
          if(detectionInfo.object2DDetect != null)
          {
             // Update mouse state for 2D objects
-            detectionInfo.gui2d.mouseState(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight, detectionInfo.mouseDrag, detectionInfo.object2DDetect);
+            detectionInfo.gui2d.mouseState(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight,
+                  detectionInfo.mouseDrag, detectionInfo.object2DDetect);
          }
          else if(detectionInfo.mouseDrag == false)
          {
@@ -203,7 +204,8 @@ public class JHelpSceneRenderer
 
             if((detectionInfo.nodeDetect == null) && ((detectionInfo.mouseButtonLeft == true) || (detectionInfo.mouseButtonRight == true)))
             {
-               JHelpSceneRenderer.this.fireClickInSpace(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight);
+               JHelpSceneRenderer.this.fireClickInSpace(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft,
+                     detectionInfo.mouseButtonRight);
             }
          }
       }
@@ -263,6 +265,7 @@ public class JHelpSceneRenderer
    private boolean                          makeAScreenShot;
    /** Material use for 2D objects */
    private Material                         material2D;
+   /** List of defined mirors */
    private final List<Miror>                mirors;
    /** Temporary matrix for convert object space to view space */
    private double[]                         modelView;
@@ -666,6 +669,16 @@ public class JHelpSceneRenderer
       this.material2D.prepareMaterial(gl);
    }
 
+   /**
+    * Render the mirrors
+    * 
+    * @param gl
+    *           Open GL context
+    * @param glu
+    *           GLU context
+    * @param camera
+    *           Camera reference for compute mirrors
+    */
    private void renderMirors(final GL gl, final GLU glu, final Camera camera)
    {
       synchronized(this.mirors)
@@ -983,8 +996,8 @@ public class JHelpSceneRenderer
          this.object2DDetect = null;
       }
 
-      ThreadManager.THREAD_MANAGER.doThread(this.UPDATE_MOUSE_DETECTION, new DetectionInfo(this.object2DDetect, this.gui2d, this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag, this.scene,
-            this.nodeDetect));
+      ThreadManager.THREAD_MANAGER.doThread(this.UPDATE_MOUSE_DETECTION, new DetectionInfo(this.object2DDetect, this.gui2d, this.detectX, this.detectY,
+            this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag, this.scene, this.nodeDetect));
 
       this.mouseButtonLeft = false;
       this.mouseButtonRight = false;
@@ -1147,6 +1160,13 @@ public class JHelpSceneRenderer
       this.listeners.add(KeyListener.class, listener);
    }
 
+   /**
+    * Ad a mirror.<br>
+    * Mirror are heavy to compute, so don't put too much
+    * 
+    * @param miror
+    *           Mirror to add
+    */
    public void addMiror(final Miror miror)
    {
       if(miror == null)
@@ -1635,6 +1655,20 @@ public class JHelpSceneRenderer
    }
 
    /**
+    * Convert time in millisecond to number of frame in animation.<br>
+    * The result depends on current animation FPS<br>
+    * See {@link #getAnimationsFps()} and {@link #setAnimationsFps(int)}
+    * 
+    * @param millisecond
+    *           Number of laps time in milliseconds
+    * @return Number frame need to play the given time (depends on current animation FPS)
+    */
+   public int millisecondToFrameAnimation(final int millisecond)
+   {
+      return ((millisecond * this.animationsFps) + 500) / 1000;
+   }
+
+   /**
     * Action on mouse click.<br>
     * Here just signal to listeners
     * 
@@ -1880,6 +1914,12 @@ public class JHelpSceneRenderer
       this.listeners.remove(KeyListener.class, listener);
    }
 
+   /**
+    * Remove a mirror
+    * 
+    * @param miror
+    *           Mirror to remove
+    */
    public void removeMiror(final Miror miror)
    {
       synchronized(this.mirors)

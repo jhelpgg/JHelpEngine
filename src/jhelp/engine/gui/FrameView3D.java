@@ -24,7 +24,10 @@ import jhelp.engine.JHelpSceneRenderer;
 import jhelp.engine.Node;
 import jhelp.engine.Scene;
 import jhelp.engine.gui.events.Frame3DViewListener;
+import jhelp.engine.util.PositionNode;
 import jhelp.util.MemorySweeper;
+import jhelp.util.debug.Debug;
+import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.UtilGUI;
 
 /**
@@ -78,6 +81,11 @@ public class FrameView3D
       {
          this.x = e.getX();
          this.y = e.getY();
+
+         if(e.isAltDown() == true)
+         {
+            Debug.println(DebugLevel.INFORMATION, new PositionNode(FrameView3D.this.manipulatedNode));
+         }
 
          FrameView3D.this.componentView3D.getSceneRenderer().setDetectPosition(e.getX(), e.getY(), this.left, this.right, false);
       }
@@ -284,9 +292,6 @@ public class FrameView3D
 
       this.setLayout(new BorderLayout());
       this.add(this.componentView3D, BorderLayout.CENTER);
-
-      // UtilGUI.centerOnScreen(this);
-
    }
 
    /**
@@ -321,6 +326,18 @@ public class FrameView3D
       this.add(this.componentView3D, BorderLayout.CENTER);
 
       UtilGUI.centerOnScreen(this);
+   }
+
+   /**
+    * Called when frame is about to close.<br>
+    * Override it to not allow to close without a user confirmation, by example to say him that something is not saved.<br>
+    * By default closing frame is always allowed
+    * 
+    * @return {@code true} to allow close frame.
+    */
+   protected boolean canCloseNow()
+   {
+      return true;
    }
 
    /**
@@ -369,6 +386,11 @@ public class FrameView3D
     */
    public void closeFrame()
    {
+      if(this.canCloseNow() == false)
+      {
+         return;
+      }
+
       this.fireFrame3DExit();
 
       this.componentView3D.getSceneRenderer().stop();
@@ -417,6 +439,16 @@ public class FrameView3D
    }
 
    /**
+    * Scene height
+    * 
+    * @return Scene height
+    */
+   public int getSceneHeight()
+   {
+      return this.componentView3D.getHeight();
+   }
+
+   /**
     * Scene renderer link to the 3D view
     * 
     * @return Scene renderer
@@ -424,6 +456,16 @@ public class FrameView3D
    public JHelpSceneRenderer getSceneRenderer()
    {
       return this.componentView3D.getSceneRenderer();
+   }
+
+   /**
+    * Scene width
+    * 
+    * @return Scene width
+    */
+   public int getSceneWidth()
+   {
+      return this.componentView3D.getWidth();
    }
 
    /**

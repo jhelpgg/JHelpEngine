@@ -161,6 +161,7 @@ public class Ribbon3D
       this.multU = multU;
       this.multV = multV;
       this.ribbon3dListener = ribbon3dListener;
+      this.setTwoSidedState(TwoSidedState.FORCE_TWO_SIDE);
 
       ThreadManager.THREAD_MANAGER.doThread(this.createRibbon, null);
    }
