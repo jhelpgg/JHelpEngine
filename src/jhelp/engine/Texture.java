@@ -60,9 +60,12 @@ public class Texture
    public final static FontRenderContext     CONTEXT                  = new FontRenderContext(Texture.TRANSFORM, false, false);
    /** Dummy texture */
    public static final Texture               DUMMY                    = new Texture("JHelpDummyTexture", 1, 1);
-
+   /** Reference of alphabet */
+   public static final String                REFERENCE_ALPHABET       = "ReferenceAlphabet";
    /** Reference for buffered image */
    public static final String                REFERENCE_BUFFERED_IMAGE = "ReferenceBufferedImage";
+   /** Reference of font GIF */
+   public static final String                REFERENCE_FONT_GIF       = "ReferenceFontGif";
    /** Reference for buffered icon */
    public static final String                REFERENCE_ICON           = "ReferenceIcon";
    /** Reference for image */
@@ -73,11 +76,11 @@ public class Texture
    public static final String                REFERENCE_JHELP_IMAGE    = "ReferenceJHelpImage";
    /** Reference for array pixels */
    public static final String                REFERENCE_PIXELS         = "ReferencePixels";
+
    /** Reference for resources */
    public static final String                REFERENCE_RESOURCES      = "ReferecneResources";
    /** Reference for video */
    public static final String                REFERENCE_VIDEO          = "ReferenceVideo";
-
    /** Identity transformation */
    public static final AffineTransform       TRANSFORM                = new AffineTransform();
 

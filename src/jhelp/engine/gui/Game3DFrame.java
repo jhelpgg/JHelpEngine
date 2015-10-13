@@ -2,6 +2,7 @@ package jhelp.engine.gui;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -24,6 +25,8 @@ import jhelp.util.preference.Preferences;
 import jhelp.util.resources.ResourceText;
 import jhelp.util.resources.Resources;
 import jhelp.util.text.UtilText;
+import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedVerySimpleTask;
 
 /**
  * Frame for help to create 3D game
@@ -39,6 +42,7 @@ public abstract class Game3DFrame
     * @author JHelp
     */
    class EventManager
+         extends ThreadedVerySimpleTask
          implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener
    {
       /** Indicates if mouse left button is down */
@@ -65,6 +69,22 @@ public abstract class Game3DFrame
       private void mouseReport(final MouseEvent mouseEvent, final boolean drag)
       {
          Game3DFrame.this.getSceneRenderer().setDetectPosition(mouseEvent.getX(), mouseEvent.getY(), this.left, this.right, drag);
+      }
+
+      /**
+       * Do click on game to win the focus <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
+       */
+      @Override
+      protected void doVerySimpleAction()
+      {
+         final Point position = Game3DFrame.this.getLocationOnScreen();
+         UtilGUI.locateMouseAt(position.x + 16, position.y + 16);
+         UtilGUI.simulateMouseClick(32);
       }
 
       /**
@@ -307,6 +327,7 @@ public abstract class Game3DFrame
       }
 
       this.preferences = new Preferences(new File(this.gameDirectory, "preferences"));
+      UtilIO.createDirectory(this.gameResourcesDirectory);
       this.resources = new Resources(this.gameResourcesDirectory);
       this.resourceText = this.resources.obtainResourceText("texts/texts");
       this.actionKeyMap = new ActionKeyMap(this.preferences);
@@ -329,6 +350,8 @@ public abstract class Game3DFrame
 
       this.setLayout(new BorderLayout());
       this.add(this.componentView3D, BorderLayout.CENTER);
+
+      ThreadManager.THREAD_MANAGER.delayedThread(this.eventManager, null, 2048);
    }
 
    /**
@@ -431,14 +454,6 @@ public abstract class Game3DFrame
    }
 
    /**
-    * Called when game action happen
-    * 
-    * @param actionKey
-    *           Action game
-    */
-   protected abstract void actionKey(ActionKey actionKey);
-
-   /**
     * Called just before exit.<br>
     * It allow to developer to ask "do you really want to exit ?"
     * 
@@ -532,6 +547,14 @@ public abstract class Game3DFrame
    }
 
    /**
+    * Called when game action happen
+    * 
+    * @param actionKey
+    *           Action game
+    */
+   public abstract void actionKey(ActionKey actionKey);
+
+   /**
     * Append text to current edit text
     * 
     * @param text
@@ -617,7 +640,7 @@ public abstract class Game3DFrame
     * 
     * @return Game resource directory
     */
-   public File getGameResourcesDirectory()
+   public final File getGameResourcesDirectory()
    {
       return this.gameResourcesDirectory;
    }

@@ -49,9 +49,7 @@ public class AnimationPositionObject2D
    @Override
    protected void interpolateValue(final Object2D object, final PositionObject2D before, final PositionObject2D after, final float percent)
    {
-      float anti;
-
-      anti = 1f - percent;
+      final float anti = 1f - percent;
 
       object.setX((int) ((before.x * anti) + (after.x * percent)));
       object.setY((int) ((before.y * anti) + (after.y * percent)));

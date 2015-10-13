@@ -74,7 +74,7 @@ public class CanvasOpenGLMaker
       //
       Debug.println(DebugLevel.VERBOSE, "Test : ");
       Debug.println(DebugLevel.VERBOSE, tested);
-      Debug.println(DebugLevel.VERBOSE, "With " + point + " points");
+      Debug.println(DebugLevel.VERBOSE, "With ", point, " points");
       return point;
    }
 
@@ -115,9 +115,9 @@ public class CanvasOpenGLMaker
          }
       }
       //
-      Debug.printMark(DebugLevel.VERBOSE, "Choosen capabilitie");
+      Debug.printMark(DebugLevel.VERBOSE, "Chosen capability");
       Debug.println(DebugLevel.VERBOSE, available[chosen]);
-      Debug.println(DebugLevel.VERBOSE, "With " + actualPointChoice + " points");
+      Debug.println(DebugLevel.VERBOSE, "With ", actualPointChoice, " points");
       //
       this.capabilities = available[chosen];
       //

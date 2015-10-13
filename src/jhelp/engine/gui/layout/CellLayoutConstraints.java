@@ -7,6 +7,8 @@
  */
 package jhelp.engine.gui.layout;
 
+import jhelp.util.HashCode;
+
 /**
  * Cells layout constraints<br>
  * <br>
@@ -70,7 +72,8 @@ public class CellLayoutConstraints
 
       final CellLayoutConstraints cellLayoutConstraints = (CellLayoutConstraints) constraints;
 
-      return (this.x == cellLayoutConstraints.x) && (this.y == cellLayoutConstraints.y) && (this.width == cellLayoutConstraints.width) && (this.height == cellLayoutConstraints.height);
+      return (this.x == cellLayoutConstraints.x) && (this.y == cellLayoutConstraints.y) && (this.width == cellLayoutConstraints.width)
+            && (this.height == cellLayoutConstraints.height);
    }
 
    /**
@@ -82,6 +85,6 @@ public class CellLayoutConstraints
    @Override
    public int hashCode()
    {
-      return this.x + (this.y << 8) + (this.width << 16) + (this.height << 24);
+      return HashCode.computeHashCode(this.x, this.y, this.width, this.height);
    }
 }
