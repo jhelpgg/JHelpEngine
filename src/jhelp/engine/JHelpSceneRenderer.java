@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -163,6 +164,39 @@ public class JHelpSceneRenderer
    }
 
    /**
+    * Task for signal that mouse exit a 2D object
+    * 
+    * @author JHelp
+    */
+   class OutObject2D
+         extends ThreadedSimpleTask<DetectionInfo>
+   {
+      /**
+       * Create a new instance of OutObject2D
+       */
+      OutObject2D()
+      {
+      }
+
+      /**
+       * Signal to listeners the last detection <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param detectionInfo
+       *           Last detection information
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final DetectionInfo detectionInfo)
+      {
+         detectionInfo.gui2d.mouseState(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight,
+               detectionInfo.mouseDrag, null);
+      }
+   }
+
+   /**
     * Task for signal to listeners the last detection
     * 
     * @author JHelp
@@ -219,6 +253,8 @@ public class JHelpSceneRenderer
    static final int                         ACTION_FIRE_SCENE_RENDERER_IS_INITIALIZED = 0;
    /** Actual absolute frame */
    private float                            absoluteFrame;
+   /** Indicates if refresh thread is alive */
+   private final AtomicBoolean              alive                                     = new AtomicBoolean(false);
    /** Animations played list */
    private final Vector<Animation>          animations;
    /** FPS for play animations */
@@ -233,6 +269,8 @@ public class JHelpSceneRenderer
    private int                              detectX;
    /** Y of detection point */
    private int                              detectY;
+   /** Lock for synchronize the exit */
+   private final Object                     EXIT                                      = new Object();
    /** Delayed action to fire events to listeners */
    private final FireEventScheduleAction    fireEventScheduleAction                   = new FireEventScheduleAction();
    /** Font use to print FPS information */
@@ -289,6 +327,8 @@ public class JHelpSceneRenderer
     * Actual detected 2D object : (detectX, detectY) say the location of the detection
     */
    private Object2D                         object2DDetect;
+   /** Task for signal mouse goes outside a 2D object */
+   private final OutObject2D                outObject2D                               = new OutObject2D();
    /**
     * Indicates if the render is in pause.<br>
     * Remember, you have to make a pause before hide the component (or make zero size), when is view again you can release the
@@ -967,7 +1007,8 @@ public class JHelpSceneRenderer
       {
          if(this.object2DDetect.isDetected(this.detectX, this.detectY) == false)
          {
-            this.gui2d.mouseState(this.detectX, this.detectY, this.mouseButtonLeft, this.mouseButtonRight, this.mouseDrag, null);
+            ThreadManager.THREAD_MANAGER.doThread(this.outObject2D, new DetectionInfo(null, this.gui2d, this.detectX, this.detectY, this.mouseButtonLeft,
+                  this.mouseButtonRight, this.mouseButtonRight, null, null));
          }
       }
 
@@ -1233,6 +1274,7 @@ public class JHelpSceneRenderer
    public void display(final GLAutoDrawable drawable)
    {
       this.ready = false;
+
       // Get OpenGL and GLU context
       final GL gl = drawable.getGL();
       final GLU glu = new GLU();
@@ -1282,6 +1324,7 @@ public class JHelpSceneRenderer
 
       // Render the lights
       this.lights.render(gl);
+
       // Render the scene
       this.render(gl, glu, camera);
 
@@ -1866,6 +1909,17 @@ public class JHelpSceneRenderer
    }
 
    /**
+    * Remove all mirrors
+    */
+   public void removeAllMirors()
+   {
+      synchronized(this.mirors)
+      {
+         this.mirors.clear();
+      }
+   }
+
+   /**
     * Remove click in space listener
     * 
     * @param listener
@@ -2009,7 +2063,7 @@ public class JHelpSceneRenderer
       long waitLeft;
 
       // While the renderer have to update
-      while(this.thread != null)
+      while(this.alive.get() == true)
       {
          // Test if the drawing is allowed
          if((this.canvas.isVisible() == true) && (this.pause == false))
@@ -2031,6 +2085,11 @@ public class JHelpSceneRenderer
                   {
                   }
                }
+            }
+
+            if(this.alive.get() == false)
+            {
+               break;
             }
 
             // Compute if the render takes more or less time than we expect and
@@ -2065,7 +2124,7 @@ public class JHelpSceneRenderer
                waitMax = 100;
             }
          }
-         else
+         else if(this.alive.get() == true)
          {
             // If the draw is forbidden, just wait 1 second before retry
             try
@@ -2075,6 +2134,12 @@ public class JHelpSceneRenderer
             catch(final InterruptedException e)
             {
             }
+
+            if(this.alive.get() == false)
+            {
+               break;
+            }
+
             // If the canvas is a can't draw state and we are not in pause, try
             // to repair the draw
             if((this.canvas.isVisible() == false) && (this.pause == false))
@@ -2082,6 +2147,13 @@ public class JHelpSceneRenderer
                this.canvas.setVisible(true);
             }
          }
+      }
+
+      this.canvas.setVisible(false);
+
+      synchronized(this.EXIT)
+      {
+         this.EXIT.notify();
       }
    }
 
@@ -2351,8 +2423,9 @@ public class JHelpSceneRenderer
          throw new NullPointerException("The canvas couldn't be null");
       }
       this.canvas = canvas;
-      if(this.thread == null)
+      if(this.alive.get() == false)
       {
+         this.alive.set(true);
          this.thread = new Thread(this);
          this.thread.start();
       }
@@ -2364,8 +2437,23 @@ public class JHelpSceneRenderer
     */
    public void stop()
    {
-      this.thread = null;
-      this.canvas.setVisible(false);
+      synchronized(this.EXIT)
+      {
+         if(this.alive.get() == false)
+         {
+            return;
+         }
+
+         this.alive.set(false);
+
+         try
+         {
+            this.EXIT.wait();
+         }
+         catch(final Exception exception)
+         {
+         }
+      }
    }
 
    /**
@@ -2391,8 +2479,9 @@ public class JHelpSceneRenderer
          return false;
       }
 
-      if(this.thread == null)
+      if(this.alive.get() == false)
       {
+         this.alive.set(true);
          this.thread = new Thread(this);
          this.thread.start();
       }

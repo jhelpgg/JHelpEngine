@@ -12,12 +12,14 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import jhelp.engine.JHelpSceneRenderer;
+import jhelp.engine.Scene;
 import jhelp.util.MemorySweeper;
 import jhelp.util.gui.UtilGUI;
 import jhelp.util.io.UtilIO;
@@ -36,6 +38,36 @@ import jhelp.util.thread.ThreadedVerySimpleTask;
 public abstract class Game3DFrame
       extends JFrame
 {
+   /**
+    * Task that close the game
+    * 
+    * @author JHelp
+    */
+   private class TaskCloseGame
+         extends Thread
+   {
+      /**
+       * Create a new instance of TaskCloseGame
+       */
+      TaskCloseGame()
+      {
+      }
+
+      /**
+       * Close the game <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @see java.lang.Thread#run()
+       */
+      @Override
+      public void run()
+      {
+         Game3DFrame.this.taskCloseGame();
+      }
+   }
+
    /**
     * Event manager that react to mouse and keyboard
     * 
@@ -85,6 +117,7 @@ public abstract class Game3DFrame
          final Point position = Game3DFrame.this.getLocationOnScreen();
          UtilGUI.locateMouseAt(position.x + 16, position.y + 16);
          UtilGUI.simulateMouseClick(32);
+         Game3DFrame.this.doInitializeGame();
       }
 
       /**
@@ -287,6 +320,8 @@ public abstract class Game3DFrame
    private final File            gameResourcesDirectory;
    /** Actual keyboard mode */
    private KeyboardMode          keyboardMode;
+   /** Indicates if game closing */
+   private final AtomicBoolean   onClosing      = new AtomicBoolean(false);
    /** Game preferences */
    private final Preferences     preferences;
    /** Game resources */
@@ -350,8 +385,6 @@ public abstract class Game3DFrame
 
       this.setLayout(new BorderLayout());
       this.add(this.componentView3D, BorderLayout.CENTER);
-
-      ThreadManager.THREAD_MANAGER.delayedThread(this.eventManager, null, 2048);
    }
 
    /**
@@ -367,6 +400,15 @@ public abstract class Game3DFrame
       }
 
       return this.editText.charAt(this.cursor);
+   }
+
+   /**
+    * Initialize the game
+    */
+   void doInitializeGame()
+   {
+      this.initializeGame(this.getSceneRenderer(), this.getSceneRenderer().getScene());
+      this.getSceneRenderer().getScene().flush();
    }
 
    /**
@@ -454,6 +496,17 @@ public abstract class Game3DFrame
    }
 
    /**
+    * Do the task : close the game
+    */
+   void taskCloseGame()
+   {
+      this.componentView3D.getSceneRenderer().stop();
+      this.setVisible(false);
+      this.dispose();
+      MemorySweeper.exit(0);
+   }
+
+   /**
     * Called just before exit.<br>
     * It allow to developer to ask "do you really want to exit ?"
     * 
@@ -520,6 +573,16 @@ public abstract class Game3DFrame
    protected abstract void editTextStart();
 
    /**
+    * Called when game ready to be initialized and initialize it.>br>Avoid to create/define scene and parameter in constructor
+    * 
+    * @param sceneRenderer
+    *           Scene renderer
+    * @param scene
+    *           Actual scene
+    */
+   protected abstract void initializeGame(JHelpSceneRenderer sceneRenderer, Scene scene);
+
+   /**
     * Called on capture mode when a key code is captured
     * 
     * @param keyCode
@@ -542,6 +605,9 @@ public abstract class Game3DFrame
          case WindowEvent.WINDOW_CLOSED:
          case WindowEvent.WINDOW_CLOSING:
             this.closeGame();
+         break;
+         case WindowEvent.WINDOW_ACTIVATED:
+            ThreadManager.THREAD_MANAGER.delayedThread(this.eventManager, null, 16);
          break;
       }
    }
@@ -598,11 +664,19 @@ public abstract class Game3DFrame
          return;
       }
 
-      this.componentView3D.getSceneRenderer().stop();
-      this.setVisible(false);
-      this.dispose();
+      synchronized(this.onClosing)
+      {
+         if(this.onClosing.get() == true)
+         {
+            return;
+         }
 
-      MemorySweeper.exit(0);
+         this.onClosing.set(true);
+      }
+
+      final TaskCloseGame taskCloseGame = new TaskCloseGame();
+      taskCloseGame.setDaemon(true);
+      taskCloseGame.start();
    }
 
    /**

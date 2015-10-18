@@ -5,6 +5,8 @@ package jhelp.engine.twoD;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import jhelp.util.thread.Mutex;
+
 /**
  * 2D manager.<br>
  * It have two layer, one under the 3D, other over the 3D <br>
@@ -22,8 +24,8 @@ public class GUI2D
    private final ArrayList<Object2D> arrayListObject2DUnder3D;
    /** If not {@code null} only this object can be detected */
    private Object2D                  exclusiveObject;
-   /** Synchronization lock */
-   private final Object              lock = new Object();
+   /** Mutex for synchronization */
+   private final Mutex               mutex = new Mutex();
 
    /**
     * Constructs GUI2D
@@ -42,9 +44,15 @@ public class GUI2D
     */
    public void addOver3D(final Object2D object2D)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DOver3D.add(object2D);
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -56,9 +64,15 @@ public class GUI2D
     */
    public void addUnder3D(final Object2D object2D)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DUnder3D.add(object2D);
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -67,9 +81,15 @@ public class GUI2D
     */
    public void allCanBeDetected()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.exclusiveObject = null;
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -78,10 +98,16 @@ public class GUI2D
     */
    public void clearAll()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DUnder3D.clear();
          this.arrayListObject2DOver3D.clear();
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -90,9 +116,15 @@ public class GUI2D
     */
    public void clearOver3D()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DOver3D.clear();
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -101,9 +133,15 @@ public class GUI2D
     */
    public void clearUnder3D()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DUnder3D.clear();
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -118,7 +156,9 @@ public class GUI2D
     */
    public Object2D detectOver3D(final int x, final int y)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          if(this.exclusiveObject != null)
          {
@@ -142,6 +182,10 @@ public class GUI2D
          }
          return null;
       }
+      finally
+      {
+         this.mutex.unlock();
+      }
    }
 
    /**
@@ -155,7 +199,9 @@ public class GUI2D
     */
    public Object2D detectOver3DorUnder3D(final int x, final int y)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          if(this.exclusiveObject != null)
          {
@@ -167,6 +213,10 @@ public class GUI2D
             return null;
          }
       }
+      finally
+      {
+         this.mutex.unlock();
+      }
 
       // search over first
       Object2D object2D = this.detectOver3D(x, y);
@@ -175,7 +225,9 @@ public class GUI2D
          return object2D;
       }
 
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          // Search under
          final int nb = this.arrayListObject2DUnder3D.size();
@@ -190,6 +242,10 @@ public class GUI2D
 
          return null;
       }
+      finally
+      {
+         this.mutex.unlock();
+      }
    }
 
    /**
@@ -199,9 +255,15 @@ public class GUI2D
     */
    public Iterator<Object2D> getIteratorOver3D()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          return this.arrayListObject2DOver3D.iterator();
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -212,9 +274,15 @@ public class GUI2D
     */
    public Iterator<Object2D> getIteratorUnder3D()
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          return this.arrayListObject2DUnder3D.iterator();
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -236,7 +304,9 @@ public class GUI2D
     */
    public void mouseState(final int x, final int y, final boolean buttonLeft, final boolean buttonRight, final boolean drag, final Object2D over)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          for(final Object2D object2D : this.arrayListObject2DUnder3D)
          {
@@ -248,6 +318,10 @@ public class GUI2D
             object2D.mouseState(x, y, buttonLeft, buttonRight, drag, over == object2D);
          }
       }
+      finally
+      {
+         this.mutex.unlock();
+      }
    }
 
    /**
@@ -258,9 +332,15 @@ public class GUI2D
     */
    public void removeOver3D(final Object2D object2D)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DOver3D.remove(object2D);
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -272,9 +352,15 @@ public class GUI2D
     */
    public void removeUnder3D(final Object2D object2D)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.arrayListObject2DUnder3D.remove(object2D);
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -287,9 +373,15 @@ public class GUI2D
     */
    public void setExclusiveDetection(final Object2D object2d)
    {
-      synchronized(this.lock)
+      this.mutex.lock();
+
+      try
       {
          this.exclusiveObject = object2d;
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 }

@@ -338,10 +338,24 @@ public class Math3D
     * 
     * @param f
     *           Number to have its suare root
-    * @return Suare root
+    * @return Square root
     */
    public static float squareRoot(final float f)
    {
       return (float) Math.sqrt(f);
+   }
+
+   /**
+    * Compute symmetric of one point from a "center" point
+    * 
+    * @param point
+    *           Point to get symmetric
+    * @param center
+    *           Center of symmetry
+    * @return Symmetric point
+    */
+   public static Point3D symetric(final Point3D point, final Point3D center)
+   {
+      return new Point3D((2f * center.x) - point.x, (2f * center.y) - point.y, (2f * center.z) - point.z);
    }
 }

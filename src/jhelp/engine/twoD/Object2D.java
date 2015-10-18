@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import jhelp.engine.Texture;
 import jhelp.engine.event.Object2DListener;
 import jhelp.util.list.Queue;
+import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedSimpleTask;
 
 /**
  * 2D object.<br>
@@ -22,6 +24,140 @@ import jhelp.util.list.Queue;
  */
 public class Object2D
 {
+   /**
+    * Mouse information
+    * 
+    * @author JHelp
+    */
+   static class MouseInformation
+   {
+      /** Indicates if mouse left button is down */
+      final boolean          left;
+      /** Event nature */
+      final int              nature;
+      /** Object 2D where mouse event happen */
+      final Object2D         object2d;
+      /** Listener to alert */
+      final Object2DListener object2DListener;
+      /** Indicates if mouse right button is down */
+      final boolean          right;
+      /** Mouse position X on object 2D */
+      final int              x;
+      /** Mouse position Y on object 2D */
+      final int              y;
+
+      /**
+       * Create a new instance of MouseInformation
+       * 
+       * @param object2d
+       *           Object 2D where mouse event happen
+       * @param object2DListener
+       *           Listener to alert
+       * @param nature
+       *           Event nature
+       * @param x
+       *           Mouse position X on object 2D
+       * @param y
+       *           Mouse position Y on object 2D
+       */
+      MouseInformation(final Object2D object2d, final Object2DListener object2DListener, final int nature, final int x, final int y)
+      {
+         this(object2d, object2DListener, nature, x, y, false, false);
+      }
+
+      /**
+       * Create a new instance of MouseInformation
+       * 
+       * @param object2d
+       *           Object 2D where mouse event happen
+       * @param object2DListener
+       *           Listener to alert
+       * @param nature
+       *           Event nature
+       * @param x
+       *           Mouse position X on object 2D
+       * @param y
+       *           Mouse position Y on object 2D
+       * @param left
+       *           Indicates if mouse left button is down
+       * @param right
+       *           Indicates if mouse right button is down
+       */
+      MouseInformation(final Object2D object2d, final Object2DListener object2DListener, final int nature, final int x, final int y, final boolean left,
+            final boolean right)
+      {
+         this.object2d = object2d;
+         this.object2DListener = object2DListener;
+         this.nature = nature;
+         this.x = x;
+         this.y = y;
+         this.left = left;
+         this.right = right;
+      }
+   }
+
+   /**
+    * Signal to listener a mouse event
+    * 
+    * @author JHelp
+    */
+   static class TaskFireMouse
+         extends ThreadedSimpleTask<MouseInformation>
+   {
+      /**
+       * Create a new instance of TaskFireMouse
+       */
+      TaskFireMouse()
+      {
+
+      }
+
+      /**
+       * Do the task <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parameter
+       *           Mouse event description
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final MouseInformation parameter)
+      {
+         switch(parameter.nature)
+         {
+            case CLICK:
+               parameter.object2DListener.mouseClick(parameter.object2d, parameter.x, parameter.y, parameter.left, parameter.right);
+            break;
+            case DRAG:
+               parameter.object2DListener.mouseDrag(parameter.object2d, parameter.x, parameter.y, parameter.left, parameter.right);
+            break;
+            case ENTER:
+               parameter.object2DListener.mouseEnter(parameter.object2d, parameter.x, parameter.y);
+            break;
+            case EXIT:
+               parameter.object2DListener.mouseExit(parameter.object2d, parameter.x, parameter.y);
+            break;
+            case MOVE:
+               parameter.object2DListener.mouseMove(parameter.object2d, parameter.x, parameter.y);
+            break;
+         }
+      }
+   }
+
+   /** Task for signal mouse events */
+   private static final TaskFireMouse        TASK_FIRE_MOUSE = new TaskFireMouse();
+   /** Nature : mouse clicked */
+   static final int                          CLICK           = 0;
+   /** Nature : mouse dragged */
+   static final int                          DRAG            = 1;
+   /** Nature : mouse entered */
+   static final int                          ENTER           = 2;
+   /** Nature : mouse exited */
+   static final int                          EXIT            = 3;
+   /** Nature : mouse moved */
+   static final int                          MOVE            = 4;
    /** Developer additional information */
    private Object                            additionalInformation;
    /** Listeners register for this object */
@@ -167,7 +303,8 @@ public class Object2D
    {
       for(final Object2DListener object2DListener : this.arrayListListeners)
       {
-         object2DListener.mouseClick(this, x, y, leftButton, rightButton);
+         ThreadManager.THREAD_MANAGER.doThread(Object2D.TASK_FIRE_MOUSE, new MouseInformation(this, object2DListener, Object2D.CLICK, x, y, leftButton,
+               rightButton));
       }
    }
 
@@ -187,7 +324,8 @@ public class Object2D
    {
       for(final Object2DListener object2DListener : this.arrayListListeners)
       {
-         object2DListener.mouseDrag(this, x, y, leftButton, rightButton);
+         ThreadManager.THREAD_MANAGER.doThread(Object2D.TASK_FIRE_MOUSE, new MouseInformation(this, object2DListener, Object2D.DRAG, x, y, leftButton,
+               rightButton));
       }
    }
 
@@ -203,7 +341,7 @@ public class Object2D
    {
       for(final Object2DListener object2DListener : this.arrayListListeners)
       {
-         object2DListener.mouseEnter(this, x, y);
+         ThreadManager.THREAD_MANAGER.doThread(Object2D.TASK_FIRE_MOUSE, new MouseInformation(this, object2DListener, Object2D.ENTER, x, y));
       }
    }
 
@@ -219,7 +357,7 @@ public class Object2D
    {
       for(final Object2DListener object2DListener : this.arrayListListeners)
       {
-         object2DListener.mouseExit(this, x, y);
+         ThreadManager.THREAD_MANAGER.doThread(Object2D.TASK_FIRE_MOUSE, new MouseInformation(this, object2DListener, Object2D.EXIT, x, y));
       }
    }
 
@@ -235,7 +373,7 @@ public class Object2D
    {
       for(final Object2DListener object2DListener : this.arrayListListeners)
       {
-         object2DListener.mouseMove(this, x, y);
+         ThreadManager.THREAD_MANAGER.doThread(Object2D.TASK_FIRE_MOUSE, new MouseInformation(this, object2DListener, Object2D.MOVE, x, y));
       }
    }
 
