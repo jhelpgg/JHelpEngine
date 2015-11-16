@@ -16,7 +16,7 @@ package jhelp.engine;
  * @author JHelp
  */
 public abstract class NodeWithMaterial
-      extends Node
+      extends NodeWithBox
 {
    /**
     * Tow side "philosophy" <br>
@@ -40,13 +40,6 @@ public abstract class NodeWithMaterial
    private TwoSidedState twoSidedState = TwoSidedState.AS_MATERIAL;
 
    /**
-    * Bonding box
-    * 
-    * @return Bonding box
-    */
-   public abstract VirtualBox getBox();
-
-   /**
     * Object material
     * 
     * @return Object material
@@ -59,56 +52,6 @@ public abstract class NodeWithMaterial
     * @return Selection material
     */
    public abstract Material getMaterialForSelection();
-
-   /**
-    * Compute the bounding box and projected it in world space
-    * 
-    * @return Computed projected in world space bounding box
-    */
-   public VirtualBox getProjectedBox()
-   {
-      final VirtualBox projected = new VirtualBox();
-      final VirtualBox virtualBox = this.getBox();
-
-      if(virtualBox.isEmpty() == true)
-      {
-         return projected;
-      }
-
-      Point3D point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMinZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMinX(), virtualBox.getMinY(), virtualBox.getMaxZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMinZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMinX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMinZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMinY(), virtualBox.getMaxZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMinZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      point = new Point3D(virtualBox.getMaxX(), virtualBox.getMaxY(), virtualBox.getMaxZ());
-      point = this.getProjection(point);
-      projected.add(point);
-
-      return projected;
-   }
 
    /**
     * Return twoSidedState

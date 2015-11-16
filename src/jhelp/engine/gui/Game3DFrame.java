@@ -318,6 +318,8 @@ public abstract class Game3DFrame
    private final String          gameName;
    /** Game resource directory */
    private final File            gameResourcesDirectory;
+   /** Indicates if already initialized */
+   private final AtomicBoolean   initialized    = new AtomicBoolean(false);
    /** Actual keyboard mode */
    private KeyboardMode          keyboardMode;
    /** Indicates if game closing */
@@ -326,6 +328,7 @@ public abstract class Game3DFrame
    private final Preferences     preferences;
    /** Game resources */
    private final Resources       resources;
+
    /** Game texts */
    private final ResourceText    resourceText;
 
@@ -407,8 +410,17 @@ public abstract class Game3DFrame
     */
    void doInitializeGame()
    {
-      this.initializeGame(this.getSceneRenderer(), this.getSceneRenderer().getScene());
-      this.getSceneRenderer().getScene().flush();
+      synchronized(this.initialized)
+      {
+         if(this.initialized.get() == true)
+         {
+            return;
+         }
+
+         this.initialized.set(true);
+         this.initializeGame(this.getSceneRenderer(), this.getSceneRenderer().getScene());
+         this.getSceneRenderer().getScene().flush();
+      }
    }
 
    /**

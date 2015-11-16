@@ -43,8 +43,12 @@ public class Color4f
    public static final Color4f GRAY                     = Color4f.makeDefaultColor(0.5f);
    /** Default green color */
    public static final Color4f GREEN                    = Color4f.makeDefaultColor(0f, 1f, 0f);
+   /** Default light blue color */
+   public static final Color4f LIGHT_BLUE               = Color4f.makeDefaultColor(0.5f, 0.5f, 1f);
    /** Default light gray color */
    public static final Color4f LIGHT_GRAY               = Color4f.makeDefaultColor(0.75f);
+   /** Default green gray color */
+   public static final Color4f LIGHT_GREEN              = Color4f.makeDefaultColor(0.5f, 1, 0.5f);
    /** Default red color */
    public static final Color4f LIGHT_RED                = Color4f.makeDefaultColor(1f, 0.5f, 0.5f);
    /** Default red color */
@@ -356,7 +360,8 @@ public class Color4f
     */
    public int getARGB()
    {
-      return ((((int) (this.alpha * 255)) & 0xFF) << 24) | ((((int) (this.red * 255)) & 0xFF) << 16) | ((((int) (this.green * 255)) & 0xFF) << 8) | (((int) (this.blue * 255)) & 0xFF);
+      return ((((int) (this.alpha * 255)) & 0xFF) << 24) | ((((int) (this.red * 255)) & 0xFF) << 16) | ((((int) (this.green * 255)) & 0xFF) << 8)
+            | (((int) (this.blue * 255)) & 0xFF);
    }
 
    /**

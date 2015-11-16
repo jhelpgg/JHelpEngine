@@ -1929,6 +1929,11 @@ public class Texture
          this.pixels[pix++] = b;
          this.pixels[pix++] = a;
       }
+
+      if(this.autoFlush == true)
+      {
+         this.flush();
+      }
    }
 
    /**
@@ -2345,6 +2350,30 @@ public class Texture
       {
          this.flush();
       }
+   }
+
+   /**
+    * Draw a rectangle
+    * 
+    * @param x
+    *           Up left corner X
+    * @param y
+    *           Up left corner Y
+    * @param width
+    *           Rectangle width
+    * @param height
+    *           Rectangle height
+    * @param color
+    *           Rectangle color
+    * @param mix
+    *           Indicates if use mix mode
+    */
+   public void drawRect(final int x, final int y, final int width, final int height, final Color color, final boolean mix)
+   {
+      this.drawLine(x, y, x + width, y, color, mix);
+      this.drawLine(x + width, y, x + width, y + height, color, mix);
+      this.drawLine(x + width, y + height, x, y + height, color, mix);
+      this.drawLine(x, y + height, x, y, color, mix);
    }
 
    /**
@@ -3204,7 +3233,7 @@ public class Texture
 
    /**
     * Override by an other texture.<br>
-    * If dimensions are different, the texture dimmension will change
+    * If dimensions are different, the texture dimension will change
     * 
     * @param texture
     *           Texture that override
@@ -3292,7 +3321,7 @@ public class Texture
    {
       if((texture.width != this.width) || (texture.height != this.height))
       {
-         throw new IllegalArgumentException("The given texture must have smae size than this texture");
+         throw new IllegalArgumentException("The given texture must have same size than this texture");
       }
 
       final int nb = this.width * this.height;

@@ -96,7 +96,8 @@ public class ObjectClone
       String material = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_material, "");
       if(material.length() < 1)
       {
-         throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory parameter ", ConstantsXML.MARKUP_NODE_material, " in ", markupXML.getName()));
+         throw new IllegalArgumentException(
+               UtilText.concatenate("Missing mandatory parameter ", ConstantsXML.MARKUP_NODE_material, " in ", markupXML.getName()));
       }
       this.material = Material.obtainMaterial(material);
       material = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_materialSelection, "");

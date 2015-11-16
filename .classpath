@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="jar/jogl.jar" sourcepath="/home/jhelp/jogl/jogl~svn/tags/JSR-231-AFTER-RENAME/src/classes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JHelpXML"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JHelpVideo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JHelpVectorial"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

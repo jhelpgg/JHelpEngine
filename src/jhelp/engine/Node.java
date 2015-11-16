@@ -240,9 +240,9 @@ public class Node
    public Node()
    {
       this.nodeType = NodeType.NODE;
-      this.arrayListListners = new ArrayList<NodeListener>();
+      this.arrayListListners = new ArrayList<NodeListener>(4);
       this.visible = true;
-      this.children = new Vector<Node>();
+      this.children = new Vector<Node>(8);
       this.x = this.y = this.z = this.angleX = this.angleY = this.angleZ = 0f;
       this.scaleX = this.scaleY = this.scaleZ = 1;
       this.wireColor = Color4f.DEFAULT_WIRE_FRAME_COLOR;
@@ -739,9 +739,9 @@ public class Node
    {
       final VirtualBox virtualBox = new VirtualBox();
 
-      if(this instanceof NodeWithMaterial)
+      if(this instanceof NodeWithBox)
       {
-         virtualBox.add(((NodeWithMaterial) this).getBox(), this.x, this.y, this.z);
+         virtualBox.add(((NodeWithBox) this).getBox(), this.x, this.y, this.z);
       }
 
       for(final Node child : this.children)
