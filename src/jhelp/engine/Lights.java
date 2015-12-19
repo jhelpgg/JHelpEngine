@@ -1,9 +1,12 @@
 /**
- * Project : JHelpEngine<br>
- * Package : jhelp.engine<br>
- * Class : Lights<br>
- * Date : 2 déc. 2010<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine;
 
@@ -129,8 +132,8 @@ public class Lights
     *           Quadric attenuation
     * @return Created light index
     */
-   public int createNewPonctual(final String name, final Color4f ambiant, final Color4f diffuse, final Color4f specular, final Point3D position, final int exponent, final float constantAttenuation, final float linearAttenuation,
-         final float quadricAttenuation)
+   public int createNewPonctual(final String name, final Color4f ambiant, final Color4f diffuse, final Color4f specular, final Point3D position,
+         final int exponent, final float constantAttenuation, final float linearAttenuation, final float quadricAttenuation)
    {
       final int id = this.createNewLight(name);
 
@@ -172,8 +175,9 @@ public class Lights
     *           Quadric attenuation
     * @return Created light index
     */
-   public int createNewSpot(final String name, final Color4f ambiant, final Color4f diffuse, final Color4f specular, final Point3D position, final Point3D direction, final int exponent, final int cutOff,
-         final float constantAttenuation, final float linearAttenuation, final float quadricAttenuation)
+   public int createNewSpot(final String name, final Color4f ambiant, final Color4f diffuse, final Color4f specular, final Point3D position,
+         final Point3D direction, final int exponent, final int cutOff, final float constantAttenuation, final float linearAttenuation,
+         final float quadricAttenuation)
    {
       final int id = this.createNewLight(name);
 

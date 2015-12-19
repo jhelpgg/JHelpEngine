@@ -1,9 +1,12 @@
 /**
- * Project : JHelpEngine<br>
- * Package : jhelp.engine.geom<br>
- * Class : Equation3D<br>
- * Date : 5 avr. 2010<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.geom;
 
@@ -85,7 +88,8 @@ public class Equation3D
        * @param fonctionZ
        *           Function of Z : z = Z(t)
        */
-      Creator(final Path border, final int borderPrecision, final float start, final float end, final float step, final Function fonctionX, final Function fonctionY, final Function fonctionZ)
+      Creator(final Path border, final int borderPrecision, final float start, final float end, final float step, final Function fonctionX,
+            final Function fonctionY, final Function fonctionZ)
       {
          this.border = border;
          this.borderPrecision = borderPrecision;
@@ -275,7 +279,8 @@ public class Equation3D
     * @param fonctionZ
     *           Function Z : z = Z(t)
     */
-   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final Function fonctionX, final Function fonctionY, final Function fonctionZ)
+   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final Function fonctionX,
+         final Function fonctionY, final Function fonctionZ)
    {
       this(border, borderPrecision, tStart, tEnd, tStep, fonctionX, fonctionY, fonctionZ, null);
    }
@@ -302,8 +307,8 @@ public class Equation3D
     * @param equation3DListener
     *           Listener for know when ready
     */
-   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final Function fonctionX, final Function fonctionY, final Function fonctionZ,
-         final Equation3DListener equation3DListener)
+   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final Function fonctionX,
+         final Function fonctionY, final Function fonctionZ, final Equation3DListener equation3DListener)
    {
       this.nodeType = NodeType.EQUATION;
       this.equation3DListener = equation3DListener;
@@ -317,7 +322,8 @@ public class Equation3D
       this.fonctionY = fonctionY.simplifyMaximum();
       this.fonctionZ = fonctionZ.simplifyMaximum();
 
-      ThreadManager.THREAD_MANAGER.doThread(new Creator(border, borderPrecision, tStart, tEnd, tStep, fonctionX.simplifyMaximum(), fonctionY.simplifyMaximum(), fonctionZ.simplifyMaximum()), null);
+      ThreadManager.THREAD_MANAGER.doThread(new Creator(border, borderPrecision, tStart, tEnd, tStep, fonctionX.simplifyMaximum(), fonctionY.simplifyMaximum(),
+            fonctionZ.simplifyMaximum()), null);
    }
 
    /**
@@ -340,7 +346,8 @@ public class Equation3D
     * @param fonctionZ
     *           Function Z : z = Z(t)
     */
-   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final String fonctionX, final String fonctionY, final String fonctionZ)
+   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final String fonctionX,
+         final String fonctionY, final String fonctionZ)
    {
       this(border, borderPrecision, tStart, tEnd, tStep, Function.parse(fonctionX), Function.parse(fonctionY), Function.parse(fonctionZ), null);
    }
@@ -367,8 +374,8 @@ public class Equation3D
     * @param equation3DListener
     *           Listener for know when ready
     */
-   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final String fonctionX, final String fonctionY, final String fonctionZ,
-         final Equation3DListener equation3DListener)
+   public Equation3D(final Path border, final int borderPrecision, final float tStart, final float tEnd, final float tStep, final String fonctionX,
+         final String fonctionY, final String fonctionZ, final Equation3DListener equation3DListener)
    {
       this(border, borderPrecision, tStart, tEnd, tStep, Function.parse(fonctionX), Function.parse(fonctionY), Function.parse(fonctionZ), equation3DListener);
    }

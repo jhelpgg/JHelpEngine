@@ -1,9 +1,12 @@
 /**
- * Project : JHelpEngine<br>
- * Package : jhelp.engine<br>
- * Class : Polygon3D<br>
- * Date : 9 juin 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine;
 
@@ -164,21 +167,27 @@ public class Polygon3D
       {
          if((v2 != null) && (v3 != null))
          {
-            newVertex.setPosition(((weight[0] * v0.getPosition().getX()) + (weight[1] * v1.getPosition().getX()) + (weight[2] * v2.getPosition().getX()) + (weight[3] * v3.getPosition().getX())), ((weight[0] * v0.getPosition().getY())
-                  + (weight[1] * v1.getPosition().getY()) + (weight[2] * v2.getPosition().getY()) + (weight[3] * v3.getPosition().getY())), ((weight[0] * v0.getPosition().getZ()) + (weight[1] * v1.getPosition().getZ())
-                  + (weight[2] * v2.getPosition().getZ()) + (weight[3] * v3.getPosition().getZ())));
-            newVertex.setUV(((weight[0] * v0.getUv().getX()) + (weight[1] * v1.getUv().getX()) + (weight[2] * v2.getUv().getX()) + (weight[3] * v3.getUv().getX())), ((weight[0] * v0.getUv().getY()) + (weight[1] * v1.getUv().getY())
-                  + (weight[2] * v2.getUv().getY()) + (weight[3] * v3.getUv().getY())));
-            newVertex.setNormal(((weight[0] * v0.getNormal().getX()) + (weight[1] * v1.getNormal().getX()) + (weight[2] * v2.getNormal().getX()) + (weight[3] * v3.getNormal().getX())), ((weight[0] * v0.getNormal().getY())
-                  + (weight[1] * v1.getNormal().getY()) + (weight[2] * v2.getNormal().getY()) + (weight[3] * v3.getNormal().getY())), ((weight[0] * v0.getNormal().getZ()) + (weight[1] * v1.getNormal().getZ())
-                  + (weight[2] * v2.getNormal().getZ()) + (weight[3] * v3.getNormal().getZ())));
+            newVertex.setPosition(
+                  ((weight[0] * v0.getPosition().getX()) + (weight[1] * v1.getPosition().getX()) + (weight[2] * v2.getPosition().getX()) + (weight[3] * v3.getPosition().getX())),
+                  ((weight[0] * v0.getPosition().getY()) + (weight[1] * v1.getPosition().getY()) + (weight[2] * v2.getPosition().getY()) + (weight[3] * v3.getPosition().getY())),
+                  ((weight[0] * v0.getPosition().getZ()) + (weight[1] * v1.getPosition().getZ()) + (weight[2] * v2.getPosition().getZ()) + (weight[3] * v3.getPosition().getZ())));
+            newVertex.setUV(
+                  ((weight[0] * v0.getUv().getX()) + (weight[1] * v1.getUv().getX()) + (weight[2] * v2.getUv().getX()) + (weight[3] * v3.getUv().getX())),
+                  ((weight[0] * v0.getUv().getY()) + (weight[1] * v1.getUv().getY()) + (weight[2] * v2.getUv().getY()) + (weight[3] * v3.getUv().getY())));
+            newVertex.setNormal(
+                  ((weight[0] * v0.getNormal().getX()) + (weight[1] * v1.getNormal().getX()) + (weight[2] * v2.getNormal().getX()) + (weight[3] * v3.getNormal().getX())),
+                  ((weight[0] * v0.getNormal().getY()) + (weight[1] * v1.getNormal().getY()) + (weight[2] * v2.getNormal().getY()) + (weight[3] * v3.getNormal().getY())),
+                  ((weight[0] * v0.getNormal().getZ()) + (weight[1] * v1.getNormal().getZ()) + (weight[2] * v2.getNormal().getZ()) + (weight[3] * v3.getNormal().getZ())));
          }
          else
          {
-            newVertex.setPosition(((weight[0] * v0.getPosition().getX()) + (weight[1] * v1.getPosition().getX())), ((weight[0] * v0.getPosition().getY()) + (weight[1] * v1.getPosition().getY())),
+            newVertex.setPosition(((weight[0] * v0.getPosition().getX()) + (weight[1] * v1.getPosition().getX())),
+                  ((weight[0] * v0.getPosition().getY()) + (weight[1] * v1.getPosition().getY())),
                   ((weight[0] * v0.getPosition().getZ()) + (weight[1] * v1.getPosition().getZ())));
-            newVertex.setUV(((weight[0] * v0.getUv().getX()) + (weight[1] * v1.getUv().getX())), ((weight[0] * v0.getUv().getY()) + (weight[1] * v1.getUv().getY())));
-            newVertex.setNormal(((weight[0] * v0.getNormal().getX()) + (weight[1] * v1.getNormal().getX())), ((weight[0] * v0.getNormal().getY()) + (weight[1] * v1.getNormal().getY())),
+            newVertex.setUV(((weight[0] * v0.getUv().getX()) + (weight[1] * v1.getUv().getX())),
+                  ((weight[0] * v0.getUv().getY()) + (weight[1] * v1.getUv().getY())));
+            newVertex.setNormal(((weight[0] * v0.getNormal().getX()) + (weight[1] * v1.getNormal().getX())),
+                  ((weight[0] * v0.getNormal().getY()) + (weight[1] * v1.getNormal().getY())),
                   ((weight[0] * v0.getNormal().getZ()) + (weight[1] * v1.getNormal().getZ())));
          }
       }

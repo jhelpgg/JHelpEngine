@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.engine.util<br>
- * Class : Quaternion<br>
- * Date : 2 sept. 2008<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.util;
 
@@ -32,7 +35,8 @@ public class Quaternion
     *           Quaternion instance receive the interpolated value (If it is <code>null</null> a new quaternion is created)
     * @return Interpolated quaternion (The modified <code>quaternionInterpolate </code> if it is not {@code null})
     */
-   public static Quaternion computeInterpolation(final Quaternion quaternionStart, final Quaternion quaternionEnd, final float percent, Quaternion quaternionInterpolate)
+   public static Quaternion computeInterpolation(final Quaternion quaternionStart, final Quaternion quaternionEnd, final float percent,
+         Quaternion quaternionInterpolate)
    {
       if(quaternionStart == null)
       {

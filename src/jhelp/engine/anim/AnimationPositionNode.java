@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.engine.anim<br>
- * Class : AnimationPositionObject3D<br>
- * Date : 4 sept. 2008<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.anim;
 
@@ -53,11 +56,12 @@ public class AnimationPositionNode
 
       anti = 1f - percent;
 
-      object.setPosition(before.x * anti + after.x * percent, before.y * anti + after.y * percent, before.z * anti + after.z * percent);
-      object.setAngleX(before.angleX * anti + after.angleX * percent);
-      object.setAngleY(before.angleY * anti + after.angleY * percent);
-      object.setAngleZ(before.angleZ * anti + after.angleZ * percent);
-      object.setScale(before.scaleX * anti + after.scaleX * percent, before.scaleY * anti + after.scaleY * percent, before.scaleZ * anti + after.scaleZ * percent);
+      object.setPosition((before.x * anti) + (after.x * percent), (before.y * anti) + (after.y * percent), (before.z * anti) + (after.z * percent));
+      object.setAngleX((before.angleX * anti) + (after.angleX * percent));
+      object.setAngleY((before.angleY * anti) + (after.angleY * percent));
+      object.setAngleZ((before.angleZ * anti) + (after.angleZ * percent));
+      object.setScale((before.scaleX * anti) + (after.scaleX * percent), (before.scaleY * anti) + (after.scaleY * percent), (before.scaleZ * anti)
+            + (after.scaleZ * percent));
    }
 
    /**

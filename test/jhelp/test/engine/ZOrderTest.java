@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.test.engine;
 
 import java.io.File;
@@ -102,7 +112,8 @@ public class ZOrderTest
          // "/home/jhelp/jhelpApi/api0by0jhelp~jhelp-api/JHelpVideo/video.gg"));
          // textureVideo = new TextureVideo(videoReader, 1);
 
-         final Texture texture = new Texture("Part_mCloSwim08Upper.jpg", Texture.REFERENCE_RESOURCES, ZOrderTest.class.getResourceAsStream("Part_mCloSwim08Upper.jpg"));
+         final Texture texture = new Texture("Part_mCloSwim08Upper.jpg", Texture.REFERENCE_RESOURCES,
+               ZOrderTest.class.getResourceAsStream("Part_mCloSwim08Upper.jpg"));
 
          ZOrderTest.material.setTextureDiffuse(texture);// textureVideo);//
                                                         // CacheResources.CACHE.getTexture("tex/Part_mCloSwim08Upper.jpg"));

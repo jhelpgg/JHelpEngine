@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.engine.geom<br>
- * Class : PathGeom<br>
- * Date : 17 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.geom;
 
@@ -194,7 +197,8 @@ public class PathGeom
     * @param end
     *           End value
     */
-   public void appendCubicU(final Point2D startPoint, final float start, final Point2D controlPoint1, final float control1, final Point2D controlPoint2, final float control2, final Point2D endPoint, final float end)
+   public void appendCubicU(final Point2D startPoint, final float start, final Point2D controlPoint1, final float control1, final Point2D controlPoint2,
+         final float control2, final Point2D endPoint, final float end)
    {
       this.pathU.appendCubic(startPoint, start, controlPoint1, control1, controlPoint2, control2, endPoint, end);
    }
@@ -236,7 +240,8 @@ public class PathGeom
     * @param end
     *           End value
     */
-   public void appendCubicV(final Point2D startPoint, final float start, final Point2D controlPoint1, final float control1, final Point2D controlPoint2, final float control2, final Point2D endPoint, final float end)
+   public void appendCubicV(final Point2D startPoint, final float start, final Point2D controlPoint1, final float control1, final Point2D controlPoint2,
+         final float control2, final Point2D endPoint, final float end)
    {
       this.pathV.appendCubic(startPoint, start, controlPoint1, control1, controlPoint2, control2, endPoint, end);
    }

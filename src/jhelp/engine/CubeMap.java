@@ -1,9 +1,12 @@
 /**
- * Project : JHelpEngine<br>
- * Package : jhelp.engine<br>
- * Class : CubeMap<br>
- * Date : 24 mai 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine;
 
@@ -97,14 +100,20 @@ public class CubeMap
          // If the cube map need to be refresh, refresh it
          gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, this.videoMemoryID);
 
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL.GL_RGBA, this.xPositive.width, this.xPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.xPositive.pixels));
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL.GL_RGBA, this.xNegative.width, this.xNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.xNegative.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL.GL_RGBA, this.xPositive.width, this.xPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.xPositive.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL.GL_RGBA, this.xNegative.width, this.xNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.xNegative.pixels));
 
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL.GL_RGBA, this.yPositive.width, this.yPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.yPositive.pixels));
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL.GL_RGBA, this.yNegative.width, this.yNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.yNegative.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL.GL_RGBA, this.yPositive.width, this.yPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.yPositive.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL.GL_RGBA, this.yNegative.width, this.yNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.yNegative.pixels));
 
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL.GL_RGBA, this.zPositive.width, this.zPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.zPositive.pixels));
-         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL.GL_RGBA, this.zNegative.width, this.zNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, BufferUtils.transferByte(this.zNegative.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL.GL_RGBA, this.zPositive.width, this.zPositive.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.zPositive.pixels));
+         gl.glTexImage2D(GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL.GL_RGBA, this.zNegative.width, this.zNegative.height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE,
+               BufferUtils.transferByte(this.zNegative.pixels));
 
          gl.glTexParameteri(GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
          gl.glTexParameteri(GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
@@ -306,7 +315,8 @@ public class CubeMap
     */
    public boolean isComplete()
    {
-      return (this.xNegative != null) && (this.xPositive != null) && (this.yNegative != null) && (this.yPositive != null) && (this.zNegative != null) && (this.zPositive != null);
+      return (this.xNegative != null) && (this.xPositive != null) && (this.yNegative != null) && (this.yPositive != null) && (this.zNegative != null)
+            && (this.zPositive != null);
    }
 
    /**

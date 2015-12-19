@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.engine.util<br>
- * Class : Position<br>
- * Date : 4 sept. 2008<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.util;
 
@@ -113,7 +116,8 @@ public class PositionNode
     * @param scaleZ
     *           Scale Z
     */
-   public PositionNode(final float x, final float y, final float z, final float angleX, final float angleY, final float angleZ, final float scaleX, final float scaleY, final float scaleZ)
+   public PositionNode(final float x, final float y, final float z, final float angleX, final float angleY, final float angleZ, final float scaleX,
+         final float scaleY, final float scaleZ)
    {
       this(x, y, z, angleX, angleY, angleZ);
 
@@ -149,7 +153,8 @@ public class PositionNode
     */
    public PositionNode(final PositionNode positionNode)
    {
-      this(positionNode.x, positionNode.y, positionNode.z, positionNode.angleX, positionNode.angleY, positionNode.angleZ, positionNode.scaleX, positionNode.scaleY, positionNode.scaleZ);
+      this(positionNode.x, positionNode.y, positionNode.z, positionNode.angleX, positionNode.angleY, positionNode.angleZ, positionNode.scaleX,
+            positionNode.scaleY, positionNode.scaleZ);
    }
 
    /**

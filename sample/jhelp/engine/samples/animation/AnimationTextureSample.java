@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.engine.samples.animation;
 
 import java.io.IOException;
@@ -50,8 +60,10 @@ public class AnimationTextureSample
       final Material material = new Material("MaterialCube");
       try
       {
-         final Texture texture1 = new Texture("TextureDiffuse1", Texture.REFERENCE_RESOURCES, AnimationTextureSample.RESOURCES.obtainResourceStream("floor068.jpg"));
-         final Texture texture2 = new Texture("TextureDiffuse2", Texture.REFERENCE_RESOURCES, AnimationTextureSample.RESOURCES.obtainResourceStream("001-Fog01.png"));
+         final Texture texture1 = new Texture("TextureDiffuse1", Texture.REFERENCE_RESOURCES,
+               AnimationTextureSample.RESOURCES.obtainResourceStream("floor068.jpg"));
+         final Texture texture2 = new Texture("TextureDiffuse2", Texture.REFERENCE_RESOURCES,
+               AnimationTextureSample.RESOURCES.obtainResourceStream("001-Fog01.png"));
 
          final AnimationTexture animationTextureSample = new AnimationTexture(100, texture1, texture2, true, InterpolationType.UNDEFINED);
 

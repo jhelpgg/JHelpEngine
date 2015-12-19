@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.engine.gui;
 
 import java.awt.Dimension;
@@ -62,7 +72,8 @@ public class JHelpLabelPath
          this.updateMousePosition(e);
          if(JHelpLabelPath.this.selectedPath == null)
          {
-            final ArrayList<Couple> list = JHelpLabelPath.this.path.obtainCoupleNear(JHelpLabelPath.this.mouseX, JHelpLabelPath.this.mouseY, JHelpLabelPath.MOUSE_PRECISION);
+            final ArrayList<Couple> list = JHelpLabelPath.this.path.obtainCoupleNear(JHelpLabelPath.this.mouseX, JHelpLabelPath.this.mouseY,
+                  JHelpLabelPath.MOUSE_PRECISION);
             if(list.size() == 0)
             {
                return;
@@ -180,7 +191,8 @@ public class JHelpLabelPath
             return;
          }
 
-         final ArrayList<Couple> list = JHelpLabelPath.this.path.obtainCoupleNear(JHelpLabelPath.this.mouseX, JHelpLabelPath.this.mouseY, JHelpLabelPath.MOUSE_PRECISION_2);
+         final ArrayList<Couple> list = JHelpLabelPath.this.path.obtainCoupleNear(JHelpLabelPath.this.mouseX, JHelpLabelPath.this.mouseY,
+               JHelpLabelPath.MOUSE_PRECISION_2);
          if(list.size() > 0)
          {
             final Couple couple = list.get(0);
@@ -351,8 +363,10 @@ public class JHelpLabelPath
          {
             for(final Line2D line2d : this.path.computePath(this.precision))
             {
-               this.imagePath.drawLine((int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointStart.getX())), JHelpLabelPath.SIZE - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointStart.getY())),
-                     (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointEnd.getX())), JHelpLabelPath.SIZE - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointEnd.getY())), 0xFF0000FF);
+               this.imagePath.drawLine((int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointStart.getX())), JHelpLabelPath.SIZE
+                     - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointStart.getY())),
+                     (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointEnd.getX())), JHelpLabelPath.SIZE
+                           - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * line2d.pointEnd.getY())), 0xFF0000FF);
             }
 
             int x, y;
@@ -361,7 +375,8 @@ public class JHelpLabelPath
                x = (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * point2d.getX()));
                y = JHelpLabelPath.SIZE - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * point2d.getY()));
 
-               this.imagePath.drawRectangle(x - JHelpLabelPath.ANCHOR_SIZE_2, y - JHelpLabelPath.ANCHOR_SIZE_2, JHelpLabelPath.ANCHOR_SIZE, JHelpLabelPath.ANCHOR_SIZE, 0xFFFF0000);
+               this.imagePath.drawRectangle(x - JHelpLabelPath.ANCHOR_SIZE_2, y - JHelpLabelPath.ANCHOR_SIZE_2, JHelpLabelPath.ANCHOR_SIZE,
+                     JHelpLabelPath.ANCHOR_SIZE, 0xFFFF0000);
             }
 
             if(this.selectedPath != null)
@@ -369,7 +384,8 @@ public class JHelpLabelPath
                final Point3D point3d = this.selectedPath.points[this.indexSelected];
                x = (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * point3d.getX()));
                y = JHelpLabelPath.SIZE - (int) (JHelpLabelPath.SIZE_2 + (JHelpLabelPath.SIZE_2 * point3d.getY()));
-               this.imagePath.drawRectangle(x - JHelpLabelPath.ANCHOR_SIZE_2, y - JHelpLabelPath.ANCHOR_SIZE_2, JHelpLabelPath.ANCHOR_SIZE, JHelpLabelPath.ANCHOR_SIZE, 0xFF00FF00);
+               this.imagePath.drawRectangle(x - JHelpLabelPath.ANCHOR_SIZE_2, y - JHelpLabelPath.ANCHOR_SIZE_2, JHelpLabelPath.ANCHOR_SIZE,
+                     JHelpLabelPath.ANCHOR_SIZE, 0xFF00FF00);
             }
          }
          this.imagePath.endDrawMode();
@@ -420,7 +436,8 @@ public class JHelpLabelPath
     */
    public void addCubic()
    {
-      this.path.appendCubic(new Point2D(this.mouseX, this.mouseY), new Point2D(this.mouseX, this.mouseY), new Point2D(this.mouseX, this.mouseY), new Point2D(this.mouseX, this.mouseY));
+      this.path.appendCubic(new Point2D(this.mouseX, this.mouseY), new Point2D(this.mouseX, this.mouseY), new Point2D(this.mouseX, this.mouseY), new Point2D(
+            this.mouseX, this.mouseY));
       this.fromClick = false;
       this.indexSelected = 0;
       this.selectedPath = this.path.obtainPathElement(this.path.countPathElement() - 1);

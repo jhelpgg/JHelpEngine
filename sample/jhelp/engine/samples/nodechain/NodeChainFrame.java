@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.engine.samples.nodechain;
 
 import java.awt.event.KeyEvent;
@@ -96,7 +106,8 @@ public class NodeChainFrame
       ((MultiAnimation) this.animationSpace).addAnimation(animationPositionNode);
 
       // Create and add the animation it self
-      ((MultiAnimation) this.animationSpace).addAnimation(new AnimationEquation(Function.parse("10*cos(t)"), Function.parse("t"), Function.parse("10*sin(t)"), -2 * Math3D.TWO_PI, 2 * Math3D.TWO_PI, 1000, this.head));
+      ((MultiAnimation) this.animationSpace).addAnimation(new AnimationEquation(Function.parse("10*cos(t)"), Function.parse("t"), Function.parse("10*sin(t)"),
+            -2 * Math3D.TWO_PI, 2 * Math3D.TWO_PI, 1000, this.head));
 
       // Defines the key listener
       sceneRenderer.addKeyListener(this);

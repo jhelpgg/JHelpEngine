@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.engine.samples.jhelp2d;
 
 import jhelp.engine.JHelpSceneRenderer;
@@ -98,8 +108,9 @@ public class Frame2DSample
     */
    private JHelpFoldable2D createFoldable(final String title, final String nature, final boolean horizontal, final FoldingAreaPosition foldingAreaPosition)
    {
-      return new JHelpFoldable2D(JHelpLabelImage2D.createTextLabel(UtilText.replaceHole("This is the {0} of the border layout.\nThis text can be hide or show\nby click on yellow bar", nature), Frame2DSample.FONT, 0xFF000000,
-            0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal == true
+      return new JHelpFoldable2D(JHelpLabelImage2D.createTextLabel(
+            UtilText.replaceHole("This is the {0} of the border layout.\nThis text can be hide or show\nby click on yellow bar", nature), Frame2DSample.FONT,
+            0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal == true
             ? JHelpFoldable2D.DEFAULT_PAINT_HORIZONTAL
             : JHelpFoldable2D.DEFAULT_PAINT_VERTICAL, title, Frame2DSample.FONT_FOLD, 0xFF000000, null), foldingAreaPosition);
    }

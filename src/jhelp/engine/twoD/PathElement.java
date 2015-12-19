@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.engine.twoD<br>
- * Class : PathElement<br>
- * Date : 17 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.twoD;
 
@@ -63,7 +66,8 @@ public class PathElement
       final String pathType = markupXML.obtainParameter(ConstantsXML.MARKUP_PATH_ELEMENT_pathType, "");
       if(pathType.length() < 1)
       {
-         throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory parameter ", ConstantsXML.MARKUP_PATH_ELEMENT_pathType, " in ", markupXML.getName()));
+         throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory parameter ", ConstantsXML.MARKUP_PATH_ELEMENT_pathType, " in ",
+               markupXML.getName()));
       }
 
       this.pathType = PathType.valueOf(pathType);
@@ -90,7 +94,8 @@ public class PathElement
       final StringTokenizer stringTokenizer = new StringTokenizer(markupXML.getText());
       for(int i = 0; i < length; i++)
       {
-         this.points[i] = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()));
+         this.points[i] = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
+               Float.parseFloat(stringTokenizer.nextToken()));
       }
    }
 

@@ -1,9 +1,12 @@
 /**
- * Project : JHelpEngine<br>
- * Package : jhelp.engine<br>
- * Class : Light<br>
- * Date : 2 déc. 2010<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine;
 
@@ -321,7 +324,8 @@ public final class Light
     * @param quadricAttenuation
     *           Quadric attenuation
     */
-   public void makePonctualLight(final Point3D position, final int exponent, final float constantAttenuation, final float linearAttenuation, final float quadricAttenuation)
+   public void makePonctualLight(final Point3D position, final int exponent, final float constantAttenuation, final float linearAttenuation,
+         final float quadricAttenuation)
    {
       if((exponent < 0) || (exponent > 128))
       {
@@ -378,7 +382,8 @@ public final class Light
     * @param quadricAttenuation
     *           Quadric attenuation
     */
-   public void makeSpot(final Point3D position, final Point3D direction, final int exponent, final int cutOff, final float constantAttenuation, final float linearAttenuation, final float quadricAttenuation)
+   public void makeSpot(final Point3D position, final Point3D direction, final int exponent, final int cutOff, final float constantAttenuation,
+         final float linearAttenuation, final float quadricAttenuation)
    {
       if((exponent < 0) || (exponent > 128))
       {

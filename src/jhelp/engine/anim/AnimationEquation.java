@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.engine.anim;
 
 import javax.media.opengl.GL;
@@ -54,7 +64,8 @@ public class AnimationEquation
     * @param nodeMoved
     *           Node to move
     */
-   public AnimationEquation(final Function functionX, final Function functionY, final Function functionZ, final float tMin, final float tMax, final int numberOfFrame, final Node nodeMoved)
+   public AnimationEquation(final Function functionX, final Function functionY, final Function functionZ, final float tMin, final float tMax,
+         final int numberOfFrame, final Node nodeMoved)
    {
       if(functionX == null)
       {

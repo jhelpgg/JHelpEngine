@@ -1,4 +1,12 @@
 /**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine;
 
@@ -42,7 +50,7 @@ public class Vertex
     * @param z
     *           Z
     */
-   public Vertex(float x, float y, float z)
+   public Vertex(final float x, final float y, final float z)
    {
       this();
       this.position.set(x, y, z);
@@ -62,7 +70,7 @@ public class Vertex
     * @param v
     *           V
     */
-   public Vertex(float x, float y, float z, float u, float v)
+   public Vertex(final float x, final float y, final float z, final float u, final float v)
    {
       this();
       this.position.set(x, y, z);
@@ -85,7 +93,7 @@ public class Vertex
     * @param nz
     *           Normal Z
     */
-   public Vertex(float x, float y, float z, float nx, float ny, float nz)
+   public Vertex(final float x, final float y, final float z, final float nx, final float ny, final float nz)
    {
       this();
       this.position.set(x, y, z);
@@ -112,7 +120,7 @@ public class Vertex
     * @param nz
     *           Normal Z
     */
-   public Vertex(float x, float y, float z, float u, float v, float nx, float ny, float nz)
+   public Vertex(final float x, final float y, final float z, final float u, final float v, final float nx, final float ny, final float nz)
    {
       this();
       this.position.set(x, y, z);
@@ -132,7 +140,7 @@ public class Vertex
     * @param uv
     *           UV couple
     */
-   public Vertex(float x, float y, float z, Point2D uv)
+   public Vertex(final float x, final float y, final float z, final Point2D uv)
    {
       this();
       if(uv == null)
@@ -157,7 +165,7 @@ public class Vertex
     * @param normal
     *           Normal vector
     */
-   public Vertex(float x, float y, float z, Point2D uv, Point3D normal)
+   public Vertex(final float x, final float y, final float z, final Point2D uv, final Point3D normal)
    {
       this();
       if(uv == null)
@@ -185,7 +193,7 @@ public class Vertex
     * @param normal
     *           Normal vector
     */
-   public Vertex(float x, float y, float z, Point3D normal)
+   public Vertex(final float x, final float y, final float z, final Point3D normal)
    {
       this();
       if(normal == null)
@@ -202,7 +210,7 @@ public class Vertex
     * @param position
     *           Position
     */
-   public Vertex(Point3D position)
+   public Vertex(final Point3D position)
    {
       this();
       if(position == null)
@@ -222,7 +230,7 @@ public class Vertex
     * @param v
     *           V
     */
-   public Vertex(Point3D position, float u, float v)
+   public Vertex(final Point3D position, final float u, final float v)
    {
       this();
       if(position == null)
@@ -245,7 +253,7 @@ public class Vertex
     * @param nz
     *           Normal Z
     */
-   public Vertex(Point3D position, float nx, float ny, float nz)
+   public Vertex(final Point3D position, final float nx, final float ny, final float nz)
    {
       this();
       this.position.set(position);
@@ -268,7 +276,7 @@ public class Vertex
     * @param nz
     *           Normal Z
     */
-   public Vertex(Point3D position, float u, float v, float nx, float ny, float nz)
+   public Vertex(final Point3D position, final float u, final float v, final float nx, final float ny, final float nz)
    {
       this();
       if(position == null)
@@ -288,7 +296,7 @@ public class Vertex
     * @param uv
     *           UV couple
     */
-   public Vertex(Point3D position, Point2D uv)
+   public Vertex(final Point3D position, final Point2D uv)
    {
       this();
       if(position == null)
@@ -313,7 +321,7 @@ public class Vertex
     * @param normal
     *           Normal vector
     */
-   public Vertex(Point3D position, Point2D uv, Point3D normal)
+   public Vertex(final Point3D position, final Point2D uv, final Point3D normal)
    {
       this();
       if(position == null)
@@ -341,7 +349,7 @@ public class Vertex
     * @param normal
     *           Normal
     */
-   public Vertex(Point3D position, Point3D normal)
+   public Vertex(final Point3D position, final Point3D normal)
    {
       this();
       if(position == null)
@@ -357,260 +365,6 @@ public class Vertex
    }
 
    /**
-    * Change the position
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    */
-   public void set(float x, float y, float z)
-   {
-      this.position.set(x, y, z);
-   }
-
-   /**
-    * Change position, UV
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param u
-    *           U
-    * @param v
-    *           V
-    */
-   public void set(float x, float y, float z, float u, float v)
-   {
-      this.position.set(x, y, z);
-      this.uv.set(u, v);
-   }
-
-   /**
-    * Change position, UV, normal
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param nx
-    *           Normal X
-    * @param ny
-    *           Normal Y
-    * @param nz
-    *           Normal Z
-    */
-   public void set(float x, float y, float z, float nx, float ny, float nz)
-   {
-      this.position.set(x, y, z);
-      this.normal.set(nx, ny, nz);
-   }
-
-   /**
-    * Change position, UV, normal
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param u
-    *           U
-    * @param v
-    *           V
-    * @param nx
-    *           Normal X
-    * @param ny
-    *           Normal Y
-    * @param nz
-    *           Normal Z
-    */
-   public void set(float x, float y, float z, float u, float v, float nx, float ny, float nz)
-   {
-      this.position.set(x, y, z);
-      this.uv.set(u, v);
-      this.normal.set(nx, ny, nz);
-   }
-
-   /**
-    * Change position, UV
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param uv
-    *           UV
-    */
-   public void set(float x, float y, float z, Point2D uv)
-   {
-      this.position.set(x, y, z);
-      this.uv = uv;
-   }
-
-   /**
-    * Change position, UV, normal
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param uv
-    *           UV
-    * @param normal
-    *           Normal
-    */
-   public void set(float x, float y, float z, Point2D uv, Point3D normal)
-   {
-      this.position.set(x, y, z);
-      this.uv = uv;
-      this.normal = normal;
-   }
-
-   /**
-    * Change position, normal
-    * 
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param z
-    *           Z
-    * @param normal
-    *           Normal
-    */
-   public void set(float x, float y, float z, Point3D normal)
-   {
-      this.position.set(x, y, z);
-      this.normal = normal;
-   }
-
-   /**
-    * Change position
-    * 
-    * @param position
-    *           Position
-    */
-   public void set(Point3D position)
-   {
-      this.position = position;
-   }
-
-   /**
-    * Change position, UV
-    * 
-    * @param position
-    *           Position
-    * @param u
-    *           U
-    * @param v
-    *           V
-    */
-   public void set(Point3D position, float u, float v)
-   {
-      this.position = position;
-      this.uv.set(u, v);
-   }
-
-   /**
-    * Change position, normal
-    * 
-    * @param position
-    *           Position
-    * @param nx
-    *           Normal X
-    * @param ny
-    *           Normal Y
-    * @param nz
-    *           Normal Z
-    */
-   public void set(Point3D position, float nx, float ny, float nz)
-   {
-      this.position = position;
-      this.normal.set(nx, ny, nz);
-   }
-
-   /**
-    * Change position, UV, normal
-    * 
-    * @param position
-    *           Position
-    * @param u
-    *           U
-    * @param v
-    *           V
-    * @param nx
-    *           Normal X
-    * @param ny
-    *           Normal Y
-    * @param nz
-    *           Normal Z
-    */
-   public void set(Point3D position, float u, float v, float nx, float ny, float nz)
-   {
-      this.position = position;
-      this.uv.set(u, v);
-      this.normal.set(nx, ny, nz);
-   }
-
-   /**
-    * Change position, UV
-    * 
-    * @param position
-    *           Position
-    * @param uv
-    *           UV
-    */
-   public void set(Point3D position, Point2D uv)
-   {
-      this.position = position;
-      this.uv = uv;
-   }
-
-   /**
-    * Change position, UV, normal
-    * 
-    * @param position
-    *           Position
-    * @param uv
-    *           UV
-    * @param normal
-    *           Normal
-    */
-   public void set(Point3D position, Point2D uv, Point3D normal)
-   {
-      this.position = position;
-      this.uv = uv;
-      this.normal = normal;
-   }
-
-   /**
-    * Change position, normal
-    * 
-    * @param position
-    *           Position
-    * @param normal
-    *           Normal
-    */
-   public void set(Point3D position, Point3D normal)
-   {
-      this.position = position;
-      this.normal = normal;
-   }
-
-   /**
     * The normal
     * 
     * @return Normal
@@ -618,21 +372,6 @@ public class Vertex
    public Point3D getNormal()
    {
       return this.normal;
-   }
-
-   /**
-    * Change normal
-    * 
-    * @param normal
-    *           Normal
-    */
-   public void setNormal(Point3D normal)
-   {
-      if(normal == null)
-      {
-         throw new NullPointerException("The normal couldn't be null");
-      }
-      this.normal = normal;
    }
 
    /**
@@ -646,22 +385,30 @@ public class Vertex
    }
 
    /**
-    * Change position
+    * UV
     * 
-    * @param position
-    *           Position
+    * @return UV
     */
-   public void setPosition(Point3D position)
+   public Point2D getUv()
    {
-      if(position == null)
-      {
-         throw new NullPointerException("The position couldn't be null");
-      }
-      this.position = position;
+      return this.uv;
    }
 
    /**
-    * Change position
+    * Draw vertex on OpenGL
+    * 
+    * @param gl
+    *           OpenGL context
+    */
+   public void glVertex(final GL gl)
+   {
+      this.normal.glNormal3f(gl);
+      this.uv.glTexCoord2f(gl);
+      this.position.glVertex3f(gl);
+   }
+
+   /**
+    * Change the position
     * 
     * @param x
     *           X
@@ -670,22 +417,248 @@ public class Vertex
     * @param z
     *           Z
     */
-   public void setPosition(float x, float y, float z)
+   public void set(final float x, final float y, final float z)
    {
       this.position.set(x, y, z);
    }
 
    /**
-    * Change UV
+    * Change position, UV
     * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
     * @param u
     *           U
     * @param v
     *           V
     */
-   public void setUV(float u, float v)
+   public void set(final float x, final float y, final float z, final float u, final float v)
    {
+      this.position.set(x, y, z);
       this.uv.set(u, v);
+   }
+
+   /**
+    * Change position, UV, normal
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param nx
+    *           Normal X
+    * @param ny
+    *           Normal Y
+    * @param nz
+    *           Normal Z
+    */
+   public void set(final float x, final float y, final float z, final float nx, final float ny, final float nz)
+   {
+      this.position.set(x, y, z);
+      this.normal.set(nx, ny, nz);
+   }
+
+   /**
+    * Change position, UV, normal
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param u
+    *           U
+    * @param v
+    *           V
+    * @param nx
+    *           Normal X
+    * @param ny
+    *           Normal Y
+    * @param nz
+    *           Normal Z
+    */
+   public void set(final float x, final float y, final float z, final float u, final float v, final float nx, final float ny, final float nz)
+   {
+      this.position.set(x, y, z);
+      this.uv.set(u, v);
+      this.normal.set(nx, ny, nz);
+   }
+
+   /**
+    * Change position, UV
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param uv
+    *           UV
+    */
+   public void set(final float x, final float y, final float z, final Point2D uv)
+   {
+      this.position.set(x, y, z);
+      this.uv = uv;
+   }
+
+   /**
+    * Change position, UV, normal
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param uv
+    *           UV
+    * @param normal
+    *           Normal
+    */
+   public void set(final float x, final float y, final float z, final Point2D uv, final Point3D normal)
+   {
+      this.position.set(x, y, z);
+      this.uv = uv;
+      this.normal = normal;
+   }
+
+   /**
+    * Change position, normal
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    * @param normal
+    *           Normal
+    */
+   public void set(final float x, final float y, final float z, final Point3D normal)
+   {
+      this.position.set(x, y, z);
+      this.normal = normal;
+   }
+
+   /**
+    * Change position
+    * 
+    * @param position
+    *           Position
+    */
+   public void set(final Point3D position)
+   {
+      this.position = position;
+   }
+
+   /**
+    * Change position, UV
+    * 
+    * @param position
+    *           Position
+    * @param u
+    *           U
+    * @param v
+    *           V
+    */
+   public void set(final Point3D position, final float u, final float v)
+   {
+      this.position = position;
+      this.uv.set(u, v);
+   }
+
+   /**
+    * Change position, normal
+    * 
+    * @param position
+    *           Position
+    * @param nx
+    *           Normal X
+    * @param ny
+    *           Normal Y
+    * @param nz
+    *           Normal Z
+    */
+   public void set(final Point3D position, final float nx, final float ny, final float nz)
+   {
+      this.position = position;
+      this.normal.set(nx, ny, nz);
+   }
+
+   /**
+    * Change position, UV, normal
+    * 
+    * @param position
+    *           Position
+    * @param u
+    *           U
+    * @param v
+    *           V
+    * @param nx
+    *           Normal X
+    * @param ny
+    *           Normal Y
+    * @param nz
+    *           Normal Z
+    */
+   public void set(final Point3D position, final float u, final float v, final float nx, final float ny, final float nz)
+   {
+      this.position = position;
+      this.uv.set(u, v);
+      this.normal.set(nx, ny, nz);
+   }
+
+   /**
+    * Change position, UV
+    * 
+    * @param position
+    *           Position
+    * @param uv
+    *           UV
+    */
+   public void set(final Point3D position, final Point2D uv)
+   {
+      this.position = position;
+      this.uv = uv;
+   }
+
+   /**
+    * Change position, UV, normal
+    * 
+    * @param position
+    *           Position
+    * @param uv
+    *           UV
+    * @param normal
+    *           Normal
+    */
+   public void set(final Point3D position, final Point2D uv, final Point3D normal)
+   {
+      this.position = position;
+      this.uv = uv;
+      this.normal = normal;
+   }
+
+   /**
+    * Change position, normal
+    * 
+    * @param position
+    *           Position
+    * @param normal
+    *           Normal
+    */
+   public void set(final Point3D position, final Point3D normal)
+   {
+      this.position = position;
+      this.normal = normal;
    }
 
    /**
@@ -698,19 +671,54 @@ public class Vertex
     * @param z
     *           Normal Z
     */
-   public void setNormal(float x, float y, float z)
+   public void setNormal(final float x, final float y, final float z)
    {
       this.normal.set(x, y, z);
    }
 
    /**
-    * UV
+    * Change normal
     * 
-    * @return UV
+    * @param normal
+    *           Normal
     */
-   public Point2D getUv()
+   public void setNormal(final Point3D normal)
    {
-      return this.uv;
+      if(normal == null)
+      {
+         throw new NullPointerException("The normal couldn't be null");
+      }
+      this.normal = normal;
+   }
+
+   /**
+    * Change position
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param z
+    *           Z
+    */
+   public void setPosition(final float x, final float y, final float z)
+   {
+      this.position.set(x, y, z);
+   }
+
+   /**
+    * Change position
+    * 
+    * @param position
+    *           Position
+    */
+   public void setPosition(final Point3D position)
+   {
+      if(position == null)
+      {
+         throw new NullPointerException("The position couldn't be null");
+      }
+      this.position = position;
    }
 
    /**
@@ -719,7 +727,7 @@ public class Vertex
     * @param uv
     *           UV
     */
-   public void setUv(Point2D uv)
+   public void setUv(final Point2D uv)
    {
       if(uv == null)
       {
@@ -729,16 +737,16 @@ public class Vertex
    }
 
    /**
-    * Draw vertex on OpenGL
+    * Change UV
     * 
-    * @param gl
-    *           OpenGL context
+    * @param u
+    *           U
+    * @param v
+    *           V
     */
-   public void glVertex(GL gl)
+   public void setUV(final float u, final float v)
    {
-      this.normal.glNormal3f(gl);
-      this.uv.glTexCoord2f(gl);
-      this.position.glVertex3f(gl);
+      this.uv.set(u, v);
    }
 
    /**

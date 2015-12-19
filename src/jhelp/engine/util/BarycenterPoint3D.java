@@ -1,4 +1,12 @@
 /**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.engine.util;
 
@@ -15,11 +23,11 @@ import jhelp.engine.Point3D;
 public class BarycenterPoint3D
 {
    /** Barycenter for X */
-   private Barycenter barycenterX;
+   private final Barycenter barycenterX;
    /** Barycenter for Y */
-   private Barycenter barycenterY;
+   private final Barycenter barycenterY;
    /** Barycenter for Z */
-   private Barycenter barycenterZ;
+   private final Barycenter barycenterZ;
 
    /**
     * Constructs BarycenterPoint3D
@@ -34,17 +42,6 @@ public class BarycenterPoint3D
    /**
     * Add point to the set
     * 
-    * @param point
-    *           Point to add
-    */
-   public void add(Point3D point)
-   {
-      this.add(point.getX(), point.getY(), point.getZ());
-   }
-
-   /**
-    * Add point to the set
-    * 
     * @param x
     *           X
     * @param y
@@ -52,7 +49,7 @@ public class BarycenterPoint3D
     * @param z
     *           Z
     */
-   public void add(double x, double y, double z)
+   public void add(final double x, final double y, final double z)
    {
       this.barycenterX.add(x);
       this.barycenterY.add(y);
@@ -60,13 +57,14 @@ public class BarycenterPoint3D
    }
 
    /**
-    * Indicates if the set of points is empty
+    * Add point to the set
     * 
-    * @return {@code true} if the set of points is empty
+    * @param point
+    *           Point to add
     */
-   public boolean isEmpty()
+   public void add(final Point3D point)
    {
-      return this.barycenterX.isEmpty();
+      this.add(point.getX(), point.getY(), point.getZ());
    }
 
    /**
@@ -83,5 +81,15 @@ public class BarycenterPoint3D
       }
 
       return new Point3D((float) this.barycenterX.getBarycenter(), (float) this.barycenterY.getBarycenter(), (float) this.barycenterZ.getBarycenter());
+   }
+
+   /**
+    * Indicates if the set of points is empty
+    * 
+    * @return {@code true} if the set of points is empty
+    */
+   public boolean isEmpty()
+   {
+      return this.barycenterX.isEmpty();
    }
 }
