@@ -61,7 +61,7 @@ public class TextIn3DUtil
       length = stringTokenizer.countTokens();
       lines = new String[length];
       index = 0;
-      while(stringTokenizer.hasMoreTokens() == true)
+      while(stringTokenizer.hasMoreTokens())
       {
          lines[index++] = stringTokenizer.nextToken();
       }

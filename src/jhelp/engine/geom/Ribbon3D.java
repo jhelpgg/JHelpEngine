@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.geom;
@@ -22,12 +22,12 @@ import jhelp.util.thread.ThreadedVerySimpleTask;
 
 /**
  * Represents a ribbon.<br>
- * Its a band if a number of rotation on himself before loop.<br>
+ * Its a band with a number of rotation on himself before loop.<br>
  * The number of rotation can be negative or positive, negative are mirror of positive.<br>
  * 0 rotation, is just a tube.<br>
  * 1 or -1 its Möbius strip.<br>
  * Impair values will have only one side, pair value 2 sides.
- * 
+ *
  * @author JHelp
  */
 public class Ribbon3D
@@ -35,7 +35,7 @@ public class Ribbon3D
 {
    /**
     * Threaded task for create the ribbon
-    * 
+    *
     * @author JHelp
     */
    class CreateRibbon
@@ -53,7 +53,7 @@ public class Ribbon3D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
        */
       @Override
@@ -78,7 +78,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     */
@@ -89,7 +89,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param multU
@@ -104,7 +104,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param multU
@@ -121,7 +121,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param precision
@@ -134,7 +134,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param precision
@@ -151,7 +151,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param precision
@@ -178,7 +178,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param precision
@@ -193,7 +193,7 @@ public class Ribbon3D
 
    /**
     * Create a new instance of Ribbon3D
-    * 
+    *
     * @param torsioCount
     *           Number of rotation
     * @param ribbon3dListener

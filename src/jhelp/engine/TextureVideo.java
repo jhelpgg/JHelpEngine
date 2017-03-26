@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -23,7 +23,7 @@ import jhelp.video.VideoReader;
  * <br>
  * Last modification : 22 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class TextureVideo
@@ -41,7 +41,7 @@ public class TextureVideo
 
    /**
     * Constructs TextureVideo with standard 25 FPS
-    * 
+    *
     * @param videoReader
     *           Video reader
     */
@@ -53,7 +53,7 @@ public class TextureVideo
    /**
     * Constructs TextureVideo with a FPS.<br>
     * The texture is refresh on trying to respect the chosen FPS, but if it's too big, it refresh as soon as it cans
-    * 
+    *
     * @param videoReader
     *           Video reader
     * @param fps
@@ -83,7 +83,7 @@ public class TextureVideo
 
    /**
     * Video FPS
-    * 
+    *
     * @return Video FPS
     */
    public int getFPS()
@@ -93,7 +93,7 @@ public class TextureVideo
 
    /**
     * Indicates if the video is on pause
-    * 
+    *
     * @return {@code true} if the video is on pause
     */
    public boolean isPause()
@@ -105,7 +105,7 @@ public class TextureVideo
     * Don't call it directly !<br>
     * It is called by the thread<br>
     * This method refresh the video
-    * 
+    *
     * @see java.lang.Runnable#run()
     */
    @Override
@@ -119,26 +119,26 @@ public class TextureVideo
       while(this.thread != null)
       {
          // Wait until we are not in pause
-         while((this.pause == true) && (this.thread != null))
+         while((this.pause) && (this.thread != null))
          {
             try
             {
                Thread.sleep(1000);
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
          // Refresh the video
-         while((this.pause == false) && (this.thread != null))
+         while((!this.pause) && (this.thread != null))
          {
             // Is an other image to read ?
-            if(this.videoReader.hasNextImage() == true)
+            if(this.videoReader.hasNextImage())
             {
                // Prepare the FPS synchronization
                sleep = 1000L / this.fps;
                start = System.currentTimeMillis();
-               // Read an print the next image
+               // Read and print the next image
                try
                {
                   image = this.videoReader.nextImage();
@@ -148,20 +148,20 @@ public class TextureVideo
                      Utilities.sleep(4);
                   }
 
-                  while((this.pause == true) && (this.thread != null))
+                  while((this.pause) && (this.thread != null))
                   {
                      try
                      {
                         Thread.sleep(1000);
                      }
-                     catch(final Exception exception)
+                     catch(final Exception ignored)
                      {
                      }
                   }
 
                   this.drawImage(0, 0, image);
                }
-               catch(final IOException e)
+               catch(final IOException ignored)
                {
                }
 
@@ -175,7 +175,7 @@ public class TextureVideo
                {
                   Thread.sleep(sleep);
                }
-               catch(final Exception exception)
+               catch(final Exception ignored)
                {
                }
             }
@@ -192,7 +192,7 @@ public class TextureVideo
 
    /**
     * Change the FPS
-    * 
+    *
     * @param fps
     *           New FPS
     */
@@ -213,7 +213,7 @@ public class TextureVideo
 
    /**
     * Change pause state
-    * 
+    *
     * @param pause
     *           New pause state
     */

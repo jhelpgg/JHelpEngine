@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.samples.animation;
@@ -44,7 +44,7 @@ public class AnimationKeyFrameSample
 
    /**
     * Launch the hello word
-    * 
+    *
     * @param args
     *           Unused
     */

@@ -369,7 +369,7 @@ public abstract class Game3DFrame
       this.gameDirectory = UtilIO.obtainExternalFile("JHelp/Game3D/" + gameName);
       this.gameResourcesDirectory = new File(this.gameDirectory, "resources");
 
-      if(UtilIO.createDirectory(this.gameDirectory) == false)
+      if(!UtilIO.createDirectory(this.gameDirectory))
       {
          throw new IllegalStateException("Can create the directory game : " + this.gameDirectory.getAbsolutePath());
       }
@@ -422,7 +422,7 @@ public abstract class Game3DFrame
    {
       synchronized(this.initialized)
       {
-         if(this.initialized.get() == true)
+         if(this.initialized.get())
          {
             return;
          }
@@ -681,14 +681,14 @@ public abstract class Game3DFrame
     */
    public final void closeGame()
    {
-      if(this.canExitNow() == false)
+      if(!this.canExitNow())
       {
          return;
       }
 
       synchronized(this.onClosing)
       {
-         if(this.onClosing.get() == true)
+         if(this.onClosing.get())
          {
             return;
          }

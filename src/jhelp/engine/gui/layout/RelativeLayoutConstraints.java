@@ -90,7 +90,7 @@ public class RelativeLayoutConstraints
    @Override
    public boolean equals(final Constraints constraints)
    {
-      if((constraints == null) || ((constraints instanceof RelativeLayoutConstraints) == false))
+      if((constraints == null) || (!(constraints instanceof RelativeLayoutConstraints)))
       {
          return false;
       }

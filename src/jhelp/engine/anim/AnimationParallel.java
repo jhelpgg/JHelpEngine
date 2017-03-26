@@ -58,7 +58,7 @@ public final class AnimationParallel
 
       synchronized(this.playing)
       {
-         if(this.playing.get() == true)
+         if(this.playing.get())
          {
             throw new IllegalStateException("Can't add animation while playing");
          }
@@ -87,9 +87,9 @@ public final class AnimationParallel
 
       for(final Pair<Animation, Boolean> pair : this.animations)
       {
-         if(pair.element2 == true)
+         if(pair.element2)
          {
-            if(pair.element1.animate(gl, absoluteFrame) == true)
+            if(pair.element1.animate(gl, absoluteFrame))
             {
                moreAnimation = true;
             }
@@ -100,7 +100,7 @@ public final class AnimationParallel
          }
       }
 
-      if(moreAnimation == false)
+      if(!moreAnimation)
       {
          synchronized(this.playing)
          {
@@ -142,7 +142,7 @@ public final class AnimationParallel
 
       synchronized(this.playing)
       {
-         if(this.playing.get() == true)
+         if(this.playing.get())
          {
             throw new IllegalStateException("Can't remove animation while playing");
          }
@@ -155,7 +155,7 @@ public final class AnimationParallel
       {
          pair = this.animations.get(i);
 
-         if(pair.element1.equals(animation) == true)
+         if(pair.element1.equals(animation))
          {
             this.animations.remove(i);
             return true;

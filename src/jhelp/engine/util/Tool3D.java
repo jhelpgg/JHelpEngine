@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.util;
@@ -49,14 +49,14 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class Tool3D
 {
    /**
     * Add a Color4f parameter to XML markup
-    * 
+    *
     * @param markupXML
     *           Markup where add
     * @param parameterName
@@ -80,7 +80,7 @@ public class Tool3D
 
    /**
     * Add a Point3D parameter to XML markup
-    * 
+    *
     * @param markupXML
     *           Markup where add
     * @param parameterName
@@ -102,7 +102,7 @@ public class Tool3D
 
    /**
     * Collect all used material in a scene
-    * 
+    *
     * @param scene
     *           Scene to explore
     * @return Materials collected list
@@ -116,7 +116,7 @@ public class Tool3D
       NodeWithMaterial nodeWithMaterial;
       Material material;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          node = stack.pop();
 
@@ -125,14 +125,14 @@ public class Tool3D
             nodeWithMaterial = (NodeWithMaterial) node;
             material = nodeWithMaterial.getMaterial();
 
-            if(arrayList.contains(material) == false)
+            if(!arrayList.contains(material))
             {
                arrayList.add(material);
             }
 
             material = nodeWithMaterial.getMaterialForSelection();
 
-            if((material != null) && (arrayList.contains(material) == false))
+            if((material != null) && (!arrayList.contains(material)))
             {
                arrayList.add(material);
             }
@@ -140,7 +140,7 @@ public class Tool3D
 
          final Iterator<Node> children = node.getChildren();
 
-         while(children.hasNext() == true)
+         while(children.hasNext())
          {
             stack.push(children.next());
          }
@@ -150,7 +150,7 @@ public class Tool3D
 
    /**
     * Collect all texture used in a scene renderer
-    * 
+    *
     * @param helpSceneRenderer
     *           Renderer to explore
     * @return Textures collected list
@@ -167,7 +167,7 @@ public class Tool3D
       final Stack<Node> stack = new Stack<Node>();
       stack.push(node);
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          node = stack.pop();
 
@@ -177,14 +177,14 @@ public class Tool3D
             material = nodeWithMaterial.getMaterial();
             texture = material.getTextureDiffuse();
 
-            if((texture != null) && (arrayList.contains(texture) == false))
+            if((texture != null) && (!arrayList.contains(texture)))
             {
                arrayList.add(texture);
             }
 
             texture = material.getTextureSpheric();
 
-            if((texture != null) && (arrayList.contains(texture) == false))
+            if((texture != null) && (!arrayList.contains(texture)))
             {
                arrayList.add(texture);
             }
@@ -195,14 +195,14 @@ public class Tool3D
             {
                texture = material.getTextureDiffuse();
 
-               if((texture != null) && (arrayList.contains(texture) == false))
+               if((texture != null) && (!arrayList.contains(texture)))
                {
                   arrayList.add(texture);
                }
 
                texture = material.getTextureSpheric();
 
-               if((texture != null) && (arrayList.contains(texture) == false))
+               if((texture != null) && (!arrayList.contains(texture)))
                {
                   arrayList.add(texture);
                }
@@ -211,14 +211,14 @@ public class Tool3D
 
          texture = node.getTextureHotspot();
 
-         if((texture != null) && (arrayList.contains(texture) == false))
+         if((texture != null) && (!arrayList.contains(texture)))
          {
             arrayList.add(texture);
          }
 
          final Iterator<Node> children = node.getChildren();
 
-         while(children.hasNext() == true)
+         while(children.hasNext())
          {
             stack.push(children.next());
          }
@@ -228,7 +228,7 @@ public class Tool3D
       boolean visible;
       Iterator<Object2D> iterator = gui2d.getIteratorOver3D();
 
-      while(iterator.hasNext() == true)
+      while(iterator.hasNext())
       {
          object2D = iterator.next();
          visible = object2D.isVisible();
@@ -236,7 +236,7 @@ public class Tool3D
          texture = object2D.getTexture();
          object2D.setVisible(visible);
 
-         if((texture != null) && (arrayList.contains(texture) == false))
+         if((texture != null) && (!arrayList.contains(texture)))
          {
             arrayList.add(texture);
          }
@@ -244,7 +244,7 @@ public class Tool3D
 
       iterator = gui2d.getIteratorUnder3D();
 
-      while(iterator.hasNext() == true)
+      while(iterator.hasNext())
       {
          object2D = iterator.next();
          visible = object2D.isVisible();
@@ -252,7 +252,7 @@ public class Tool3D
          texture = object2D.getTexture();
          object2D.setVisible(visible);
 
-         if((texture != null) && (arrayList.contains(texture) == false))
+         if((texture != null) && (!arrayList.contains(texture)))
          {
             arrayList.add(texture);
          }
@@ -265,7 +265,7 @@ public class Tool3D
 
    /**
     * Create a clone and clone also the all hierarchy
-    * 
+    *
     * @param node
     *           Node to clone
     * @return Clone
@@ -277,7 +277,7 @@ public class Tool3D
 
    /**
     * Create a clone and clone also the all hierarchy, and additional suffix is given to cloned node names
-    * 
+    *
     * @param node
     *           Node to clone
     * @param suffix
@@ -311,32 +311,32 @@ public class Tool3D
       clone.setWireColor(node.getWireColor());
       clone.setAdditionalInformation(node.getAdditionalInformation());
 
-      if(node.isXLimited() == true)
+      if(node.isXLimited())
       {
          clone.limitX(node.getXMin(), node.getXMax());
       }
 
-      if(node.isYLimited() == true)
+      if(node.isYLimited())
       {
          clone.limitY(node.getYMin(), node.getYMax());
       }
 
-      if(node.isZLimited() == true)
+      if(node.isZLimited())
       {
          clone.limitZ(node.getZMin(), node.getZMax());
       }
 
-      if(node.isXAngleLimited() == true)
+      if(node.isXAngleLimited())
       {
          clone.limitAngleX(node.getXAngleMin(), node.getXAngleMax());
       }
 
-      if(node.isYAngleLimited() == true)
+      if(node.isYAngleLimited())
       {
          clone.limitAngleY(node.getYAngleMin(), node.getYAngleMax());
       }
 
-      if(node.isZAngleLimited() == true)
+      if(node.isZAngleLimited())
       {
          clone.limitAngleZ(node.getZAngleMin(), node.getZAngleMax());
       }
@@ -354,7 +354,7 @@ public class Tool3D
    /**
     * Create a force joined mesh with to path.<br>
     * The path for V walk throw the path for U
-    * 
+    *
     * @param pathU
     *           Path for U
     * @param precisionU
@@ -374,7 +374,7 @@ public class Tool3D
    public static Mesh createJoinedMesh(final Path pathU, final int precisionU, final Path pathV, final int precisionV, final float multU,
          final boolean linearize, final boolean reverseNormals)
    {
-      final float mult = reverseNormals == true
+      final float mult = reverseNormals
             ? -1
             : 1;
       // Initialization
@@ -424,7 +424,7 @@ public class Tool3D
 
          // Normalize(x, y)
          length = (float) Math.sqrt((x * x) + (y * y));
-         if(Math3D.nul(length) == false)
+         if(!Math3D.nul(length))
          {
             x /= length;
             y /= length;
@@ -435,7 +435,7 @@ public class Tool3D
          u10 = u11 = lineU.end;
 
          // If we try to linearize, base on old values
-         if(linearize == true)
+         if(linearize)
          {
             u00 = u01 = oldU0;
             u10 = u11 = oldU1;
@@ -458,7 +458,7 @@ public class Tool3D
 
             // Normalize (xx, yy)
             length = (float) Math.sqrt((xx * xx) + (yy * yy));
-            if(Math3D.nul(length) == false)
+            if(!Math3D.nul(length))
             {
                xx /= length;
                yy /= length;
@@ -506,7 +506,7 @@ public class Tool3D
 
             // If it is not the first face time we goes on V path, join with old
             // face
-            if(first == false)
+            if(!first)
             {
                // Get old face information to make the join join
                dir0 = old.get(index++);
@@ -523,7 +523,7 @@ public class Tool3D
                vz00 = dir0.getPosition().getZ();
                // If direction is not zero vector
                length = (float) Math.sqrt((vx00 * vx00) + (vy00 * vy00) + (vz00 * vz00));
-               if(Math3D.nul(length) == false)
+               if(!Math3D.nul(length))
                {
                   // Normalize direction
                   vx00 /= length;
@@ -541,7 +541,7 @@ public class Tool3D
                   // If the direction is not zero vector
                   length = (float) Math.sqrt((vx10 * vx10) + (vy10 * vy10) + (vz10 * vz10));
 
-                  if(Math3D.nul(length) == false)
+                  if(!Math3D.nul(length))
                   {
                      // Normalize the vector
                      vx10 /= length;
@@ -550,7 +550,7 @@ public class Tool3D
 
                      // If the two direction are not colinear, then a corner
                      // join is need
-                     if(Math3D.equal(Math.abs((vx00 * vx10) + (vy00 * vy10) + (vz00 * vz10)), 1f) == false)
+                     if(!Math3D.equal(Math.abs((vx00 * vx10) + (vy00 * vy10) + (vz00 * vz10)), 1f))
                      {
                         // Get second old position and direction
                         a01 = p1.getPosition().getX();
@@ -583,17 +583,17 @@ public class Tool3D
                         l0 = l1 = 0f;
 
                         // Compute intersection between first old and first new
-                        if(Math3D.nul(vx00) == true)
+                        if(Math3D.nul(vx00))
                         {
-                           if(Math3D.nul(vx10) == false)
+                           if(!Math3D.nul(vx10))
                            {
                               l0 = (a00 - a10) / vx10;
                            }
-                           else if(Math3D.nul(vy00) == true)
+                           else if(Math3D.nul(vy00))
                            {
                               l0 = (b00 - b10) / vy10;
                            }
-                           else if(Math3D.nul(vz00) == true)
+                           else if(Math3D.nul(vz00))
                            {
                               l0 = (c00 - c10) / vz10;
                            }
@@ -602,13 +602,13 @@ public class Tool3D
                               l0 = (((b00 * vz00) - (c00 * vy00) - (b10 * vz00)) + (c10 * vy00)) / ((vy10 * vz00) - (vz10 * vy00));
                            }
                         }
-                        else if(Math3D.nul(vy00) == true)
+                        else if(Math3D.nul(vy00))
                         {
-                           if(Math3D.nul(vy10) == false)
+                           if(!Math3D.nul(vy10))
                            {
                               l0 = (b00 - b10) / vy10;
                            }
-                           else if(Math3D.nul(vz00) == true)
+                           else if(Math3D.nul(vz00))
                            {
                               l0 = (c00 - c10) / vz10;
                            }
@@ -617,7 +617,7 @@ public class Tool3D
                               l0 = (((a00 * vz00) - (c00 * vx00) - (a10 * vz00)) + (c10 * vx00)) / ((vx10 * vz00) - (vz10 * vx00));
                            }
                         }
-                        else if((Math3D.nul(vz00) == true) && (Math3D.nul(vz10) == false))
+                        else if((Math3D.nul(vz00)) && (!Math3D.nul(vz10)))
                         {
                            l0 = (c00 - c10) / vz10;
                         }
@@ -631,17 +631,17 @@ public class Tool3D
 
                         // Compute intersection between second old and second
                         // new
-                        if(Math3D.nul(vx01) == true)
+                        if(Math3D.nul(vx01))
                         {
-                           if(Math3D.nul(vx11) == false)
+                           if(!Math3D.nul(vx11))
                            {
                               l1 = (a01 - a11) / vx11;
                            }
-                           else if(Math3D.nul(vy01) == true)
+                           else if(Math3D.nul(vy01))
                            {
                               l1 = (b01 - b11) / vy11;
                            }
-                           else if(Math3D.nul(vz01) == true)
+                           else if(Math3D.nul(vz01))
                            {
                               l1 = (c01 - c11) / vz11;
                            }
@@ -650,13 +650,13 @@ public class Tool3D
                               l1 = (((b01 * vz01) - (c01 * vy01) - (b11 * vz01)) + (c11 * vy01)) / ((vy11 * vz01) - (vz11 * vy01));
                            }
                         }
-                        else if(Math3D.nul(vy01) == true)
+                        else if(Math3D.nul(vy01))
                         {
-                           if(Math3D.nul(vy11) == false)
+                           if(!Math3D.nul(vy11))
                            {
                               l1 = (b01 - b11) / vy11;
                            }
-                           else if(Math3D.nul(vz01) == true)
+                           else if(Math3D.nul(vz01))
                            {
                               l1 = (c01 - c11) / vz11;
                            }
@@ -665,7 +665,7 @@ public class Tool3D
                               l1 = (((a01 * vz01) - (c01 * vx01) - (a11 * vz01)) + (c11 * vx01)) / ((vx11 * vz01) - (vz11 * vx01));
                            }
                         }
-                        else if((Math3D.nul(vz01) == true) && (Math3D.nul(vz11) == false))
+                        else if((Math3D.nul(vz01)) && (!Math3D.nul(vz11)))
                         {
                            l1 = (c01 - c11) / vz11;
                         }
@@ -678,7 +678,7 @@ public class Tool3D
                         mz1 = c11 + (vz11 * l1);
 
                         // If we decide to linearize, linearize U
-                        if(linearize == true)
+                        if(linearize)
                         {
                            u00 = p0.getUv().getX();
                            u01 = p1.getUv().getX();
@@ -701,7 +701,7 @@ public class Tool3D
                         p0.set(mx0, my0, mz0);
                         p1.set(mx1, my1, mz1);
 
-                        if(linearize == true)
+                        if(linearize)
                         {
                            p0.getUv().set(u00, p0.getUv().getY());
                            p1.getUv().set(u01, p1.getUv().getY());
@@ -713,7 +713,7 @@ public class Tool3D
                // Link old face to new one.
                // Remember that it could be the end of the corner. In this case
                // its create the end of the corner
-               if(linearize == true)
+               if(linearize)
                {
                   u00 = p0.getUv().getX();
                   u01 = p1.getUv().getX();
@@ -732,7 +732,7 @@ public class Tool3D
             }
 
             // Draw actual face
-            if(linearize == true)
+            if(linearize)
             {
                u10 = u00 + (float) Math.sqrt(Math3D.square(x00 - x10) + Math3D.square(y00 - y10) + Math3D.square(z00 - z10));
                u11 = u01 + (float) Math.sqrt(Math3D.square(x01 - x11) + Math3D.square(y01 - y11) + Math3D.square(z01 - z11));
@@ -745,7 +745,7 @@ public class Tool3D
             mesh.endFace();
 
             // Memorize informations for the next join
-            if(linearize == true)
+            if(linearize)
             {
                u00 = u01 = oldU0;
                u10 = u11 = oldU1;
@@ -757,7 +757,7 @@ public class Tool3D
             temp.add(new Vertex(x11, y11, z11, u11, v11, nx11, ny11, nz11));
          }
 
-         if(linearize == true)
+         if(linearize)
          {
             oldU0 = u00 + (float) Math.sqrt(Math3D.square(x00 - x10) + Math3D.square(y00 - y10) + Math3D.square(z00 - z10));
             oldU1 = u01 + (float) Math.sqrt(Math3D.square(x01 - x11) + Math3D.square(y01 - y11) + Math3D.square(z01 - z11));
@@ -768,7 +768,7 @@ public class Tool3D
       }
 
       // On linearize mode, try to make valid U
-      if(linearize == true)
+      if(linearize)
       {
          mesh.multUV(multU / Math.max(oldU0, oldU1), 1);
       }
@@ -783,7 +783,7 @@ public class Tool3D
    /**
     * Create a mesh with to path.<br>
     * The path for V walk throw the path for U
-    * 
+    *
     * @param pathU
     *           Path for U
     * @param precisionU
@@ -823,7 +823,7 @@ public class Tool3D
          y = b1 - b0;
          // Normalize (x,y)
          length = (float) Math.sqrt((x * x) + (y * y));
-         if(Math3D.nul(length) == false)
+         if(!Math3D.nul(length))
          {
             x /= length;
             y /= length;
@@ -846,7 +846,7 @@ public class Tool3D
             yy = yp1 - yp0;
             // Normalize(xx, yy)
             length = (float) Math.sqrt((xx * xx) + (yy * yy));
-            if(Math3D.nul(length) == false)
+            if(!Math3D.nul(length))
             {
                xx /= length;
                yy /= length;
@@ -905,7 +905,7 @@ public class Tool3D
 
    /**
     * Create a node on parsing XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @return Created node
@@ -914,7 +914,7 @@ public class Tool3D
     */
    public static Node createNode(final MarkupXML markupXML) throws Exception
    {
-      if(markupXML.isParameter(ConstantsXML.MARKUP_NODE_type) == false)
+      if(!markupXML.isParameter(ConstantsXML.MARKUP_NODE_type))
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory parameter ", ConstantsXML.MARKUP_NODE_type, " in ", markupXML.getName()));
       }
@@ -974,7 +974,7 @@ public class Tool3D
 
    /**
     * Compute the volume of intersection that may append when given nodes will translates of given vectors
-    * 
+    *
     * @param node1
     *           First node
     * @param vector1
@@ -987,35 +987,38 @@ public class Tool3D
     */
    public static float futureIntersectionVolume(final Node node1, final Point3D vector1, final Node node2, final Point3D vector2)
    {
-      VirtualBox virtualBox = node1.computeProjectedTotalBox();
-      virtualBox.translate(vector1);
+      return Tool3D.futureIntersectionVolume(node1.computeProjectedTotalBox(), vector1, node2.computeProjectedTotalBox(), vector2);
+   }
 
-      if(virtualBox.isEmpty() == true)
+   public static float futureIntersectionVolume(final VirtualBox virtualBox1, final Point3D vector1, final VirtualBox virtualBox2, final Point3D vector2)
+   {
+      virtualBox1.translate(vector1);
+
+      if(virtualBox1.isEmpty())
       {
          return 0;
       }
 
-      final float xmin1 = virtualBox.getMinX();
-      final float ymin1 = virtualBox.getMinY();
-      final float zmin1 = virtualBox.getMinZ();
-      final float xmax1 = virtualBox.getMaxX();
-      final float ymax1 = virtualBox.getMaxY();
-      final float zmax1 = virtualBox.getMaxZ();
+      final float xmin1 = virtualBox1.getMinX();
+      final float ymin1 = virtualBox1.getMinY();
+      final float zmin1 = virtualBox1.getMinZ();
+      final float xmax1 = virtualBox1.getMaxX();
+      final float ymax1 = virtualBox1.getMaxY();
+      final float zmax1 = virtualBox1.getMaxZ();
 
-      virtualBox = node2.computeProjectedTotalBox();
-      virtualBox.translate(vector2);
+      virtualBox2.translate(vector2);
 
-      if(virtualBox.isEmpty() == true)
+      if(virtualBox2.isEmpty())
       {
          return 0;
       }
 
-      final float xmin2 = virtualBox.getMinX();
-      final float ymin2 = virtualBox.getMinY();
-      final float zmin2 = virtualBox.getMinZ();
-      final float xmax2 = virtualBox.getMaxX();
-      final float ymax2 = virtualBox.getMaxY();
-      final float zmax2 = virtualBox.getMaxZ();
+      final float xmin2 = virtualBox2.getMinX();
+      final float ymin2 = virtualBox2.getMinY();
+      final float zmin2 = virtualBox2.getMinZ();
+      final float xmax2 = virtualBox2.getMaxX();
+      final float ymax2 = virtualBox2.getMaxY();
+      final float zmax2 = virtualBox2.getMaxZ();
 
       if((xmin1 > xmax2) || (ymin1 > ymax2) || (zmin1 > zmax2) || (xmin2 > xmax1) || (ymin2 > ymax1) || (zmin2 > zmax1))
       {
@@ -1051,7 +1054,7 @@ public class Tool3D
 
    /**
     * Get a Color4f parameter from XML markup
-    * 
+    *
     * @param markupXML
     *           XML markup where extract
     * @param parameterName
@@ -1070,7 +1073,7 @@ public class Tool3D
          color4f.setBlue(Float.parseFloat(stringTokenizer.nextToken()));
          stringTokenizer = null;
       }
-      catch(final Exception exception)
+      catch(final Exception ignored)
       {
       }
       return color4f;
@@ -1078,7 +1081,7 @@ public class Tool3D
 
    /**
     * Retrieve a Point3D parameter from XML markup
-    * 
+    *
     * @param markupXML
     *           XML markup where extract
     * @param parameterName
@@ -1097,7 +1100,7 @@ public class Tool3D
          point.set(x, y, z);
          stringTokenizer = null;
       }
-      catch(final Exception exception)
+      catch(final Exception ignored)
       {
       }
       return point;
@@ -1105,7 +1108,7 @@ public class Tool3D
 
    /**
     * Create a bump texture
-    * 
+    *
     * @param color
     *           Unify color
     * @param bump
@@ -1128,7 +1131,7 @@ public class Tool3D
    /**
     * Create a bump texture with 2 textures.<br>
     * The 2 textures MUST have same dimensions
-    * 
+    *
     * @param original
     *           Texture where add bump
     * @param bump
@@ -1197,7 +1200,7 @@ public class Tool3D
 
    /**
     * Indicates if given nodes will collide after a translation
-    * 
+    *
     * @param node1
     *           First node
     * @param vector1

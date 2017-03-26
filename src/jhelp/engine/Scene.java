@@ -103,7 +103,7 @@ public class Scene
          final Stack<Node> stack = new Stack<Node>();
          stack.push(this.root);
          final ArrayList<Node> nodes = new ArrayList<Node>();
-         while(stack.isEmpty() == false)
+         while(!stack.isEmpty())
          {
             node = stack.pop();
             nodes.add(node);
@@ -132,7 +132,7 @@ public class Scene
       for(; length >= 0; length--)
       {
          node = this.nodeList[length];
-         if(node.visible == true)
+         if(node.visible)
          {
             gl.glPushMatrix();
             node.matrixRootToMe(gl);
@@ -302,7 +302,7 @@ public class Scene
       Node node = this.root;
       final Stack<Node> stackNodes = new Stack<Node>();
       stackNodes.push(node);
-      while(stackNodes.isEmpty() == false)
+      while(!stackNodes.isEmpty())
       {
          node = stackNodes.pop();
          node.mouseState(leftButton, rightButton, node == over);

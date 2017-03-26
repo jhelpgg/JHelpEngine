@@ -82,7 +82,7 @@ public class Point2D
       {
          return true;
       }
-      if((obj instanceof Point2D) == false)
+      if(!(obj instanceof Point2D))
       {
          return false;
       }
@@ -167,7 +167,7 @@ public class Point2D
    @Override
    public String toString()
    {
-      final StringBuffer sb = new StringBuffer("Point2D : (");
+      final StringBuilder sb = new StringBuilder("Point2D : (");
       sb.append(this.x);
       sb.append(", ");
       sb.append(this.y);

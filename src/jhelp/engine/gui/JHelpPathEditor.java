@@ -117,9 +117,9 @@ public class JHelpPathEditor
    /** Additional panel */
    private final JHelpPanel2D     panel2dAdditonal;
    /** Label that shows the path and react to mouse events */
-   JHelpLabelPath                 labelPath;
+   final         JHelpLabelPath                 labelPath;
    /** Spinner for choose the precision */
-   JHelpSpinner2D<Integer>        spinner2dPrecision;
+   final JHelpSpinner2D<Integer>        spinner2dPrecision;
 
    /**
     * Create a new instance of JHelpPathEditor

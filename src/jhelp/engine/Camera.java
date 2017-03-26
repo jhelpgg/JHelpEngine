@@ -195,7 +195,7 @@ public class Camera
       this.look = Tool3D.getPoint3DParameter(markupXML, ConstantsXML.MARKUP_CAMERA_look);
       this.position = Tool3D.getPoint3DParameter(markupXML, ConstantsXML.MARKUP_CAMERA_position);
       this.up = Tool3D.getPoint3DParameter(markupXML, ConstantsXML.MARKUP_CAMERA_up);
-      this.lookName = markupXML.obtainParameter(ConstantsXML.MARKUP_CAMERA_keepLookOnMe, (String) null);
+      this.lookName = markupXML.obtainParameter(ConstantsXML.MARKUP_CAMERA_keepLookOnMe, null);
    }
 
    /**

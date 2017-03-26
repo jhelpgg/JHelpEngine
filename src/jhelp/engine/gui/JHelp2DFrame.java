@@ -48,7 +48,7 @@ public class JHelp2DFrame
       stack.push(this.getPanelRoot());
       JHelpComponent2D component2d;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          component2d = stack.pop();
 
@@ -76,7 +76,7 @@ public class JHelp2DFrame
       stack.push(this.getPanelRoot());
       JHelpComponent2D component2d;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          component2d = stack.pop();
 

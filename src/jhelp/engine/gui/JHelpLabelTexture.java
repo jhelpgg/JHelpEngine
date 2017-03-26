@@ -140,7 +140,7 @@ public class JHelpLabelTexture
                dark = dark1;
                for(int x = 0; x < this.previewWidth; x += w)
                {
-                  this.imageTexture.fillRectangle(x, y, w, h, dark == true
+                  this.imageTexture.fillRectangle(x, y, w, h, dark
                         ? 0xFF404040
                         : 0xFFC0C0C0, false);
 

@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.geom;
@@ -26,7 +26,7 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 23 janv. 2009<br>
  * Version 0.0.0<br>
- * 
+ *
  * @author JHelp
  */
 public class PathGeom
@@ -57,7 +57,7 @@ public class PathGeom
 
    /**
     * Constructs PathGeom
-    * 
+    *
     * @param precisionU
     *           U path precision
     * @param precisionV
@@ -83,7 +83,7 @@ public class PathGeom
    @Override
    protected void endParseXML()
    {
-      if(this.joined == true)
+      if(this.joined)
       {
          this.refreshJoinedPath(this.multU, this.linearize);
          return;
@@ -93,7 +93,7 @@ public class PathGeom
 
    /**
     * Read parameters for XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @throws Exception
@@ -111,7 +111,7 @@ public class PathGeom
       this.linearize = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_linearize, false);
 
       EnumerationIterator<MarkupXML> enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_PATH_U);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_PATH_U, " in ", markupXML.getName()));
       }
@@ -119,7 +119,7 @@ public class PathGeom
       MarkupXML path = enumerationIterator.getNextElement();
 
       enumerationIterator = path.obtainChildren(ConstantsXML.MARKUP_PATH);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory child ", ConstantsXML.MARKUP_PATH, " in ", path.getName()));
       }
@@ -130,7 +130,7 @@ public class PathGeom
       //
 
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_PATH_V);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory child ", ConstantsXML.MARKUP_PATH_V, " in ", markupXML.getName()));
       }
@@ -138,7 +138,7 @@ public class PathGeom
       path = enumerationIterator.getNextElement();
 
       enumerationIterator = path.obtainChildren(ConstantsXML.MARKUP_PATH);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mandatory child ", ConstantsXML.MARKUP_PATH, " in ", path.getName()));
       }
@@ -151,7 +151,7 @@ public class PathGeom
 
    /**
     * Write on XML
-    * 
+    *
     * @param markupXML
     *           Markup to fill
     * @see jhelp.engine.Node#writeInMarkup
@@ -179,7 +179,7 @@ public class PathGeom
 
    /**
     * Append cubic to U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -205,7 +205,7 @@ public class PathGeom
 
    /**
     * Append cubic to U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param controlPoint1
@@ -222,7 +222,7 @@ public class PathGeom
 
    /**
     * Append cubic to V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -248,7 +248,7 @@ public class PathGeom
 
    /**
     * Append cubic to V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param controlPoint1
@@ -265,7 +265,7 @@ public class PathGeom
 
    /**
     * Append line on U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -282,7 +282,7 @@ public class PathGeom
 
    /**
     * Append line on U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param endPoint
@@ -295,7 +295,7 @@ public class PathGeom
 
    /**
     * Append line on V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -312,7 +312,7 @@ public class PathGeom
 
    /**
     * Append line on V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param endPoint
@@ -325,7 +325,7 @@ public class PathGeom
 
    /**
     * Append quadric to U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -339,14 +339,15 @@ public class PathGeom
     * @param end
     *           End value
     */
-   public void appendQuadU(final Point2D startPoint, final float start, final Point2D controlPoint, final float control, final Point2D endPoint, final float end)
+   public void appendQuadU(final Point2D startPoint, final float start, final Point2D controlPoint, final float control, final Point2D endPoint,
+         final float end)
    {
       this.pathU.appendQuad(startPoint, start, controlPoint, control, endPoint, end);
    }
 
    /**
     * Append quadric to U path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param controlPoint
@@ -361,7 +362,7 @@ public class PathGeom
 
    /**
     * Append quadric to V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param start
@@ -375,14 +376,15 @@ public class PathGeom
     * @param end
     *           End value
     */
-   public void appendQuadV(final Point2D startPoint, final float start, final Point2D controlPoint, final float control, final Point2D endPoint, final float end)
+   public void appendQuadV(final Point2D startPoint, final float start, final Point2D controlPoint, final float control, final Point2D endPoint,
+         final float end)
    {
       this.pathV.appendQuad(startPoint, start, controlPoint, control, endPoint, end);
    }
 
    /**
     * Append quadric to V path
-    * 
+    *
     * @param startPoint
     *           Start point
     * @param controlPoint
@@ -397,7 +399,7 @@ public class PathGeom
 
    /**
     * Return precisionU
-    * 
+    *
     * @return precisionU
     */
    public int getPrecisionU()
@@ -407,7 +409,7 @@ public class PathGeom
 
    /**
     * Return precisionV
-    * 
+    *
     * @return precisionV
     */
    public int getPrecisionV()
@@ -417,7 +419,7 @@ public class PathGeom
 
    /**
     * Try to linearize paths
-    * 
+    *
     * @param startU
     *           Start U
     * @param endU
@@ -435,7 +437,7 @@ public class PathGeom
 
    /**
     * Refresh path and force join each part
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param linearize
@@ -448,7 +450,7 @@ public class PathGeom
 
    /**
     * Refresh path and force join each part
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param linearize
@@ -477,9 +479,17 @@ public class PathGeom
       this.reconstructTheList();
    }
 
+   @Override
+   public void reset()
+   {
+      this.pathU.clear();
+      this.pathV.clear();
+      super.reset();
+   }
+
    /**
     * Modify precisionU
-    * 
+    *
     * @param precisionU
     *           New precisionU value
     */
@@ -494,7 +504,7 @@ public class PathGeom
 
    /**
     * Modify precisionV
-    * 
+    *
     * @param precisionV
     *           New precisionV value
     */

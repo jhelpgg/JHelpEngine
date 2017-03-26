@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.geom;
@@ -16,6 +16,7 @@ import jhelp.engine.Object3D;
 import jhelp.engine.Point2D;
 import jhelp.engine.Point3D;
 import jhelp.engine.Vertex;
+import jhelp.engine.VirtualSphere;
 import jhelp.engine.io.ConstantsXML;
 import jhelp.xml.MarkupXML;
 
@@ -24,7 +25,7 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 23 janv. 2009<br>
  * Version 0.0.0<br>
- * 
+ *
  * @author JHelp
  */
 public class Sphere
@@ -54,7 +55,7 @@ public class Sphere
 
    /**
     * Constructs Sphere
-    * 
+    *
     * @param multU
     *           Number of repetition of U
     * @param multV
@@ -67,7 +68,7 @@ public class Sphere
 
    /**
     * Constructs Sphere
-    * 
+    *
     * @param slice
     *           Number of slice (If <2, then 2 is taken)
     * @param stack
@@ -80,7 +81,7 @@ public class Sphere
 
    /**
     * Constructs Sphere
-    * 
+    *
     * @param slice
     *           Number of slice (If <2, then 2 is taken)
     * @param stack
@@ -238,7 +239,7 @@ public class Sphere
 
    /**
     * Call when parsing is done
-    * 
+    *
     * @see jhelp.engine.Node#endParseXML()
     */
    @Override
@@ -249,7 +250,7 @@ public class Sphere
 
    /**
     * Read sphere parameters from XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @see jhelp.engine.Node#readFromMarkup
@@ -266,7 +267,7 @@ public class Sphere
 
    /**
     * Write sphere in XML
-    * 
+    *
     * @param markupXML
     *           Markup to fill
     * @see jhelp.engine.Node#writeInMarkup
@@ -281,9 +282,15 @@ public class Sphere
       markupXML.addParameter(ConstantsXML.MARKUP_NODE_stack, this.stack);
    }
 
+   @Override
+   public VirtualSphere getSphere()
+   {
+      return new VirtualSphere(0, 0, 0, 1);
+   }
+
    /**
     * Last draw point index
-    * 
+    *
     * @return Last draw point index
     */
    public int lastPoint()
@@ -293,7 +300,7 @@ public class Sphere
 
    /**
     * North pole index
-    * 
+    *
     * @return North pole index
     */
    public int northPole()
@@ -311,7 +318,7 @@ public class Sphere
 
    /**
     * Recompute the sphere
-    * 
+    *
     * @param multU
     *           Number of repetition of U
     * @param multV
@@ -324,7 +331,7 @@ public class Sphere
 
    /**
     * Recompute the sphere
-    * 
+    *
     * @param slice
     *           Number of slice (If <2, then 2 is taken)
     * @param stack
@@ -337,7 +344,7 @@ public class Sphere
 
    /**
     * Recompute the sphere
-    * 
+    *
     * @param slice
     *           Number of slice (If <2, then 2 is taken)
     * @param stack
@@ -368,6 +375,8 @@ public class Sphere
       double sinStackAngle;
       double sinSliceAngleFutur;
       double sinStackAngleFutur;
+
+      // Bellow A stand for Actual, F for Future
       float uA;
       float vA;
       float uF;
@@ -384,6 +393,7 @@ public class Sphere
       float nxFF;
       float nyFF;
       float nzFF;
+
       int sli;
       int sta;
       //
@@ -476,7 +486,7 @@ public class Sphere
 
    /**
     * South pole index
-    * 
+    *
     * @return South pole index
     */
    public int southPole()

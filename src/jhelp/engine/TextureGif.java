@@ -116,7 +116,7 @@ public class TextureGif
    {
       super(file.getAbsolutePath(), Texture.REFERENCE_IMAGE_GIF);
 
-      if(GIF.isGIF(file) == false)
+      if(!GIF.isGIF(file))
       {
          throw new IllegalArgumentException("The file " + file.getAbsolutePath() + " is not a valid GIF");
       }
@@ -169,7 +169,7 @@ public class TextureGif
             {
                inputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -189,7 +189,7 @@ public class TextureGif
 
       synchronized(this.lock)
       {
-         if(this.animate == false)
+         if(!this.animate)
          {
             this.launch = false;
             return;
@@ -202,7 +202,7 @@ public class TextureGif
 
       synchronized(this.lock)
       {
-         if(this.animate == false)
+         if(!this.animate)
          {
             this.launch = false;
             return;
@@ -244,7 +244,7 @@ public class TextureGif
     */
    public void changeGifFile(final File gifFile)
    {
-      if(GIF.isGIF(gifFile) == false)
+      if(!GIF.isGIF(gifFile))
       {
          return;
       }
@@ -283,7 +283,7 @@ public class TextureGif
 
          this.animate = animate;
 
-         if((this.animate == true) && (this.launch == false) && (this.gif != null))
+         if((this.animate) && (!this.launch) && (this.gif != null))
          {
             this.launch = true;
             ThreadManager.THREAD_MANAGER.doThread(this.taskRefreshGIF, null);

@@ -141,36 +141,36 @@ public class SwingSampleFrame
       final boolean right = SwingUtilities.isRightMouseButton(e);
 
       float factor = 0.01f;
-      if(e.isShiftDown() == true)
+      if(e.isShiftDown())
       {
          factor = 0.1f;
 
-         if(e.isControlDown() == true)
+         if(e.isControlDown())
          {
             factor = 1f;
          }
       }
-      else if(e.isAltDown() == true)
+      else if(e.isAltDown())
       {
          factor = 0.001f;
 
-         if(e.isControlDown() == true)
+         if(e.isControlDown())
          {
             factor = 0.0001f;
          }
       }
 
       final Scene scene = this.componentView3D.getSceneRenderer().getScene();
-      if((left == true) && (right == true))
+      if((left) && (right))
       {
          scene.translate(dx * factor, -dy * factor, 0);
       }
-      else if(left == true)
+      else if(left)
       {
          scene.rotateAngleX(dy);
          scene.rotateAngleY(dx);
       }
-      else if(right == true)
+      else if(right)
       {
          scene.translate(0, 0, -dy * factor);
       }

@@ -5,14 +5,16 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
 
+import jhelp.engine.util.Math3D;
+
 /**
  * Node with bounding box
- * 
+ *
  * @author JHelp
  */
 public abstract class NodeWithBox
@@ -27,14 +29,14 @@ public abstract class NodeWithBox
 
    /**
     * Bonding box
-    * 
+    *
     * @return Bonding box
     */
    public abstract VirtualBox getBox();
 
    /**
     * Compute the bounding box and projected it in world space
-    * 
+    *
     * @return Computed projected in world space bounding box
     */
    public VirtualBox getProjectedBox()
@@ -42,7 +44,7 @@ public abstract class NodeWithBox
       final VirtualBox projected = new VirtualBox();
       final VirtualBox virtualBox = this.getBox();
 
-      if(virtualBox.isEmpty() == true)
+      if(virtualBox.isEmpty())
       {
          return projected;
       }
@@ -81,4 +83,16 @@ public abstract class NodeWithBox
 
       return projected;
    }
+
+   public VirtualSphere getProjectedSphere()
+   {
+      final VirtualSphere sphere = this.getSphere();
+      final Point3D center = sphere.getCenter();
+      final Point3D centerProjected = this.getProjection(center);
+      final Point3D northPoleProjected = this.getProjection(center.add(0, 0, -sphere.getRay()));
+      final float rayProjected = Math3D.distance(centerProjected, northPoleProjected);
+      return new VirtualSphere(centerProjected.x, centerProjected.y, centerProjected.z, rayProjected);
+   }
+
+   public abstract VirtualSphere getSphere();
 }

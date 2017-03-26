@@ -225,7 +225,7 @@ public class Math3D
     *           Second float
     * @return {@code true} if floats are equal
     */
-   public static final boolean equal(final float f1, final float f2)
+   public static boolean equal(final float f1, final float f2)
    {
       return Math.abs(f1 - f2) < 1e-5f;
    }
@@ -239,7 +239,7 @@ public class Math3D
     *           Second float
     * @return {@code true} if floats are equal
     */
-   public static final boolean equalPick(final float f1, final float f2)
+   public static boolean equalPick(final float f1, final float f2)
    {
       return Math.abs(f1 - f2) < Math3D.PICK_EPSILON;
    }
@@ -251,7 +251,7 @@ public class Math3D
     *           Array to copy
     * @return Copy
     */
-   public static final float[] getCopy(final float[] array)
+   public static float[] getCopy(final float[] array)
    {
       if(array == null)
       {
@@ -269,7 +269,7 @@ public class Math3D
     *           Array to copy
     * @return Copy
     */
-   public static final int[] getCopy(final int[] array)
+   public static int[] getCopy(final int[] array)
    {
       if(array == null)
       {
@@ -299,7 +299,7 @@ public class Math3D
     *           Float to test
     * @return {@code true} if the float is nul
     */
-   public static final boolean nul(final float f)
+   public static boolean nul(final float f)
    {
       return Math.abs(f) < 1e-5f;
    }

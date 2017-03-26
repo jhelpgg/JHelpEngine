@@ -20,11 +20,11 @@ import jhelp.engine.Vertex;
 public class Triangle
 {
    /** Triangle first vertex */
-   public Vertex first;
+   public final Vertex first;
    /** Triangle second vertex */
-   public Vertex second;
+   public final Vertex second;
    /** Triangle third vertex */
-   public Vertex third;
+   public final Vertex third;
 
    /**
     * Create a new instance of Triangle

@@ -66,7 +66,7 @@ public class Rotation
     */
    public void glRotatef(final GL gl)
    {
-      if(Math3D.nul(this.angle) == false)
+      if(!Math3D.nul(this.angle))
       {
          gl.glRotatef(this.angle, this.x, this.y, this.z);
       }

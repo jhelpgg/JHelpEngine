@@ -51,7 +51,7 @@ public class MultiAnimation
     */
    public MultiAnimation(final boolean loop)
    {
-      this(loop == true
+      this(loop
             ? Integer.MAX_VALUE
             : 1);
    }
@@ -112,7 +112,7 @@ public class MultiAnimation
 
       boolean cont = this.animations.get(this.index).animate(gl, absoluteFrame);
 
-      while(cont == false)
+      while(!cont)
       {
          this.index++;
 
@@ -150,7 +150,7 @@ public class MultiAnimation
       this.index = 0;
       this.loopLeft = this.numberOfLoop;
 
-      if(this.animations.isEmpty() == false)
+      if(!this.animations.isEmpty())
       {
          this.animations.get(0).setStartAbsoluteFrame(startAbsoluteFrame);
       }

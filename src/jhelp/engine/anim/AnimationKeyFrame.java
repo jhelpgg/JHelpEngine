@@ -130,9 +130,9 @@ public abstract class AnimationKeyFrame<ObjectType, Value>
 
       // Compute where insert the frame
       size = this.keys.getSize();
+      //noinspection StatementWithEmptyBody
       for(index = 0; (index < size) && (this.keys.getInteger(index) < key); index++)
       {
-         ;
       }
 
       // If the insertion is not the end, insert it
@@ -213,9 +213,9 @@ public abstract class AnimationKeyFrame<ObjectType, Value>
       }
 
       // Compute the nearest frame index from the actual frame
+      //noinspection StatementWithEmptyBody
       for(frame = 0; (frame < size) && (this.keys.getInteger(frame) < actualFrame); frame++)
       {
-         ;
       }
 
       // If it is the first frame, just locate to the first and the animation

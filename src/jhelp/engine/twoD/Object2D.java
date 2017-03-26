@@ -249,7 +249,7 @@ public class Object2D
          if(this.over != over)
          {
             this.over = over;
-            if(this.over == true)
+            if(this.over)
             {
                this.fireMouseEnter(x, y);
             }
@@ -260,7 +260,7 @@ public class Object2D
             return;
          }
          // If the mouse is not on the object, do nothing
-         if(over == false)
+         if(!over)
          {
             return;
          }
@@ -281,12 +281,12 @@ public class Object2D
       }
       finally
       {
-         while(this.toRemove.isEmpty() == false)
+         while(!this.toRemove.isEmpty())
          {
             this.arrayListListeners.remove(this.toRemove.outQueue());
          }
 
-         while(this.toAdd.isEmpty() == false)
+         while(!this.toAdd.isEmpty())
          {
             this.arrayListListeners.add(this.toAdd.outQueue());
          }
@@ -393,7 +393,7 @@ public class Object2D
     */
    public void addObject2DListener(final Object2DListener object2DListener)
    {
-      if(this.firing == true)
+      if(this.firing)
       {
          this.toAdd.inQueue(object2DListener);
          return;
@@ -430,7 +430,7 @@ public class Object2D
     */
    public Texture getTexture()
    {
-      if(this.visible == false)
+      if(!this.visible)
       {
          return null;
       }
@@ -489,7 +489,7 @@ public class Object2D
     */
    public boolean isDetected(final int x, final int y)
    {
-      if((this.canBeDetected == false) || (this.visible == false))
+      if((!this.canBeDetected) || (!this.visible))
       {
          return false;
       }
@@ -515,7 +515,7 @@ public class Object2D
     */
    public void removeObject2DListener(final Object2DListener object2DListener)
    {
-      if(this.firing == true)
+      if(this.firing)
       {
          this.toRemove.inQueue(object2DListener);
          return;

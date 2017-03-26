@@ -192,7 +192,7 @@ public class InternalFrame
    {
       this.reduce = !this.reduce;
 
-      if(this.reduce == true)
+      if(this.reduce)
       {
          this.components.remove(BorderLayoutConstraints.CENTER);
 

@@ -170,7 +170,7 @@ public class GUI2D
       {
          if(this.exclusiveObject != null)
          {
-            if(this.exclusiveObject.isDetected(x, y) == true)
+            if(this.exclusiveObject.isDetected(x, y))
             {
                return this.exclusiveObject;
             }
@@ -183,7 +183,7 @@ public class GUI2D
          for(int i = nb - 1; i >= 0; i--)
          {
             object2D = this.arrayListObject2DOver3D.get(i);
-            if(object2D.isDetected(x, y) == true)
+            if(object2D.isDetected(x, y))
             {
                return object2D;
             }
@@ -213,7 +213,7 @@ public class GUI2D
       {
          if(this.exclusiveObject != null)
          {
-            if(this.exclusiveObject.isDetected(x, y) == true)
+            if(this.exclusiveObject.isDetected(x, y))
             {
                return this.exclusiveObject;
             }
@@ -242,7 +242,7 @@ public class GUI2D
          for(int i = nb - 1; i >= 0; i--)
          {
             object2D = this.arrayListObject2DUnder3D.get(i);
-            if(object2D.isDetected(x, y) == true)
+            if(object2D.isDetected(x, y))
             {
                return object2D;
             }

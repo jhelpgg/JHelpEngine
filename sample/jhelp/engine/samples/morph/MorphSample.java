@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.samples.morph;
@@ -37,7 +37,7 @@ public class MorphSample
 
    /**
     * Launch the hello word
-    * 
+    *
     * @param args
     *           Unused
     */
@@ -95,9 +95,7 @@ public class MorphSample
    public boolean animate(final GL gl, final float absoluteFrame)
    {
       final float t = (float) UtilMath.moduloInterval((absoluteFrame - this.startAbsoluteFrame) / 100.0, -1, 1);
-
       MorphSample.morph.movePoint(0, 0, 0, t * 0.02f, 0.9f, 2);
-
       return true;
    }
 

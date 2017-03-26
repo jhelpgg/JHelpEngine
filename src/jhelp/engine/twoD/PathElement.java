@@ -85,11 +85,6 @@ public class PathElement
          break;
       }
 
-      if(length < 2)
-      {
-         throw new Exception("Invalid type : " + pathType);
-      }
-
       this.points = new Point3D[length];
       final StringTokenizer stringTokenizer = new StringTokenizer(markupXML.getText());
       for(int i = 0; i < length; i++)
@@ -108,7 +103,7 @@ public class PathElement
    {
       final MarkupXML markupXML = new MarkupXML(ConstantsXML.MARKUP_PATH_ELEMENT);
       markupXML.addParameter(ConstantsXML.MARKUP_PATH_ELEMENT_pathType, this.pathType.name());
-      final StringBuffer stringBuffer = new StringBuffer();
+      final StringBuilder stringBuffer = new StringBuilder();
       for(final Point3D point3D : this.points)
       {
          stringBuffer.append(point3D.getX());

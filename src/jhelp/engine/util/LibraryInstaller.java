@@ -32,7 +32,7 @@ public class LibraryInstaller
     */
    public static void install()
    {
-      if(LibraryInstaller.alreadyInstall == true)
+      if(LibraryInstaller.alreadyInstall)
       {
          return;
       }
@@ -48,7 +48,7 @@ public class LibraryInstaller
       // Open the jar file
       final File file = UtilIO.obtainExternalFile("jar/" + jarFileName);
       Debug.println(DebugLevel.VERBOSE, "file=", file.getAbsolutePath(), " | ", file.exists());
-      if(file.exists() == false)
+      if(!file.exists())
       {
          return;
       }

@@ -24,13 +24,13 @@ public class CellLayoutConstraints
       implements Constraints
 {
    /** Number of cell in height */
-   int height;
+   final int height;
    /** Number of cell in width */
-   int width;
+   final int width;
    /** X cell */
-   int x;
+   final int x;
    /** Y cell */
-   int y;
+   final int y;
 
    /**
     * Constructs CellLayoutConstraints
@@ -68,7 +68,7 @@ public class CellLayoutConstraints
          return true;
       }
 
-      if((constraints instanceof CellLayoutConstraints) == false)
+      if(!(constraints instanceof CellLayoutConstraints))
       {
          return false;
       }

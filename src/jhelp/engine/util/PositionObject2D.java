@@ -23,13 +23,13 @@ import jhelp.engine.twoD.Object2D;
 public class PositionObject2D
 {
    /** Height */
-   public int height;
+   public final int height;
    /** Width */
-   public int width;
+   public final int width;
    /** X */
-   public int x;
+   public final int x;
    /** Y */
-   public int y;
+   public final int y;
 
    /**
     * Constructs PositionObject2D

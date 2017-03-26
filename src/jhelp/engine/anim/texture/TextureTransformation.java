@@ -53,12 +53,12 @@ public class TextureTransformation
          texture.shift(this.shiftX, this.shiftY);
       }
 
-      if(Math3D.equal(this.contrast, 1) == false)
+      if(!Math3D.equal(this.contrast, 1))
       {
          texture.contrast(this.contrast);
       }
 
-      if(this.invertColor == true)
+      if(this.invertColor)
       {
          texture.invert();
       }

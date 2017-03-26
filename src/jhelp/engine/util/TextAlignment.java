@@ -25,5 +25,5 @@ public enum TextAlignment
    /** Align at left */
    LEFT,
    /** Align at right */
-   RIGHT;
+   RIGHT
 }

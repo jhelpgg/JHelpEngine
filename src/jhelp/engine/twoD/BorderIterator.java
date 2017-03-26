@@ -97,7 +97,7 @@ public class BorderIterator
 
       double dx = 0, dy = 0, cx = 0, cy = 0, fx = 0, fy;
 
-      while(pathIterator.isDone() == false)
+      while(!pathIterator.isDone())
       {
          pathElement = new PathElement();
 
@@ -128,7 +128,7 @@ public class BorderIterator
             break;
          }
 
-         if(first == true)
+         if(first)
          {
             this.minX = this.maxX = pathElement.x;
             this.minY = this.maxY = pathElement.y;

@@ -119,7 +119,7 @@ public class WindowMaterial
       this.needRefresh = false;
       this.lock.lock();
 
-      if(this.texture.willBeRefresh() == true)
+      if(this.texture.willBeRefresh())
       {
          return;
       }
@@ -292,7 +292,7 @@ public class WindowMaterial
     */
    public void refreshIfNeed()
    {
-      if((this.needRefresh == true) || (this.mainComponent.isNeedRefresh() == true))
+      if((this.needRefresh) || (this.mainComponent.isNeedRefresh()))
       {
          ThreadManager.THREAD_MANAGER.doThread(this.delayedRefresh, null);
       }

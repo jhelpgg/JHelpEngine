@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.samples.helloWord;
@@ -25,7 +25,7 @@ import jhelp.util.resources.Resources;
 
 /**
  * Hello word exemple, a simple cube in middle of the scene
- * 
+ *
  * @author JHelp
  */
 public class HelloWordReal
@@ -35,7 +35,7 @@ public class HelloWordReal
 
    /**
     * Launch the hello word
-    * 
+    *
     * @param args
     *           Unused
     */
@@ -53,7 +53,7 @@ public class HelloWordReal
       final Scene scene = sceneRenderer.getScene();
 
       // Create a cube
-      final Node helloWord = Font3D.createString("Courier New", "Hello word !", 0.001f, 1, 0.2f);
+      final Node helloWord = Font3D.createString("Courier New", "Hello world !", 0.001f, 1, 0.2f);
 
       // Add the cube in the scene
       scene.add(helloWord);

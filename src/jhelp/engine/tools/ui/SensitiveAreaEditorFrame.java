@@ -568,7 +568,7 @@ public class SensitiveAreaEditorFrame
          return;
       }
 
-      if((shift == true) && (click == true))
+      if((shift) && (click))
       {
          this.position = Position.OUTSIDE;
          this.area = null;
@@ -589,12 +589,12 @@ public class SensitiveAreaEditorFrame
          this.overArea = pair.element2;
          this.position = pair.element1;
 
-         if(click == true)
+         if(click)
          {
             this.area = pair.element2;
          }
       }
-      else if(click == false)
+      else if(!click)
       {
          this.area = null;
       }
@@ -640,7 +640,7 @@ public class SensitiveAreaEditorFrame
             {
                inputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -679,7 +679,7 @@ public class SensitiveAreaEditorFrame
             {
                outputStream.flush();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
 
@@ -687,7 +687,7 @@ public class SensitiveAreaEditorFrame
             {
                outputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }

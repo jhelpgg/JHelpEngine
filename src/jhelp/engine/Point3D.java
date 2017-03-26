@@ -5,16 +5,15 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
 
-import gleem.linalg.Vec3f;
-import gleem.linalg.Vec4f;
-
 import javax.media.opengl.GL;
 
+import gleem.linalg.Vec3f;
+import gleem.linalg.Vec4f;
 import jhelp.engine.util.Math3D;
 
 /**
@@ -22,14 +21,14 @@ import jhelp.engine.util.Math3D;
  * <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class Point3D
 {
    /**
     * Middle between two points
-    * 
+    *
     * @param point1
     *           First point
     * @param point2
@@ -43,7 +42,7 @@ public class Point3D
 
    /**
     * Distance between two points
-    * 
+    *
     * @param x1
     *           X1
     * @param y1
@@ -65,7 +64,7 @@ public class Point3D
 
    /**
     * Distance between two point
-    * 
+    *
     * @param point1
     *           Point 1
     * @param x2
@@ -83,7 +82,7 @@ public class Point3D
 
    /**
     * Distance between two point
-    * 
+    *
     * @param point1
     *           Point 1
     * @param point2
@@ -97,7 +96,7 @@ public class Point3D
 
    /**
     * Distance square between two points
-    * 
+    *
     * @param x1
     *           X1
     * @param y1
@@ -119,7 +118,7 @@ public class Point3D
 
    /**
     * Distance square between two point
-    * 
+    *
     * @param point1
     *           Point 1
     * @param x2
@@ -137,7 +136,7 @@ public class Point3D
 
    /**
     * Distance square between two point
-    * 
+    *
     * @param point1
     *           Point 1
     * @param point2
@@ -151,7 +150,7 @@ public class Point3D
 
    /**
     * Vector length
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -167,7 +166,7 @@ public class Point3D
 
    /**
     * Vector length square
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -200,7 +199,7 @@ public class Point3D
 
    /**
     * Constructs Point3D
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -217,7 +216,7 @@ public class Point3D
 
    /**
     * Constructs Point3D
-    * 
+    *
     * @param point
     *           Point for X, Y values
     * @param z
@@ -232,7 +231,7 @@ public class Point3D
 
    /**
     * Constructs Point3D copy to an other
-    * 
+    *
     * @param point
     *           Point to copy
     */
@@ -245,7 +244,7 @@ public class Point3D
 
    /**
     * Constructs Point3D
-    * 
+    *
     * @param vec3f
     *           Base vector
     */
@@ -258,7 +257,7 @@ public class Point3D
 
    /**
     * Constructs Point3D
-    * 
+    *
     * @param vec4f
     *           JOGL vector
     */
@@ -273,7 +272,7 @@ public class Point3D
 
    /**
     * Add vector or translate a point
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -289,7 +288,7 @@ public class Point3D
 
    /**
     * Add vector or translate a point
-    * 
+    *
     * @param vector
     *           Vector to add
     * @return Result vector or translated point
@@ -301,7 +300,7 @@ public class Point3D
 
    /**
     * Translate in opposite way
-    * 
+    *
     * @param point
     *           Translation vector
     */
@@ -314,7 +313,7 @@ public class Point3D
 
    /**
     * Make the dot product between this vector and an other
-    * 
+    *
     * @param vector
     *           Vector we do the dot product
     * @return Dot product
@@ -326,7 +325,7 @@ public class Point3D
 
    /**
     * Indicates if an object is equal to this point
-    * 
+    *
     * @param obj
     *           Object to compare
     * @return {@code true} on equality
@@ -343,7 +342,7 @@ public class Point3D
       {
          return true;
       }
-      if((obj instanceof Point3D) == false)
+      if(!(obj instanceof Point3D))
       {
          return false;
       }
@@ -352,7 +351,7 @@ public class Point3D
 
    /**
     * Indicates if an other point is equal to this point
-    * 
+    *
     * @param point
     *           Point compare
     * @return {@code true} on equality
@@ -364,7 +363,7 @@ public class Point3D
 
    /**
     * Multiply the vector by a factor
-    * 
+    *
     * @param factor
     *           Multiply factor
     * @return Result vector
@@ -376,7 +375,7 @@ public class Point3D
 
    /**
     * Opposite vector
-    * 
+    *
     * @return Opposite vector
     */
    public Point3D getOptsite()
@@ -386,7 +385,7 @@ public class Point3D
 
    /**
     * X
-    * 
+    *
     * @return X
     */
    public float getX()
@@ -396,7 +395,7 @@ public class Point3D
 
    /**
     * Y
-    * 
+    *
     * @return Y
     */
    public float getY()
@@ -406,7 +405,7 @@ public class Point3D
 
    /**
     * Z
-    * 
+    *
     * @return Z
     */
    public float getZ()
@@ -416,7 +415,7 @@ public class Point3D
 
    /**
     * Apply like a normal in OpenGL
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -427,13 +426,18 @@ public class Point3D
 
    /**
     * Apply like a point in OpenGL
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
    public void glVertex3f(final GL gl)
    {
       gl.glVertex3f(this.x, this.y, this.z);
+   }
+
+   public boolean isNul()
+   {
+      return (Math3D.nul(this.x)) && (Math3D.nul(this.y)) && (Math3D.nul(this.z));
    }
 
    /**
@@ -452,7 +456,7 @@ public class Point3D
    public void normalize()
    {
       final float length = this.length();
-      if(Math3D.nul(length) == false)
+      if(!Math3D.nul(length))
       {
          this.x /= length;
          this.y /= length;
@@ -462,7 +466,7 @@ public class Point3D
 
    /**
     * Make dot product between this vector and an other
-    * 
+    *
     * @param vector
     *           Vector we do the product
     * @return The product
@@ -477,7 +481,7 @@ public class Point3D
 
    /**
     * Modify the point
-    * 
+    *
     * @param x
     *           New X
     * @param y
@@ -494,7 +498,7 @@ public class Point3D
 
    /**
     * Copy a point
-    * 
+    *
     * @param point
     *           Point copied
     */
@@ -507,7 +511,7 @@ public class Point3D
 
    /**
     * Copy JOGL vector
-    * 
+    *
     * @param vec3f
     *           Copied vector
     */
@@ -520,7 +524,7 @@ public class Point3D
 
    /**
     * Copy JOGL vector
-    * 
+    *
     * @param vec4f
     *           Copied vector
     */
@@ -535,7 +539,7 @@ public class Point3D
 
    /**
     * Subtraction two vector or two points
-    * 
+    *
     * @param vector
     *           Vector or point to substract
     * @return Vector result
@@ -547,14 +551,14 @@ public class Point3D
 
    /**
     * String representation
-    * 
+    *
     * @return String representation
     * @see java.lang.Object#toString()
     */
    @Override
    public String toString()
    {
-      final StringBuffer sb = new StringBuffer("Point3D : (");
+      final StringBuilder sb = new StringBuilder("Point3D : (");
       sb.append(this.x);
       sb.append(", ");
       sb.append(this.y);
@@ -566,7 +570,7 @@ public class Point3D
 
    /**
     * To JOGL vector
-    * 
+    *
     * @return JOGL vector
     */
    public Vec3f toVect3f()
@@ -576,7 +580,7 @@ public class Point3D
 
    /**
     * To JOGL vector
-    * 
+    *
     * @return JOGL vector
     */
    public Vec4f toVect4f()
@@ -586,7 +590,7 @@ public class Point3D
 
    /**
     * Translate
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -603,7 +607,7 @@ public class Point3D
 
    /**
     * Translate
-    * 
+    *
     * @param point
     *           Translation vector
     */

@@ -48,7 +48,7 @@ public class NodeComparatorZorder
    @Override
    public int compare(final Node node1, final Node node2)
    {
-      if(Math3D.equal(node1.zOrder, node2.zOrder) == true)
+      if(Math3D.equal(node1.zOrder, node2.zOrder))
       {
          return 0;
       }

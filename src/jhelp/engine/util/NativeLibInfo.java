@@ -54,7 +54,7 @@ final class NativeLibInfo
       final String osArch = System.getProperty("os.arch");
       for(final NativeLibInfo nativeLibInfo : NativeLibInfo.allNativeLibInfo)
       {
-         if(nativeLibInfo.matchesOSAndArch(osName, osArch) == true)
+         if(nativeLibInfo.matchesOSAndArch(osName, osArch))
          {
             return nativeLibInfo;
          }
@@ -67,7 +67,7 @@ final class NativeLibInfo
     * 
     * @return Jar to use
     */
-   public final static String getJarFileName()
+   public static String getJarFileName()
    {
       // Get local library information
       final NativeLibInfo nativeLibInfo = NativeLibInfo.getNativeLibInfo();
@@ -77,7 +77,7 @@ final class NativeLibInfo
          return null;
       }
       // For Mac OS be sure that jawt library is load
-      if(nativeLibInfo.isMacOS() == false)
+      if(!nativeLibInfo.isMacOS())
       {
          try
          {
@@ -135,10 +135,7 @@ final class NativeLibInfo
     */
    public String formatNativeJarName(final String nativeJarPattern)
    {
-      return MessageFormat.format(nativeJarPattern, new Object[]
-      {
-         this.osNameAndArchPair
-      });
+      return MessageFormat.format(nativeJarPattern, this.osNameAndArchPair);
    }
 
    /**
@@ -172,11 +169,8 @@ final class NativeLibInfo
     */
    public boolean matchesNativeLib(final String fileName)
    {
-      if(fileName.toLowerCase().endsWith(this.nativeSuffix))
-      {
-         return true;
-      }
-      return false;
+       return fileName.toLowerCase()
+                      .endsWith(this.nativeSuffix);
    }
 
    /**

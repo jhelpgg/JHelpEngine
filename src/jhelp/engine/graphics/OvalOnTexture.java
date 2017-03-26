@@ -95,7 +95,7 @@ class OvalOnTexture
    public void draw(final Texture texture)
    {
 
-      if(this.fill == true)
+      if(this.fill)
       {
          texture.fillOval(Math.min(this.x1, this.x2), Math.min(this.y1, this.y2), Math.abs(this.x1 - this.x2) + 1, Math.abs(this.y1 - this.y2) + 1, this.color,
                this.mix);

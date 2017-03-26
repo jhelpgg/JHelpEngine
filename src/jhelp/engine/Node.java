@@ -5,13 +5,10 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
-
-import gleem.linalg.Rotf;
-import gleem.linalg.Vec3f;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,11 +18,14 @@ import java.util.Vector;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
+import gleem.linalg.Rotf;
+import gleem.linalg.Vec3f;
 import jhelp.engine.event.NodeListener;
 import jhelp.engine.io.ConstantsXML;
 import jhelp.engine.util.Math3D;
 import jhelp.engine.util.Tool3D;
 import jhelp.util.list.Triplet;
+import jhelp.util.math.UtilMath;
 import jhelp.util.thread.ThreadManager;
 import jhelp.util.thread.ThreadedSimpleTask;
 import jhelp.xml.MarkupXML;
@@ -34,14 +34,14 @@ import jhelp.xml.MarkupXML;
  * General node of the graph scene.<br>
  * It could be use also as a virtual object<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 public class Node
 {
    /**
     * Task for say to one listener that a click happen on the node
-    * 
+    *
     * @author JHelp
     */
    class TaskFireMouseClick
@@ -59,7 +59,7 @@ public class Node
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param parameter
        *           The triplet of the listener to alert, left button state, right button state
        * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
@@ -73,7 +73,7 @@ public class Node
 
    /**
     * Task say to one listener that mouse enter the node
-    * 
+    *
     * @author JHelp
     */
    class TaskFireMouseEnter
@@ -91,7 +91,7 @@ public class Node
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param parameter
        *           The listener to alert
        * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
@@ -105,7 +105,7 @@ public class Node
 
    /**
     * Task say to one listener that mouse exit the node
-    * 
+    *
     * @author JHelp
     */
    class TaskFireMouseExit
@@ -123,7 +123,7 @@ public class Node
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param parameter
        *           The listener to alert
        * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
@@ -222,7 +222,7 @@ public class Node
    /** Z minimum */
    private float                         zMin;
    /** Node's children */
-   Vector<Node>                          children;
+   final   Vector<Node>                          children;
 
    /** Texture hotspot linked to the node or {@code null} */
    Texture                               textureHotspot;
@@ -341,7 +341,7 @@ public class Node
 
    /**
     * Locate the node in the scene
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -356,7 +356,7 @@ public class Node
 
    /**
     * Apply the matrix for to go root to this node
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -370,7 +370,7 @@ public class Node
          node = node.parent;
       }
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          stack.pop().matrix(gl);
       }
@@ -378,7 +378,7 @@ public class Node
 
    /**
     * Action on mouse state change
-    * 
+    *
     * @param leftButton
     *           Left mouse button state
     * @param rightButton
@@ -402,7 +402,7 @@ public class Node
          return;
       }
       //
-      if(over == false)
+      if(!over)
       {
          return;
       }
@@ -415,7 +415,7 @@ public class Node
 
    /**
     * Render for pick UV
-    * 
+    *
     * @param node
     *           Picking node
     * @param gl
@@ -442,7 +442,7 @@ public class Node
 
    /**
     * Render the node for color picking
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -480,7 +480,7 @@ public class Node
 
    /**
     * Signals to the listener that mouse click on the node
-    * 
+    *
     * @param leftButton
     *           Left mouse button state
     * @param rightButton
@@ -527,7 +527,7 @@ public class Node
 
    /**
     * Over write to complete specific parsing
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @throws Exception
@@ -539,7 +539,7 @@ public class Node
 
    /**
     * Render specific, used by sub-classes
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -551,7 +551,7 @@ public class Node
 
    /**
     * Render specific for color picking, used by sub-classes
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -564,7 +564,7 @@ public class Node
    /**
     * Render specific for UV picking.<br>
     * Override it to do the specific part
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -583,7 +583,7 @@ public class Node
 
    /**
     * Over write to save specific information
-    * 
+    *
     * @param markupXML
     *           Markup to fill
     */
@@ -593,7 +593,7 @@ public class Node
 
    /**
     * Add a child
-    * 
+    *
     * @param child
     *           Child to add
     */
@@ -613,7 +613,7 @@ public class Node
 
    /**
     * Add listener to the node
-    * 
+    *
     * @param nodeListener
     *           Listener add
     */
@@ -626,7 +626,7 @@ public class Node
 
       synchronized(this.arrayListListners)
       {
-         if(this.arrayListListners.contains(nodeListener) == false)
+         if(!this.arrayListListners.contains(nodeListener))
          {
             this.arrayListListners.add(nodeListener);
          }
@@ -635,7 +635,7 @@ public class Node
 
    /**
     * Apply same material to the all hierarchy
-    * 
+    *
     * @param material
     *           Material to apply
     */
@@ -654,7 +654,7 @@ public class Node
 
    /**
     * Assign node listener to all hierarchy
-    * 
+    *
     * @param nodeListener
     *           Node listener to add
     */
@@ -680,7 +680,7 @@ public class Node
 
    /**
     * Number of children
-    * 
+    *
     * @return Number of children
     */
    public int childCount()
@@ -690,7 +690,7 @@ public class Node
 
    /**
     * Compute the complete box that contains the node and all its hierarchy and projected it in world space
-    * 
+    *
     * @return Total box projected in the world space
     */
    public VirtualBox computeProjectedTotalBox()
@@ -698,7 +698,7 @@ public class Node
       final VirtualBox projected = new VirtualBox();
       final VirtualBox virtualBox = this.computeTotalBox();
 
-      if(virtualBox.isEmpty() == true)
+      if(virtualBox.isEmpty())
       {
          return projected;
       }
@@ -738,9 +738,33 @@ public class Node
       return projected;
    }
 
+   public VirtualSphere computeProjectedTotalSphere()
+   {
+      final VirtualSphere sphere = this.computeTotalSphere();
+
+      if(sphere == null)
+      {
+         return null;
+      }
+
+      final Point3D center = sphere.getCenter();
+      final Point3D centerProjected = this.getProjection(center);
+      final Point3D northPoleProjected = this.getProjection(center.add(0, 0, -sphere.getRay()));
+      float rayProjected = Math3D.distance(centerProjected, northPoleProjected);
+      Node node = this;
+
+      while(node != null)
+      {
+         rayProjected *= UtilMath.max(node.scaleX, node.scaleY, node.scaleZ);
+         node = node.parent;
+      }
+
+      return new VirtualSphere(centerProjected.x, centerProjected.y, centerProjected.z, rayProjected);
+   }
+
    /**
     * Compute the minimal box that contains the node and its children
-    * 
+    *
     * @return Computed box
     */
    public final VirtualBox computeTotalBox()
@@ -758,6 +782,38 @@ public class Node
       }
 
       return virtualBox;
+   }
+
+   public final VirtualSphere computeTotalSphere()
+   {
+      VirtualSphere sphere = null;
+
+      if(this instanceof NodeWithBox)
+      {
+         sphere = ((NodeWithBox) this).getSphere();// .translate(this.x, this.y, this.z);
+         // sphere = sphere.scale(this.scaleX, this.scaleY, this.scaleZ);
+      }
+
+      VirtualSphere childSphere;
+
+      for(final Node child : this.children)
+      {
+         childSphere = child.computeTotalSphere();
+
+         if(childSphere != null)
+         {
+            if(sphere == null)
+            {
+               sphere = childSphere;
+            }
+            else
+            {
+               sphere = VirtualSphere.add(sphere, childSphere);
+            }
+         }
+      }
+
+      return sphere;
    }
 
    /**
@@ -810,7 +866,7 @@ public class Node
 
    /**
     * Developper addional information
-    * 
+    *
     * @return Developper addional information
     */
    public Object getAdditionalInformation()
@@ -820,7 +876,7 @@ public class Node
 
    /**
     * Obtain all child node hierarchical with the given name
-    * 
+    *
     * @param nodeName
     *           Name search
     * @return List of matches nodes
@@ -832,14 +888,14 @@ public class Node
       final Stack<Node> stack = new Stack<Node>();
       stack.add(this);
       Node node;
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          node = stack.pop();
          if((node.nodeName == null) && (nodeName == null))
          {
             arrayList.add(node);
          }
-         else if((nodeName != null) && (node.nodeName != null) && (nodeName.equals(node.nodeName) == true))
+         else if((nodeName != null) && (node.nodeName != null) && (nodeName.equals(node.nodeName)))
          {
             arrayList.add(node);
          }
@@ -854,7 +910,7 @@ public class Node
 
    /**
     * Angle X
-    * 
+    *
     * @return Angle X
     */
    public float getAngleX()
@@ -864,7 +920,7 @@ public class Node
 
    /**
     * Angle Y
-    * 
+    *
     * @return Angle Y
     */
    public float getAngleY()
@@ -874,7 +930,7 @@ public class Node
 
    /**
     * Angle on Z
-    * 
+    *
     * @return Angle on Z
     */
    public float getAngleZ()
@@ -884,7 +940,7 @@ public class Node
 
    /**
     * Node center
-    * 
+    *
     * @return Node center
     */
    public Point3D getCenter()
@@ -894,7 +950,7 @@ public class Node
 
    /**
     * Obtain a child
-    * 
+    *
     * @param index
     *           Child's index
     * @return The child
@@ -906,7 +962,7 @@ public class Node
 
    /**
     * Iterator on children
-    * 
+    *
     * @return Children iterator
     */
    public Iterator<Node> getChildren()
@@ -916,7 +972,7 @@ public class Node
 
    /**
     * Color picking ID
-    * 
+    *
     * @return Color picking ID
     */
    public final int getColorPickingId()
@@ -926,7 +982,7 @@ public class Node
 
    /**
     * Search throw child hierarchical and retrun the first node with the given name
-    * 
+    *
     * @param nodeName
     *           Name search
     * @return Find node
@@ -936,14 +992,14 @@ public class Node
       final Stack<Node> stack = new Stack<Node>();
       stack.add(this);
       Node node;
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          node = stack.pop();
          if((node.nodeName == null) && (nodeName == null))
          {
             return node;
          }
-         else if((nodeName != null) && (node.nodeName != null) && (nodeName.equals(node.nodeName) == true))
+         else if((nodeName != null) && (node.nodeName != null) && (nodeName.equals(node.nodeName)))
          {
             return node;
          }
@@ -957,7 +1013,7 @@ public class Node
 
    /**
     * Return nodeType
-    * 
+    *
     * @return nodeType
     */
    public NodeType getNodeType()
@@ -967,7 +1023,7 @@ public class Node
 
    /**
     * Node's parent
-    * 
+    *
     * @return Node's parent
     */
    public Node getParent()
@@ -977,7 +1033,7 @@ public class Node
 
    /**
     * Looking for a child pick
-    * 
+    *
     * @param color
     *           Picking color
     * @return Node pick
@@ -987,17 +1043,17 @@ public class Node
       final float red = color.getRed();
       final float green = color.getGreen();
       final float blue = color.getBlue();
-      if(this.isMePick(red, green, blue) == true)
+      if(this.isMePick(red, green, blue))
       {
          return this;
       }
       Node node = this;
       final Stack<Node> stackNodes = new Stack<Node>();
       stackNodes.push(node);
-      while(stackNodes.isEmpty() == false)
+      while(!stackNodes.isEmpty())
       {
          node = stackNodes.pop();
-         if(node.isMePick(red, green, blue) == true)
+         if(node.isMePick(red, green, blue))
          {
             return node;
          }
@@ -1011,7 +1067,7 @@ public class Node
 
    /**
     * Compute a point projection from node space to world space
-    * 
+    *
     * @param point
     *           Point to project
     * @return Projected point
@@ -1035,7 +1091,7 @@ public class Node
 
    /**
     * Project the point on using only rotations, not take care of translation
-    * 
+    *
     * @param point
     *           Point to project
     * @return Projected point
@@ -1058,7 +1114,7 @@ public class Node
 
    /**
     * Obtain root
-    * 
+    *
     * @return Root
     */
    public Node getRoot()
@@ -1073,7 +1129,7 @@ public class Node
 
    /**
     * Scale on X
-    * 
+    *
     * @return Scale on X
     */
    public float getScaleX()
@@ -1083,7 +1139,7 @@ public class Node
 
    /**
     * Scale on Y
-    * 
+    *
     * @return Scale on Y
     */
    public float getScaleY()
@@ -1093,7 +1149,7 @@ public class Node
 
    /**
     * Scale on Z
-    * 
+    *
     * @return Scale on Z
     */
    public float getScaleZ()
@@ -1103,7 +1159,7 @@ public class Node
 
    /**
     * Texture linked for hotspot
-    * 
+    *
     * @return Texture linked for hotspot
     */
    public Texture getTextureHotspot()
@@ -1113,7 +1169,7 @@ public class Node
 
    /**
     * Compute a point projection from world space to node space
-    * 
+    *
     * @param point
     *           Point to project
     * @return Projected point
@@ -1142,7 +1198,7 @@ public class Node
 
    /**
     * Unproject a point on using rotation only. Not take care of translation
-    * 
+    *
     * @param point
     *           Point to unproject
     * @return Unprojected point
@@ -1166,7 +1222,7 @@ public class Node
 
    /**
     * Wire frame color
-    * 
+    *
     * @return Wire frame color
     */
    public Color4f getWireColor()
@@ -1176,7 +1232,7 @@ public class Node
 
    /**
     * X position
-    * 
+    *
     * @return X
     */
    public float getX()
@@ -1186,7 +1242,7 @@ public class Node
 
    /**
     * Angle on X maximum
-    * 
+    *
     * @return Angle on X maximum
     */
    public float getXAngleMax()
@@ -1196,7 +1252,7 @@ public class Node
 
    /**
     * Angle on X minimum
-    * 
+    *
     * @return Angle on X minimum
     */
    public float getXAngleMin()
@@ -1206,7 +1262,7 @@ public class Node
 
    /**
     * X maximum
-    * 
+    *
     * @return X maximum
     */
    public float getXMax()
@@ -1216,7 +1272,7 @@ public class Node
 
    /**
     * X minimum
-    * 
+    *
     * @return X minimum
     */
    public float getXMin()
@@ -1226,7 +1282,7 @@ public class Node
 
    /**
     * Y
-    * 
+    *
     * @return Y
     */
    public float getY()
@@ -1236,7 +1292,7 @@ public class Node
 
    /**
     * Angle on Y maximum
-    * 
+    *
     * @return Angle on Y maximum
     */
    public float getYAngleMax()
@@ -1246,7 +1302,7 @@ public class Node
 
    /**
     * Angle on Y minimum
-    * 
+    *
     * @return Angle on Y minimum
     */
    public float getYAngleMin()
@@ -1256,7 +1312,7 @@ public class Node
 
    /**
     * Y maximum
-    * 
+    *
     * @return Y maximum
     */
    public float getYMax()
@@ -1266,7 +1322,7 @@ public class Node
 
    /**
     * Y minimum
-    * 
+    *
     * @return Y minimum
     */
    public float getYMin()
@@ -1276,7 +1332,7 @@ public class Node
 
    /**
     * Z
-    * 
+    *
     * @return Z
     */
    public float getZ()
@@ -1286,7 +1342,7 @@ public class Node
 
    /**
     * Angle on Z maximum
-    * 
+    *
     * @return Angle on Z maximum
     */
    public float getZAngleMax()
@@ -1296,7 +1352,7 @@ public class Node
 
    /**
     * Angle on Z minimum
-    * 
+    *
     * @return Angle on Z minimum
     */
    public float getZAngleMin()
@@ -1306,7 +1362,7 @@ public class Node
 
    /**
     * Z maximum
-    * 
+    *
     * @return Z maximum
     */
    public float getZMax()
@@ -1316,7 +1372,7 @@ public class Node
 
    /**
     * Z minimum
-    * 
+    *
     * @return Z minimum
     */
    public float getZMin()
@@ -1326,7 +1382,7 @@ public class Node
 
    /**
     * Indicates if a node is an ancestor of this node
-    * 
+    *
     * @param node
     *           Node tested
     * @return {@code true} if a node is an ancestor of this node
@@ -1337,16 +1393,12 @@ public class Node
       {
          return true;
       }
-      if(this.parent.isAncestor(node))
-      {
-         return true;
-      }
-      return false;
+       return this.parent.isAncestor(node);
    }
 
    /**
     * Indicates if the node can be pick
-    * 
+    *
     * @return {@code true} if the node can be pick
     */
    public final boolean isCanBePick()
@@ -1356,7 +1408,7 @@ public class Node
 
    /**
     * Indicates if a node is a child to this node
-    * 
+    *
     * @param node
     *           Node tested
     * @return {@code true} if a node is a child to this node
@@ -1368,7 +1420,7 @@ public class Node
 
    /**
     * Indicates if a node is a decedent of this node
-    * 
+    *
     * @param node
     *           Node tested
     * @return {@code true} if a node is a decedent of this node
@@ -1391,7 +1443,7 @@ public class Node
 
    /**
     * Indicates if the node is pick or not
-    * 
+    *
     * @param red
     *           Red part of picking color
     * @param green
@@ -1402,7 +1454,7 @@ public class Node
     */
    public final boolean isMePick(final float red, final float green, final float blue)
    {
-      if(this.canBePick == false)
+      if(!this.canBePick)
       {
          return false;
       }
@@ -1411,7 +1463,7 @@ public class Node
 
    /**
     * Indicates if a node is the parent to this node
-    * 
+    *
     * @param node
     *           Node to test
     * @return {@code true} if a node is the parent to this node
@@ -1423,7 +1475,7 @@ public class Node
 
    /**
     * Indicates if the node is selected
-    * 
+    *
     * @return {@code true} if the node is selected
     */
    public boolean isSelected()
@@ -1433,7 +1485,7 @@ public class Node
 
    /**
     * Indicates if the wire frame are showing
-    * 
+    *
     * @return {@code true} if the wire frame are showing
     */
    public boolean isShowWire()
@@ -1443,7 +1495,7 @@ public class Node
 
    /**
     * Indicates if the node is visible
-    * 
+    *
     * @return {@code true} if the node is visible
     */
    public boolean isVisible()
@@ -1453,7 +1505,7 @@ public class Node
 
    /**
     * Indicates if rotation on X is limited
-    * 
+    *
     * @return {@code true} if rotation on X is limited
     */
    public boolean isXAngleLimited()
@@ -1463,7 +1515,7 @@ public class Node
 
    /**
     * Indicates if X is limited
-    * 
+    *
     * @return {@code true} if X is limited
     */
    public boolean isXLimited()
@@ -1473,7 +1525,7 @@ public class Node
 
    /**
     * Indicates if rotation on Y is limited
-    * 
+    *
     * @return {@code true} if rotation on Y is limited
     */
    public boolean isYAngleLimited()
@@ -1483,7 +1535,7 @@ public class Node
 
    /**
     * Indicates if Y is limited
-    * 
+    *
     * @return {@code true} if Y is limited
     */
    public boolean isYLimited()
@@ -1493,7 +1545,7 @@ public class Node
 
    /**
     * Indicates if rotation on Z is limited
-    * 
+    *
     * @return {@code true} if rotation on Z is limited
     */
    public boolean isZAngleLimited()
@@ -1503,7 +1555,7 @@ public class Node
 
    /**
     * Indicates if Z is limited
-    * 
+    *
     * @return {@code true} if Z is limited
     */
    public boolean isZLimited()
@@ -1513,7 +1565,7 @@ public class Node
 
    /**
     * Limit rotation on X
-    * 
+    *
     * @param xAngleMin
     *           Angle minimum
     * @param xAngleMax
@@ -1534,7 +1586,7 @@ public class Node
 
    /**
     * Limit rotation on Y
-    * 
+    *
     * @param yAngleMin
     *           Angle minimum
     * @param yAngleMax
@@ -1555,7 +1607,7 @@ public class Node
 
    /**
     * Limit rotation on Z
-    * 
+    *
     * @param zAngleMin
     *           Angle minimum
     * @param zAngleMax
@@ -1576,7 +1628,7 @@ public class Node
 
    /**
     * Limit X movement
-    * 
+    *
     * @param xMin
     *           X minimum
     * @param xMax
@@ -1597,7 +1649,7 @@ public class Node
 
    /**
     * Limit Y movement
-    * 
+    *
     * @param yMin
     *           Y minimum
     * @param yMax
@@ -1618,7 +1670,7 @@ public class Node
 
    /**
     * Limit Z movement
-    * 
+    *
     * @param zMin
     *           Z minimum
     * @param zMax
@@ -1639,7 +1691,7 @@ public class Node
 
    /**
     * Load the node from XML markup
-    * 
+    *
     * @param markupXML
     *           XML to parse
     * @throws Exception
@@ -1693,7 +1745,7 @@ public class Node
       this.zAngleMax = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_zAngleMax, 360f);
       this.zAngleMin = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_zAngleMin, 0f);
 
-      final String textureHotspot = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_textureHotspot, (String) null);
+      final String textureHotspot = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_textureHotspot, null);
       if(textureHotspot != null)
       {
          this.textureHotspot = Texture.obtainTexture(textureHotspot);
@@ -1724,7 +1776,7 @@ public class Node
 
    /**
     * Remove a child
-    * 
+    *
     * @param child
     *           Child to remove
     */
@@ -1740,7 +1792,7 @@ public class Node
 
    /**
     * Remove a listener to the node
-    * 
+    *
     * @param nodeListener
     *           Listener remove
     */
@@ -1754,7 +1806,7 @@ public class Node
 
    /**
     * Rotate on X
-    * 
+    *
     * @param angleX
     *           Angle to rotate
     */
@@ -1766,7 +1818,7 @@ public class Node
 
    /**
     * Rotate on Y
-    * 
+    *
     * @param angleY
     *           Angle to rotate
     */
@@ -1778,7 +1830,7 @@ public class Node
 
    /**
     * Rotate on Z
-    * 
+    *
     * @param angleZ
     *           Angle to rotate
     */
@@ -1790,7 +1842,7 @@ public class Node
 
    /**
     * Save the node to XML markup
-    * 
+    *
     * @return XML representation
     */
    public final MarkupXML saveToXML()
@@ -1847,7 +1899,7 @@ public class Node
    /**
     * Scale the node.<br>
     * Use the same value for X, Y and Z
-    * 
+    *
     * @param scale
     *           Scale quantity
     */
@@ -1858,7 +1910,7 @@ public class Node
 
    /**
     * Scale the node
-    * 
+    *
     * @param x
     *           Scale on x
     * @param y
@@ -1875,7 +1927,7 @@ public class Node
 
    /**
     * Defines/changes developper addional information
-    * 
+    *
     * @param additionalInformation
     *           New developper addional information
     */
@@ -1886,7 +1938,7 @@ public class Node
 
    /**
     * Change angle X
-    * 
+    *
     * @param angleX
     *           New angle X
     */
@@ -1898,7 +1950,7 @@ public class Node
 
    /**
     * Change angle Y
-    * 
+    *
     * @param angleY
     *           New angle Y
     */
@@ -1910,7 +1962,7 @@ public class Node
 
    /**
     * Change angle Z
-    * 
+    *
     * @param angleZ
     *           New zngle Z
     */
@@ -1922,7 +1974,7 @@ public class Node
 
    /**
     * Change the can be pick state
-    * 
+    *
     * @param canBePick
     *           New can be pick state
     */
@@ -1933,7 +1985,7 @@ public class Node
 
    /**
     * Change node location
-    * 
+    *
     * @param x
     *           New x
     * @param y
@@ -1952,7 +2004,7 @@ public class Node
    /**
     * Change scale value.<br>
     * Use the same value for X, Y and Z
-    * 
+    *
     * @param scale
     *           New scale value
     */
@@ -1963,7 +2015,7 @@ public class Node
 
    /**
     * Change scale values
-    * 
+    *
     * @param x
     *           New scale x
     * @param y
@@ -1980,7 +2032,7 @@ public class Node
 
    /**
     * Change the node select state
-    * 
+    *
     * @param selected
     *           New node select state
     */
@@ -1991,7 +2043,7 @@ public class Node
 
    /**
     * Change wire frame state
-    * 
+    *
     * @param showWire
     *           New wire frame state
     */
@@ -2003,7 +2055,7 @@ public class Node
    /**
     * Change texture linked for hotspot.<br>
     * Use {@code null} to remove hotspot
-    * 
+    *
     * @param textureHotspot
     *           New texture linked for hotspot
     */
@@ -2014,7 +2066,7 @@ public class Node
 
    /**
     * Change visible state
-    * 
+    *
     * @param visible
     *           New visible state
     */
@@ -2025,7 +2077,7 @@ public class Node
 
    /**
     * Change the visiblity of the node and all of its children
-    * 
+    *
     * @param visible
     *           New visibility state
     */
@@ -2041,7 +2093,7 @@ public class Node
 
    /**
     * Change wire frame color
-    * 
+    *
     * @param wireColor
     *           New wire frame color
     */
@@ -2056,7 +2108,7 @@ public class Node
 
    /**
     * String representation
-    * 
+    *
     * @return String representation
     * @see java.lang.Object#toString()
     */
@@ -2068,7 +2120,7 @@ public class Node
 
    /**
     * Translate the node
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2086,7 +2138,7 @@ public class Node
 
    /**
     * Translate the manipulation point of the node
-    * 
+    *
     * @param vx
     *           Translation X
     * @param vy

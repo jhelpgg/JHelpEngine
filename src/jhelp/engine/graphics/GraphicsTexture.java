@@ -98,7 +98,8 @@ public class GraphicsTexture
 
       for(int i = size - 1; i >= 0; i--)
       {
-         if(this.layers.get(i).isAbsorber() == true)
+         if(this.layers.get(i)
+                       .isAbsorber())
          {
             for(int r = i - 1; r >= 0; r--)
             {

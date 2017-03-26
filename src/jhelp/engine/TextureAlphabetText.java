@@ -230,7 +230,7 @@ public class TextureAlphabetText
       final JHelpImage alphabetImage = this.alphabetText.getImage();
       this.embedImage.startDrawMode();
 
-      if(clear == true)
+      if(clear)
       {
          this.embedImage.clear(0);
       }
@@ -293,7 +293,7 @@ public class TextureAlphabetText
     */
    public void next()
    {
-      if(this.alphabetText.hasNext() == false)
+      if(!this.alphabetText.hasNext())
       {
          return;
       }
@@ -308,7 +308,7 @@ public class TextureAlphabetText
     */
    public void previous()
    {
-      if(this.alphabetText.hasPrevious() == false)
+      if(!this.alphabetText.hasPrevious())
       {
          return;
       }

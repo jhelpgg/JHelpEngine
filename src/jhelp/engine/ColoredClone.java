@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -15,7 +15,7 @@ import javax.media.opengl.glu.GLU;
 
 /**
  * Clone of object with only one color (no texture on it)
- * 
+ *
  * @author JHelp
  */
 public class ColoredClone
@@ -28,7 +28,7 @@ public class ColoredClone
 
    /**
     * Create a new instance of ColoredClone
-    * 
+    *
     * @param object3d
     *           Object to clone
     */
@@ -39,7 +39,7 @@ public class ColoredClone
 
    /**
     * Create a new instance of ColoredClone
-    * 
+    *
     * @param object3d
     *           Object to clone
     * @param color
@@ -61,7 +61,7 @@ public class ColoredClone
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param gl
     *           Open GL link
     * @param glu
@@ -81,7 +81,7 @@ public class ColoredClone
 
    /**
     * Bonding box
-    * 
+    *
     * @return Bonding box
     * @see jhelp.engine.NodeWithMaterial#getBox()
     */
@@ -93,7 +93,7 @@ public class ColoredClone
 
    /**
     * Object center
-    * 
+    *
     * @return Object center
     * @see jhelp.engine.Node#getCenter()
     */
@@ -105,7 +105,7 @@ public class ColoredClone
 
    /**
     * Current color
-    * 
+    *
     * @return Current color
     */
    public int getColor()
@@ -113,9 +113,15 @@ public class ColoredClone
       return this.color;
    }
 
+   @Override
+   public VirtualSphere getSphere()
+   {
+      return this.object3d.getSphere();
+   }
+
    /**
     * Change clone color
-    * 
+    *
     * @param color
     *           New color
     */

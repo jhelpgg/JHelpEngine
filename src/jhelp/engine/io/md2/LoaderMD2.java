@@ -12,7 +12,6 @@ package jhelp.engine.io.md2;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,12 +36,12 @@ public class LoaderMD2
 {
    static class Frame
    {
-      char[]      name;
-      int         numberOfVertices;
-      VectorMD2   scale;
-      VectorMD2[] transformed;
-      VectorMD2   translate;
-      Vertice[]   vertices;
+       final char[]      name;
+       final int         numberOfVertices;
+       final VectorMD2   scale;
+       final VectorMD2[] transformed;
+       final VectorMD2   translate;
+       final Vertice[]   vertices;
 
       Frame(final int numberOfVertices)
       {
@@ -178,7 +177,7 @@ public class LoaderMD2
 
    static class TextureInformation
    {
-      char[] name;
+       final char[] name;
 
       TextureInformation()
       {
@@ -766,7 +765,7 @@ public class LoaderMD2
       return (short) (inputStream.read() | (inputStream.read() << 8));
    }
 
-   public static final void main(final String[] args)
+   public static void main(final String[] args)
    {
       final JHelpFrame3D frame3d = new JHelpFrame3D("Test");
 
@@ -819,12 +818,6 @@ public class LoaderMD2
                   Debug.println(DebugLevel.INFORMATION, "Texture : ", name);
                }
             }
-            catch(final FileNotFoundException exception)
-            {
-               // {@todo} TODO Check if print exception is enough
-               Debug.printTodo("Check if print exception is enough");
-               Debug.printException(exception);
-            }
             catch(final IOException exception)
             {
                // {@todo} TODO Check if print exception is enough
@@ -876,7 +869,7 @@ public class LoaderMD2
 
       long index;
 
-      while(indexedInputStream.isFinish() == false)
+      while(!indexedInputStream.isFinish())
       {
          index = indexedInputStream.getCurrentIndex();
 
@@ -931,7 +924,8 @@ public class LoaderMD2
          }
          else
          {
-            indexedInputStream.read();
+             //noinspection ResultOfMethodCallIgnored
+             indexedInputStream.read();
          }
       }
    }

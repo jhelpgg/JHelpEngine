@@ -27,7 +27,7 @@ public class CanvasOpenGLMaker
       implements GLCapabilitiesChooser
 {
    /** The singleton */
-   public static CanvasOpenGLMaker CANVAS_OPENGL_MAKER = new CanvasOpenGLMaker();
+   public static final CanvasOpenGLMaker CANVAS_OPENGL_MAKER = new CanvasOpenGLMaker();
    /** Last capabilities choose */
    private GLCapabilities          capabilities;
 
@@ -67,7 +67,7 @@ public class CanvasOpenGLMaker
       {
          point += 10;
       }
-      if(tested.getSampleBuffers() == true)
+      if(tested.getSampleBuffers())
       {
          point += 100 - (Math.abs(tested.getNumSamples() - desired.getNumSamples()) * 10);
       }

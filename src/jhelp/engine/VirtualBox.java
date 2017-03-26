@@ -56,7 +56,7 @@ public class VirtualBox
     */
    public void add(final float x, final float y, final float z)
    {
-      if(this.empty == true)
+      if(this.empty)
       {
          this.minX = this.maxX = x;
          this.minY = this.maxY = y;
@@ -93,7 +93,7 @@ public class VirtualBox
     */
    public void add(final VirtualBox virtualBox)
    {
-      if(virtualBox.isEmpty() == true)
+      if(virtualBox.isEmpty())
       {
          return;
       }
@@ -117,7 +117,7 @@ public class VirtualBox
     */
    public void add(final VirtualBox virtualBox, final float vx, final float vy, final float vz)
    {
-      if(virtualBox.isEmpty() == true)
+      if(virtualBox.isEmpty())
       {
          return;
       }
@@ -215,7 +215,7 @@ public class VirtualBox
    @Override
    public String toString()
    {
-      if(this.empty == true)
+      if(this.empty)
       {
          return "VirtualBox empty !";
       }
@@ -235,7 +235,7 @@ public class VirtualBox
     */
    public void translate(final float vx, final float vy, final float vz)
    {
-      if(this.empty == true)
+      if(this.empty)
       {
          return;
       }

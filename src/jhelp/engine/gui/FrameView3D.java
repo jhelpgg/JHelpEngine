@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.gui;
@@ -26,19 +26,24 @@ import javax.swing.WindowConstants;
 import jhelp.engine.JHelpSceneRenderer;
 import jhelp.engine.Node;
 import jhelp.engine.Scene;
+import jhelp.engine.event.ClickInSpaceListener;
 import jhelp.engine.gui.events.Frame3DViewListener;
+import jhelp.engine.gui.events.ScreenShotListener;
 import jhelp.engine.util.PositionNode;
 import jhelp.util.MemorySweeper;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
+import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.UtilGUI;
+import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedSimpleTask;
 
 /**
  * Frame with a single 3D view in it<br>
  * <br>
  * Last modification : 26 juil. 2009<br>
  * Version 0.0.0<br>
- * 
+ *
  * @author JHelp
  */
 public class FrameView3D
@@ -49,7 +54,7 @@ public class FrameView3D
     * <br>
     * Last modification : 30 nov. 2010<br>
     * Version 0.0.0<br>
-    * 
+    *
     * @author JHelp
     */
    private class EventManager
@@ -74,7 +79,7 @@ public class FrameView3D
 
       /**
        * Call when mouse clicked
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
@@ -85,7 +90,7 @@ public class FrameView3D
          this.x = e.getX();
          this.y = e.getY();
 
-         if(e.isAltDown() == true)
+         if(e.isAltDown())
          {
             Debug.println(DebugLevel.INFORMATION, new PositionNode(FrameView3D.this.manipulatedNode));
          }
@@ -95,7 +100,7 @@ public class FrameView3D
 
       /**
        * Call when mouse dragged
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
@@ -108,16 +113,39 @@ public class FrameView3D
             final boolean left = SwingUtilities.isLeftMouseButton(e);
             final boolean right = SwingUtilities.isRightMouseButton(e);
 
-            if((left == true) && (right == true))
+            if((left) && (right))
             {
                FrameView3D.this.manipulatedNode.translate((e.getX() - this.x) * 0.1f, (this.y - e.getY()) * 0.1f, 0);
             }
-            else if(left == true)
+            else if(left)
             {
-               FrameView3D.this.manipulatedNode.rotateAngleY(e.getX() - this.x);
-               FrameView3D.this.manipulatedNode.rotateAngleX(e.getY() - this.y);
+               switch(FrameView3D.this.rotationType.getFirst())
+               {
+                  case X:
+                     FrameView3D.this.manipulatedNode.rotateAngleX(e.getX() - this.x);
+                  break;
+                  case Y:
+                     FrameView3D.this.manipulatedNode.rotateAngleY(e.getX() - this.x);
+                  break;
+                  case Z:
+                     FrameView3D.this.manipulatedNode.rotateAngleZ(e.getX() - this.x);
+                  break;
+               }
+
+               switch(FrameView3D.this.rotationType.getSecond())
+               {
+                  case X:
+                     FrameView3D.this.manipulatedNode.rotateAngleX(e.getY() - this.y);
+                  break;
+                  case Y:
+                     FrameView3D.this.manipulatedNode.rotateAngleY(e.getY() - this.y);
+                  break;
+                  case Z:
+                     FrameView3D.this.manipulatedNode.rotateAngleZ(e.getY() - this.y);
+                  break;
+               }
             }
-            else if(right == true)
+            else if(right)
             {
                FrameView3D.this.manipulatedNode.translate(0, 0, (e.getY() - this.y) * FrameView3D.FACTOR);
             }
@@ -131,7 +159,7 @@ public class FrameView3D
 
       /**
        * Call when mouse entered
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
@@ -147,7 +175,7 @@ public class FrameView3D
 
       /**
        * Call when mouse exited
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
@@ -163,7 +191,7 @@ public class FrameView3D
 
       /**
        * Call when mouse moved
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
@@ -179,7 +207,7 @@ public class FrameView3D
 
       /**
        * Call when mouse pressed
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
@@ -198,7 +226,7 @@ public class FrameView3D
 
       /**
        * Call when mouse released
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
@@ -217,7 +245,7 @@ public class FrameView3D
 
       /**
        * Call when mouse wheel moved
-       * 
+       *
        * @param e
        *           Event description
        * @see java.awt.event.MouseWheelListener#mouseWheelMoved(java.awt.event.MouseWheelEvent)
@@ -235,17 +263,33 @@ public class FrameView3D
       }
    }
 
+   class TaskTakeScreenShot
+         extends ThreadedSimpleTask<ScreenShotListener>
+   {
+      TaskTakeScreenShot()
+      {
+      }
+
+      @Override
+      protected void doSimpleAction(final ScreenShotListener screenShotListener)
+      {
+         FrameView3D.this.doTakeScreenShot(screenShotListener);
+      }
+   }
+
    /** Default manipulation factor */
-   private static final float                   FACTOR = 0.01f;
+   private static final float                   FACTOR             = 0.01f;
 
    /** Manage user events */
    private final EventManager                   eventManager;
    /** Listeners of events */
    private final ArrayList<Frame3DViewListener> listeners;
+   private final TaskTakeScreenShot             taskTakeScreenShot = new TaskTakeScreenShot();
    /** Component that carray the 3D */
-   ComponentView3D                              componentView3D;
+   final ComponentView3D                              componentView3D;
    /** Actual node manipulate by the user */
    Node                                         manipulatedNode;
+   RotationType                                 rotationType       = RotationType.YX;
 
    /**
     * Constructs FrameView3D
@@ -257,7 +301,7 @@ public class FrameView3D
 
    /**
     * Constructs FrameView3D
-    * 
+    *
     * @param width
     *           3D area width
     * @param height
@@ -270,7 +314,7 @@ public class FrameView3D
 
    /**
     * Constructs FrameView3D
-    * 
+    *
     * @param title
     *           Title to use
     */
@@ -299,7 +343,7 @@ public class FrameView3D
 
    /**
     * Constructs FrameView3D
-    * 
+    *
     * @param title
     *           Frame title
     * @param width
@@ -331,11 +375,17 @@ public class FrameView3D
       UtilGUI.centerOnScreen(this);
    }
 
+   void doTakeScreenShot(final ScreenShotListener screenShotListener)
+   {
+      final JHelpImage image = this.componentView3D.getSceneRenderer().screenShot();
+      screenShotListener.screenShotTaken(image);
+   }
+
    /**
     * Called when frame is about to close.<br>
     * Override it to not allow to close without a user confirmation, by example to say him that something is not saved.<br>
     * By default closing frame is always allowed
-    * 
+    *
     * @return {@code true} to allow close frame.
     */
    protected boolean canCloseNow()
@@ -356,7 +406,7 @@ public class FrameView3D
 
    /**
     * Call on widow event append
-    * 
+    *
     * @param e
     *           Event description
     * @see javax.swing.JFrame#processWindowEvent(java.awt.event.WindowEvent)
@@ -373,9 +423,14 @@ public class FrameView3D
       }
    }
 
+   public void addClickInSpaceListener(final ClickInSpaceListener clickInSpaceListener)
+   {
+      this.getSceneRenderer().addClickInSpaceListener(clickInSpaceListener);
+   }
+
    /**
     * Add frame listener
-    * 
+    *
     * @param listener
     *           Listener to add
     */
@@ -389,7 +444,7 @@ public class FrameView3D
     */
    public void closeFrame()
    {
-      if(this.canCloseNow() == false)
+      if(!this.canCloseNow())
       {
          return;
       }
@@ -413,7 +468,7 @@ public class FrameView3D
 
    /**
     * Component that carry the 3D
-    * 
+    *
     * @return Component that carry the 3D
     */
    public ComponentView3D getComponentView3D()
@@ -423,7 +478,7 @@ public class FrameView3D
 
    /**
     * Return manipulatedNode
-    * 
+    *
     * @return manipulatedNode
     */
    public Node getManipulatedNode()
@@ -431,9 +486,14 @@ public class FrameView3D
       return this.manipulatedNode;
    }
 
+   public RotationType getRotationType()
+   {
+      return this.rotationType;
+   }
+
    /**
     * Scene draw
-    * 
+    *
     * @return Scene draw
     */
    public Scene getScene()
@@ -443,7 +503,7 @@ public class FrameView3D
 
    /**
     * Scene height
-    * 
+    *
     * @return Scene height
     */
    public int getSceneHeight()
@@ -453,7 +513,7 @@ public class FrameView3D
 
    /**
     * Scene renderer link to the 3D view
-    * 
+    *
     * @return Scene renderer
     */
    public JHelpSceneRenderer getSceneRenderer()
@@ -463,7 +523,7 @@ public class FrameView3D
 
    /**
     * Scene width
-    * 
+    *
     * @return Scene width
     */
    public int getSceneWidth()
@@ -481,7 +541,7 @@ public class FrameView3D
 
    /**
     * Remove frame listener
-    * 
+    *
     * @param listener
     *           Listener to remove
     */
@@ -492,13 +552,23 @@ public class FrameView3D
 
    /**
     * Modify manipulatedNode
-    * 
+    *
     * @param manipulatedNode
     *           New manipulatedNode value
     */
    public void setManipulatedNode(final Node manipulatedNode)
    {
       this.manipulatedNode = manipulatedNode;
+   }
+
+   public void setRotationType(final RotationType rotationType)
+   {
+      if(rotationType == null)
+      {
+         throw new NullPointerException("rotationType musn't be null");
+      }
+
+      this.rotationType = rotationType;
    }
 
    /**
@@ -510,5 +580,15 @@ public class FrameView3D
 
       this.doLayout();
       this.repaint();
+   }
+
+   public void takeScreenShot(final ScreenShotListener screenShotListener)
+   {
+      if(screenShotListener == null)
+      {
+         throw new NullPointerException("screenShotListener musn't be null");
+      }
+
+      ThreadManager.THREAD_MANAGER.doThread(this.taskTakeScreenShot, screenShotListener);
    }
 }

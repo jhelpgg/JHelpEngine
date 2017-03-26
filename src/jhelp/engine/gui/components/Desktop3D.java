@@ -110,16 +110,16 @@ public class Desktop3D
             final boolean left = SwingUtilities.isLeftMouseButton(e);
             final boolean right = SwingUtilities.isRightMouseButton(e);
 
-            if((left == true) && (right == true))
+            if((left) && (right))
             {
                Desktop3D.this.manipulatedNode.translate((e.getX() - this.x) * Desktop3D.FACTOR, (this.y - e.getY()) * Desktop3D.FACTOR, 0);
             }
-            else if(left == true)
+            else if(left)
             {
                Desktop3D.this.manipulatedNode.rotateAngleY(e.getX() - this.x);
                Desktop3D.this.manipulatedNode.rotateAngleX(e.getY() - this.y);
             }
-            else if(right == true)
+            else if(right)
             {
                Desktop3D.this.manipulatedNode.translate(0, 0, (e.getY() - this.y) * Desktop3D.FACTOR);
             }
@@ -252,9 +252,9 @@ public class Desktop3D
    /** Current node manipulate */
    Node                                   manipulatedNode;
    /** Scene */
-   Scene                                  scene;
+   final Scene                                  scene;
    /** Scene renderer */
-   JHelpSceneRenderer                     sceneRenderer;
+   final JHelpSceneRenderer                     sceneRenderer;
 
    /**
     * Constructs Dessktop3D

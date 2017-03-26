@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -25,7 +25,7 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class Object3D
@@ -47,6 +47,7 @@ public class Object3D
    private boolean                    needReconstructTheList;
    /** List of polygons to add */
    private final ArrayList<Polygon3D> polygon3D;
+   private VirtualSphere              sphere;
    /** Object's mesh */
    public Mesh                        mesh;
 
@@ -66,7 +67,7 @@ public class Object3D
 
    /**
     * Draw object
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -75,7 +76,7 @@ public class Object3D
    protected void drawObject(final GL gl, final GLU glu)
    {
       // If no list is create or actual list needs to be update
-      if((this.idList < 0) || (this.needReconstructTheList == true))
+      if((this.idList < 0) || (this.needReconstructTheList))
       {
          this.needReconstructTheList = false;
          synchronized(Object3D.LOCK)
@@ -103,15 +104,11 @@ public class Object3D
          {
             this.mesh.render(gl);
          }
-         catch(final Exception e)
+         catch(final Exception | Error e)
          {
             this.needReconstructTheList = true;
          }
-         catch(final Error e)
-         {
-            this.needReconstructTheList = true;
-         }
-         gl.glEndList();
+          gl.glEndList();
       }
       // Draw the list
       gl.glCallList(this.idList);
@@ -128,7 +125,7 @@ public class Object3D
 
    /**
     * Extract Object parameters from XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @throws Exception
@@ -141,7 +138,7 @@ public class Object3D
       this.readMaterialFromMarkup(markupXML);
 
       final EnumerationIterator<MarkupXML> enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_MESH);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_MESH, " in ", markupXML.getName()));
       }
@@ -152,7 +149,7 @@ public class Object3D
 
    /**
     * Extract Materials in XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     */
@@ -179,7 +176,7 @@ public class Object3D
 
    /**
     * Render the object
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -189,7 +186,7 @@ public class Object3D
    @Override
    protected void renderSpecific(final GL gl, final GLU glu)
    {
-      if((this.isSelected() == true) && (this.materialForSelection != null))
+      if((this.isSelected()) && (this.materialForSelection != null))
       {
          final boolean twoSided = this.materialForSelection.isTwoSided();
 
@@ -233,7 +230,7 @@ public class Object3D
 
    /**
     * Render object in picking mode
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -248,7 +245,7 @@ public class Object3D
 
    /**
     * Render specific for picking UV
-    * 
+    *
     * @param gl
     *           Open GL context
     * @param glu
@@ -273,13 +270,14 @@ public class Object3D
       synchronized(Object3D.LOCK)
       {
          this.box = null;
+         this.sphere = null;
          this.center = null;
       }
    }
 
    /**
     * Write object in XML
-    * 
+    *
     * @param markupXML
     *           XML to fill
     * @see jhelp.engine.Node#writeInMarkup
@@ -293,7 +291,7 @@ public class Object3D
 
    /**
     * Write materials in XML
-    * 
+    *
     * @param markupXML
     *           Markup to fill
     */
@@ -311,7 +309,7 @@ public class Object3D
    /**
     * Add vertex to actual object face.<br>
     * the result is see as soon as possible
-    * 
+    *
     * @param vertex
     *           Vertex to add
     */
@@ -330,7 +328,7 @@ public class Object3D
     * It is call fast because the vertex is only add, but list is not reconstructs, you have to call
     * <code>reconstructTheList</code> method to see the result<br>
     * It is use when you want add several vertex and see result at the end
-    * 
+    *
     * @param vertex
     *           Vertex to add
     */
@@ -345,7 +343,7 @@ public class Object3D
 
    /**
     * Add a polygon face
-    * 
+    *
     * @param polygon3D
     *           Face to add
     */
@@ -362,7 +360,7 @@ public class Object3D
 
    /**
     * Generate UV on using the better plane for each face.
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -377,7 +375,7 @@ public class Object3D
    /**
     * Generate UV on using (X, Y) plane.<br>
     * X values are considered like U, Y like V, and we normalize to have good values
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -392,7 +390,7 @@ public class Object3D
    /**
     * Generate UV on using (X, Z) plane.<br>
     * X values are considered like U, Z like V, and we normalize to have good values
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -407,7 +405,7 @@ public class Object3D
    /**
     * Generate UV on using (Y, Z) plane.<br>
     * Y values are considered like U, Z like V, and we normalize to have good values
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -422,7 +420,7 @@ public class Object3D
    /**
     * Generate UV in spherical way.<br>
     * Imagine you have a mapped sphere around your object, then project it to him
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -445,7 +443,7 @@ public class Object3D
 
    /**
     * Compute bounding box
-    * 
+    *
     * @return Bounding box
     */
    @Override
@@ -463,7 +461,7 @@ public class Object3D
 
    /**
     * Center of object
-    * 
+    *
     * @return Object's center
     * @see jhelp.engine.Node#getCenter()
     */
@@ -486,7 +484,7 @@ public class Object3D
 
    /**
     * Object's material
-    * 
+    *
     * @return Object's material
     */
    @Override
@@ -497,7 +495,7 @@ public class Object3D
 
    /**
     * Object's selection material (Can be {@code null}
-    * 
+    *
     * @return Object's selection material
     */
    @Override
@@ -506,12 +504,29 @@ public class Object3D
       return this.materialForSelection;
    }
 
+   @Override
+   public VirtualSphere getSphere()
+   {
+      if(this.sphere == null)
+      {
+         this.sphere = this.mesh.computeSphere();
+      }
+
+      return this.sphere;
+   }
+
+   public void inverseNormals()
+   {
+      this.mesh.inverseNormals();
+      this.reconstructTheList();
+   }
+
    /**
     * Translate a vertex in the mesh.<br>
     * This translation can translate neighbor vertex, the translation apply to them depends of the solidity.<br>
     * If you specify a 0 solidity, then neighbor don't move, 1, all vertex translate in the same translate, some where between,
     * the object morph
-    * 
+    *
     * @param indexPoint
     *           Vertex index to translate
     * @param vx
@@ -535,7 +550,7 @@ public class Object3D
     * If you specify a 0 solidity, then neighbor don't move, 1, all vertex translate in the same translate, some where between,
     * the object morph<br>
     * You specify a near deep to determine the level of points are translate the same way as the specified index
-    * 
+    *
     * @param indexPoint
     *           Vertex index to translate
     * @param vx
@@ -580,6 +595,7 @@ public class Object3D
       synchronized(Object3D.LOCK)
       {
          this.box = null;
+         this.sphere = null;
          this.center = null;
          this.needReconstructTheList = true;
       }
@@ -597,7 +613,7 @@ public class Object3D
 
    /**
     * Change object's material
-    * 
+    *
     * @param material
     *           New material
     */
@@ -614,7 +630,7 @@ public class Object3D
    /**
     * Change object's selection material.<br>
     * Use {@code null} if you don't have a selection state
-    * 
+    *
     * @param materialForSelection
     *           New object's selection material
     */

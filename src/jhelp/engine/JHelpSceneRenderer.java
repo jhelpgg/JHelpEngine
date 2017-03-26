@@ -77,23 +77,23 @@ public class JHelpSceneRenderer
    static class DetectionInfo
    {
       /** X detection position */
-      int      detectX;
+      final int      detectX;
       /** Y detection position */
-      int      detectY;
+      final int      detectY;
       /** 2D manipulator */
-      GUI2D    gui2d;
+      final GUI2D    gui2d;
       /** Indicates if mouse left is down */
-      boolean  mouseButtonLeft;
+      final boolean  mouseButtonLeft;
       /** Indicates if mouse right is down */
-      boolean  mouseButtonRight;
+      final boolean  mouseButtonRight;
       /** Indicates if its is a drag (mouse move while at least one button is down) */
-      boolean  mouseDrag;
+      final boolean  mouseDrag;
       /** Node detected */
-      Node     nodeDetect;
+      final Node     nodeDetect;
       /** Object 2D detected */
-      Object2D object2DDetect;
+      final Object2D object2DDetect;
       /** Reference scene */
-      Scene    scene;
+      final Scene    scene;
 
       /**
        * Create a new instance of DetectionInfo
@@ -239,12 +239,13 @@ public class JHelpSceneRenderer
             detectionInfo.gui2d.mouseState(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight,
                   detectionInfo.mouseDrag, detectionInfo.object2DDetect);
          }
-         else if(detectionInfo.mouseDrag == false)
+         else if(!detectionInfo.mouseDrag)
          {
             // If it is not a mouse drag, update mouse state for scene
             detectionInfo.scene.mouseState(detectionInfo.mouseButtonLeft, detectionInfo.mouseButtonRight, detectionInfo.nodeDetect);
 
-            if((detectionInfo.nodeDetect == null) && ((detectionInfo.mouseButtonLeft == true) || (detectionInfo.mouseButtonRight == true)))
+            if((detectionInfo.nodeDetect == null) && ((detectionInfo.mouseButtonLeft) || (detectionInfo
+                                                                                                          .mouseButtonRight)))
             {
                JHelpSceneRenderer.this.fireClickInSpace(detectionInfo.detectX, detectionInfo.detectY, detectionInfo.mouseButtonLeft,
                      detectionInfo.mouseButtonRight);
@@ -381,7 +382,7 @@ public class JHelpSceneRenderer
    private final Vector<WindowMaterial>     windowMaterials;
 
    /** Listener of scene renderer */
-   ArrayList<JHelpSceneRendererListener>    sceneListeners;
+   final ArrayList<JHelpSceneRendererListener>    sceneListeners;
 
    /**
     * Create a render
@@ -589,7 +590,7 @@ public class JHelpSceneRenderer
    private void makeSnapShot(final GL gl, final boolean invert)
    {
       // A screen shot is initiated ?
-      if(this.makeAScreenShot == true)
+      if(this.makeAScreenShot)
       {
          // Get actual colors on screen
          BufferUtils.TEMPORARY_FLOAT_BUFFER.rewind();
@@ -627,7 +628,7 @@ public class JHelpSceneRenderer
          this.screenShot.startDrawMode();
          this.screenShot.setPixels(0, 0, this.width, this.height, this.pixels);
 
-         if(invert == true)
+         if(invert)
          {
             this.screenShot.flipVertical();
          }
@@ -687,7 +688,7 @@ public class JHelpSceneRenderer
       {
          // Update the animation
          animation = this.animations.get(i);
-         if(animation.animate(gl, this.absoluteFrame) == false)
+         if(!animation.animate(gl, this.absoluteFrame))
          {
             // If the animation is done, remove it from alive animations
             this.animations.remove(i);
@@ -827,7 +828,7 @@ public class JHelpSceneRenderer
    private void showFPS(final GL gl, final GLU glu)
    {
       // If the print is enable
-      if(this.showFPS == true)
+      if(this.showFPS)
       {
          // If the texture for print don't exists, create it now
          if(this.textureFPS == null)
@@ -852,7 +853,7 @@ public class JHelpSceneRenderer
          // Compute the FPS
          this.fps = (float) ((this.fpsCount * 1000d) / time);
          // If the print is enable
-         if(this.showFPS == true)
+         if(this.showFPS)
          {
             // If the texture for print don't exists, create it now
             if(this.textureFPS == null)
@@ -978,10 +979,7 @@ public class JHelpSceneRenderer
          // Draw 2D objects over 3D
          this.drawOver3D(gl, glu);
       }
-      catch(final Exception exception)
-      {
-      }
-      catch(final Error error)
+      catch(final Exception | Error ignored)
       {
       }
    }
@@ -1013,7 +1011,7 @@ public class JHelpSceneRenderer
 
       if(this.object2DDetect != null)
       {
-         if(this.object2DDetect.isDetected(this.detectX, this.detectY) == false)
+         if(!this.object2DDetect.isDetected(this.detectX, this.detectY))
          {
             ThreadManager.THREAD_MANAGER.doThread(this.outObject2D, new DetectionInfo(null, this.gui2d, this.detectX, this.detectY, this.mouseButtonLeft,
                   this.mouseButtonRight, this.mouseButtonRight, null, null));
@@ -1085,9 +1083,8 @@ public class JHelpSceneRenderer
 
          final int red = (int) (this.pickColor.getRed() * 255);
          final int green = (int) (this.pickColor.getGreen() * 255);
-         final int blue = (int) (this.pickColor.getBlue() * 255);
 
-         this.lastPickU = blue;
+          this.lastPickU = (int) (this.pickColor.getBlue() * 255);
          this.lastPickV = green;
 
          if((this.pickUVnode.pickUVlistener != null) && (red < 128))
@@ -1287,7 +1284,7 @@ public class JHelpSceneRenderer
       final GL gl = drawable.getGL();
       final GLU glu = new GLU();
 
-      if(this.texturesToRemove.isEmpty() == false)
+      if(!this.texturesToRemove.isEmpty())
       {
          this.texturesToRemove.outQueue().removeFromMemory(gl);
       }
@@ -1318,7 +1315,7 @@ public class JHelpSceneRenderer
       // Get actual camera
       final Camera camera = this.scene.getCamera();
       // Render picking mode
-      if(this.detectionActivate == true)
+      if(this.detectionActivate)
       {
          if(this.pickUVnode != null)
          {
@@ -1664,12 +1661,12 @@ public class JHelpSceneRenderer
       Texture texture;
       String name;
       Enumeration<ZipEntry> enumeration = (Enumeration<ZipEntry>) zipFile.entries();
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
          zipEntry = enumeration.nextElement();
          name = zipEntry.getName();
 
-         if(name.startsWith("textures/") == true)
+         if(name.startsWith("textures/"))
          {
             name = name.substring(9);
 
@@ -1684,12 +1681,12 @@ public class JHelpSceneRenderer
       }
 
       enumeration = (Enumeration<ZipEntry>) zipFile.entries();
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
          zipEntry = enumeration.nextElement();
          name = zipEntry.getName();
 
-         if(name.startsWith("materials/") == true)
+         if(name.startsWith("materials/"))
          {
             Material.parseXML(MarkupXML.load(zipFile.getInputStream(zipEntry)));
          }
@@ -1872,7 +1869,7 @@ public class JHelpSceneRenderer
     */
    public void playAnimation(final Animation animation)
    {
-      if(this.animations.contains(animation) == false)
+      if(!this.animations.contains(animation))
       {
          this.animations.add(animation);
          animation.setStartAbsoluteFrame(this.absoluteFrame);
@@ -2071,17 +2068,17 @@ public class JHelpSceneRenderer
       long waitLeft;
 
       // While the renderer have to update
-      while(this.alive.get() == true)
+      while(this.alive.get())
       {
          // Test if the drawing is allowed
-         if((this.canvas.isVisible() == true) && (this.pause == false))
+         if((this.canvas.isVisible()) && (!this.pause))
          {
             // We can draw, so call the refresh
             final long start = System.currentTimeMillis();
             this.ready = false;
             this.canvas.repaint();
             // Wait for the renderer is ready, that is to say the scene is draw
-            while(this.ready == false)
+            while(!this.ready)
             {
                synchronized(this.LOCK)
                {
@@ -2089,13 +2086,13 @@ public class JHelpSceneRenderer
                   {
                      this.LOCK.wait(waitMax);
                   }
-                  catch(final InterruptedException e)
+                  catch(final InterruptedException ignored)
                   {
                   }
                }
             }
 
-            if(this.alive.get() == false)
+            if(!this.alive.get())
             {
                break;
             }
@@ -2112,7 +2109,7 @@ public class JHelpSceneRenderer
             {
                Thread.sleep(waitLeft);
             }
-            catch(final InterruptedException e)
+            catch(final InterruptedException ignored)
             {
             }
             if(laps < waitMax)
@@ -2132,25 +2129,25 @@ public class JHelpSceneRenderer
                waitMax = 100;
             }
          }
-         else if(this.alive.get() == true)
+         else if(this.alive.get())
          {
             // If the draw is forbidden, just wait 1 second before retry
             try
             {
                Thread.sleep(1024);
             }
-            catch(final InterruptedException e)
+            catch(final InterruptedException ignored)
             {
             }
 
-            if(this.alive.get() == false)
+            if(!this.alive.get())
             {
                break;
             }
 
             // If the canvas is a can't draw state and we are not in pause, try
             // to repair the draw
-            if((this.canvas.isVisible() == false) && (this.pause == false))
+            if((!this.canvas.isVisible()) && (!this.pause))
             {
                this.canvas.setVisible(true);
             }
@@ -2175,7 +2172,7 @@ public class JHelpSceneRenderer
     */
    public void save(final File file) throws IOException
    {
-      if(UtilIO.createFile(file) == false)
+      if(!UtilIO.createFile(file))
       {
          throw new IOException("Can't create the file : " + file.getAbsolutePath());
       }
@@ -2234,7 +2231,7 @@ public class JHelpSceneRenderer
             {
                zipOutputStream.finish();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
 
@@ -2242,7 +2239,7 @@ public class JHelpSceneRenderer
             {
                zipOutputStream.flush();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
 
@@ -2250,7 +2247,7 @@ public class JHelpSceneRenderer
             {
                zipOutputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -2266,13 +2263,13 @@ public class JHelpSceneRenderer
    public JHelpImage screenShot()
    {
       // Wait for the render is ready
-      while(this.ready == false)
+      while(!this.ready)
       {
          try
          {
             Thread.sleep(1);
          }
-         catch(final InterruptedException e)
+         catch(final InterruptedException ignored)
          {
          }
       }
@@ -2286,11 +2283,11 @@ public class JHelpSceneRenderer
          {
             Thread.sleep(10);
          }
-         catch(final InterruptedException e)
+         catch(final InterruptedException ignored)
          {
          }
       }
-      while(this.makeAScreenShot == true);
+      while(this.makeAScreenShot);
 
       // Return the screen shot
       return this.screenShot;
@@ -2356,13 +2353,13 @@ public class JHelpSceneRenderer
       }
 
       this.pause = pause;
-      if(this.pause == false)
+      if(!this.pause)
       {
          final Stack<Node> stack = new Stack<Node>();
          stack.push(this.scene.getRoot());
          Node node;
 
-         while(stack.isEmpty() == false)
+         while(!stack.isEmpty())
          {
             node = stack.pop();
 
@@ -2431,7 +2428,7 @@ public class JHelpSceneRenderer
          throw new NullPointerException("The canvas couldn't be null");
       }
       this.canvas = canvas;
-      if(this.alive.get() == false)
+      if(!this.alive.get())
       {
          this.alive.set(true);
          this.thread = new Thread(this);
@@ -2447,7 +2444,7 @@ public class JHelpSceneRenderer
    {
       synchronized(this.EXIT)
       {
-         if(this.alive.get() == false)
+         if(!this.alive.get())
          {
             return;
          }
@@ -2458,7 +2455,7 @@ public class JHelpSceneRenderer
          {
             this.EXIT.wait();
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
       }
@@ -2487,7 +2484,7 @@ public class JHelpSceneRenderer
          return false;
       }
 
-      if(this.alive.get() == false)
+      if(!this.alive.get())
       {
          this.alive.set(true);
          this.thread = new Thread(this);

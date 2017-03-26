@@ -152,7 +152,7 @@ public class LabelText
          throw new NullPointerException("font musn't be null");
       }
 
-      if(this.font.equals(font) == false)
+      if(!this.font.equals(font))
       {
          this.font = font;
 
@@ -175,7 +175,7 @@ public class LabelText
          throw new NullPointerException("foreGround musn't be null");
       }
 
-      if(this.foreGround.equals(foreGround) == false)
+      if(!this.foreGround.equals(foreGround))
       {
          this.foreGround = foreGround;
 
@@ -196,7 +196,7 @@ public class LabelText
          throw new NullPointerException("text musn't be null");
       }
 
-      if(this.text.equals(text) == false)
+      if(!this.text.equals(text))
       {
          this.text = text;
 

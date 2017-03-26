@@ -46,6 +46,7 @@ public class BorderLayout
     * @return Preferred dimensions
     * @see jhelp.engine.gui.layout.Layout#computePrefferedSize(int, int, jhelp.engine.gui.layout.LayoutElement[])
     */
+   @SuppressWarnings("ConstantConditions")
    @Override
    public Dimension computePrefferedSize(final int width, final int height, final LayoutElement... elements)
    {
@@ -141,6 +142,7 @@ public class BorderLayout
     *           Elements to layout
     * @see jhelp.engine.gui.layout.Layout#layout(int, int, jhelp.engine.gui.layout.LayoutElement[])
     */
+   @SuppressWarnings("ConstantConditions")
    @Override
    public void layout(final int width, final int height, final LayoutElement... elements)
    {
@@ -214,9 +216,7 @@ public class BorderLayout
       final int right = UtilMath.maxIntegers(topRightWidth, rightWidth, bottomRightWidth);
       centerWidth = width - left - right;
       centerHeight = height - top - bottom;
-      final int x1 = left;
-      final int y1 = top;
-      final int x2 = width - right;
+       final int x2 = width - right;
       final int y2 = height - bottom;
 
       int x, y, w, h;
@@ -231,7 +231,7 @@ public class BorderLayout
                component.setBounds(0, 0, left, top);
             break;
             case TOP:
-               x = x1;
+               x = left;
                y = 0;
                w = centerWidth;
                h = top;
@@ -250,11 +250,11 @@ public class BorderLayout
                component.setBounds(x2, 0, right, top);
             break;
             case LEFT:
-               component.setBounds(0, y1, left, centerHeight);
+               component.setBounds(0, top, left, centerHeight);
             break;
             case CENTER:
-               x = x1;
-               y = y1;
+               x = left;
+               y = top;
                w = centerWidth;
                h = centerHeight;
                if(leftWidth == 0)
@@ -279,13 +279,13 @@ public class BorderLayout
                component.setBounds(x, y, w, h);
             break;
             case RIGHT:
-               component.setBounds(x2, y1, right, centerHeight);
+               component.setBounds(x2, top, right, centerHeight);
             break;
             case BOTTOM_LEFT:
                component.setBounds(0, y2, left, bottom);
             break;
             case BOTTOM:
-               x = x1;
+               x = left;
                y = 0;
                w = centerWidth;
                h = top;

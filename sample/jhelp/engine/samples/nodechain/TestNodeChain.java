@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.samples.nodechain;
@@ -13,7 +13,7 @@ package jhelp.engine.samples.nodechain;
 /**
  * Launch the test of Node chain.<br>
  * Arrow keys and page-up, page-up, moves the blue ball.<br>
- * Mouse drag move the scene, depends on wich mouse button is down :
+ * Mouse drag move the scene, depends on witch mouse button is down :
  * <table border=1>
  * <tr>
  * <th></th>
@@ -35,7 +35,7 @@ package jhelp.engine.samples.nodechain;
  * Mouse wheel do also a zoom.<br>
  * <b>Space</b> key, launch animation, <b>Escape</b> stop it.<br>
  * <b>S</b> show FPS, <b>H</b> hide it.
- * 
+ *
  * @author JHelp
  */
 public class TestNodeChain
@@ -43,7 +43,7 @@ public class TestNodeChain
 
    /**
     * Launch the test of Node chain
-    * 
+    *
     * @param args
     *           Unused
     */

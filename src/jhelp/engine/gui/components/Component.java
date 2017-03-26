@@ -160,7 +160,7 @@ public abstract class Component
          throw new NullPointerException("backGround musn't be null");
       }
 
-      if(this.backGround.equals(backGround) == false)
+      if(!this.backGround.equals(backGround))
       {
          this.backGround = backGround;
 

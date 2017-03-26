@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -24,7 +24,7 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class ObjectClone
@@ -41,7 +41,7 @@ public class ObjectClone
 
    /**
     * Constructs ObjectClone
-    * 
+    *
     * @param reference
     *           Reference object
     */
@@ -64,7 +64,7 @@ public class ObjectClone
 
    /**
     * Constructs ObjectClone
-    * 
+    *
     * @param reference
     *           Reference object name
     */
@@ -93,7 +93,7 @@ public class ObjectClone
 
    /**
     * Read clone parameters form XML
-    * 
+    *
     * @param markupXML
     *           XML to parse
     * @see jhelp.engine.Node#readFromMarkup
@@ -127,7 +127,7 @@ public class ObjectClone
 
    /**
     * Render this object
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -149,7 +149,7 @@ public class ObjectClone
          this.reference.setShowWire(this.isShowWire());
          this.reference.setWireColor(this.getWireColor());
 
-         if((this.isSelected() == true) && (this.materialForSelection != null))
+         if((this.isSelected()) && (this.materialForSelection != null))
          {
             final boolean twoSided = this.materialForSelection.isTwoSided();
 
@@ -196,7 +196,7 @@ public class ObjectClone
 
    /**
     * Render in picking mode
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @see jhelp.engine.Node#renderSpecificPicking(GL, GLU)
@@ -217,7 +217,7 @@ public class ObjectClone
 
    /**
     * Render for pick UV specific for clone
-    * 
+    *
     * @param gl
     *           Open GL context
     * @param glu
@@ -243,7 +243,7 @@ public class ObjectClone
 
    /**
     * Start parsing XML
-    * 
+    *
     * @see jhelp.engine.Node#startParseXML()
     */
    @Override
@@ -253,7 +253,7 @@ public class ObjectClone
 
    /**
     * Write clone in XML
-    * 
+    *
     * @param markupXML
     *           XML to fill
     * @see jhelp.engine.Node#writeInMarkup
@@ -273,7 +273,7 @@ public class ObjectClone
 
    /**
     * Bonding box
-    * 
+    *
     * @return Bonding box
     * @see jhelp.engine.NodeWithMaterial#getBox()
     */
@@ -290,7 +290,7 @@ public class ObjectClone
 
    /**
     * Object center
-    * 
+    *
     * @return Object center
     * @see jhelp.engine.Node#getCenter()
     */
@@ -302,7 +302,7 @@ public class ObjectClone
 
    /**
     * Material
-    * 
+    *
     * @return Material
     */
    @Override
@@ -313,7 +313,7 @@ public class ObjectClone
 
    /**
     * Selection material
-    * 
+    *
     * @return Selection material
     */
    @Override
@@ -324,7 +324,7 @@ public class ObjectClone
 
    /**
     * Reference object
-    * 
+    *
     * @return Reference object
     */
    public Object3D getReference()
@@ -332,9 +332,20 @@ public class ObjectClone
       return this.reference;
    }
 
+   @Override
+   public VirtualSphere getSphere()
+   {
+      if(this.reference == null)
+      {
+         return new VirtualSphere(0, 0, 0, 0);
+      }
+
+      return this.reference.getSphere();
+   }
+
    /**
     * Change material
-    * 
+    *
     * @param material
     *           New material
     */
@@ -351,7 +362,7 @@ public class ObjectClone
    /**
     * Change selection material.<br>
     * Used {@code null} for disable selection distinction
-    * 
+    *
     * @param materialForSelection
     *           Selection material
     */
@@ -363,7 +374,7 @@ public class ObjectClone
 
    /**
     * Change reference object
-    * 
+    *
     * @param reference
     *           New reference
     */

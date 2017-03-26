@@ -243,7 +243,7 @@ public class SensitiveArea
          final int y = (v * SensitiveArea.this.height) >> 8;
          SensitiveArea.this.actionAt(x, y, this.doAction);
 
-         if(this.finishPick == true)
+         if(this.finishPick)
          {
             SensitiveArea.this.finshPick(node);
          }
@@ -348,7 +348,7 @@ public class SensitiveArea
       @Override
       public void startMakup(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
       {
-         if(SensitiveArea.MARKUP_MAIN.equals(markupName) == true)
+         if(SensitiveArea.MARKUP_MAIN.equals(markupName))
          {
             if(this.sensitiveArea != null)
             {
@@ -364,7 +364,7 @@ public class SensitiveArea
             throw new ExceptionXML("The " + SensitiveArea.MARKUP_MAIN + " must be the first markup, be we meet " + markupName + " before it");
          }
 
-         if(SensitiveArea.MARKUP_AREA.endsWith(markupName) == true)
+         if(SensitiveArea.MARKUP_AREA.endsWith(markupName))
          {
             this.sensitiveArea.putArea(markupName, parameters);
             return;
@@ -724,7 +724,7 @@ public class SensitiveArea
     */
    public static SensitiveArea createFromMarkup(final String markup, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(SensitiveArea.MARKUP_MAIN.equals(markup) == false)
+      if(!SensitiveArea.MARKUP_MAIN.equals(markup))
       {
          throw new ExceptionXML("The markup must be " + SensitiveArea.MARKUP_MAIN + " not " + markup);
       }
@@ -881,7 +881,7 @@ public class SensitiveArea
       {
          for(final Area area : this.areas)
          {
-            if(area.isInside(x, y) == true)
+            if(area.isInside(x, y))
             {
                over = area;
                break;
@@ -909,7 +909,7 @@ public class SensitiveArea
 
       this.lastArea = actualArea;
 
-      if((doAction == true) && (actualArea >= 0))
+      if((doAction) && (actualArea >= 0))
       {
          this.fireSensitiveClick(actualArea);
       }
@@ -1120,7 +1120,7 @@ public class SensitiveArea
     */
    public void putArea(final String markup, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(SensitiveArea.MARKUP_AREA.equals(markup) == false)
+      if(!SensitiveArea.MARKUP_AREA.equals(markup))
       {
          throw new ExceptionXML("The markup must be " + SensitiveArea.MARKUP_AREA + " not " + markup);
       }
@@ -1148,7 +1148,7 @@ public class SensitiveArea
 
       synchronized(this.sensitiveAreaListeners)
       {
-         if(this.sensitiveAreaListeners.contains(sensitiveAreaListener) == false)
+         if(!this.sensitiveAreaListeners.contains(sensitiveAreaListener))
          {
             this.sensitiveAreaListeners.add(sensitiveAreaListener);
          }

@@ -97,7 +97,7 @@ public class ObjLoader
       int startNormal = 1;
       float multiplier = 1;
 
-      if(reveseNormals == true)
+      if(reveseNormals)
       {
          multiplier = -1;
       }
@@ -112,7 +112,7 @@ public class ObjLoader
             stringTokenizer = new StringTokenizer(line, " \n\t\f\r", false);
             word = stringTokenizer.nextToken();
 
-            if((word.equals("g") == true) || (word.equals("o") == true))
+            if((word.equals("g")) || (word.equals("o")))
             {
                if(pointFace.getSize() > 0)
                {
@@ -133,30 +133,30 @@ public class ObjLoader
                edit = new Object3D();
                object3D.addChild(edit);
 
-               if(stringTokenizer.hasMoreTokens() == true)
+               if(stringTokenizer.hasMoreTokens())
                {
                   edit.nodeName = stringTokenizer.nextToken();
                }
 
                Debug.println(DebugLevel.VERBOSE, "Found object : ", edit.nodeName);
             }
-            else if(word.equals("v") == true)
+            else if(word.equals("v"))
             {
                points.add(new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
                      Float.parseFloat(stringTokenizer.nextToken())));
             }
-            else if(word.equals("vt") == true)
+            else if(word.equals("vt"))
             {
                uv.add(new Point2D(Float.parseFloat(stringTokenizer.nextToken()), 1 - Float.parseFloat(stringTokenizer.nextToken())));
             }
-            else if(word.equals("vn") == true)
+            else if(word.equals("vn"))
             {
                normals.add(new Point3D(multiplier * Float.parseFloat(stringTokenizer.nextToken()), multiplier * Float.parseFloat(stringTokenizer.nextToken()),
                      multiplier * Float.parseFloat(stringTokenizer.nextToken())));
             }
-            else if((word.equals("f") == true) || (word.equals("fo") == true))
+            else if((word.equals("f")) || (word.equals("fo")))
             {
-               while(stringTokenizer.hasMoreTokens() == true)
+               while(stringTokenizer.hasMoreTokens())
                {
                   stringCuter = new StringCutter(stringTokenizer.nextToken(), '/');
 

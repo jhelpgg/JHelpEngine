@@ -89,7 +89,7 @@ public class JHelpLabelPath
             return;
          }
 
-         if(JHelpLabelPath.this.fromClick == true)
+         if(JHelpLabelPath.this.fromClick)
          {
             JHelpLabelPath.this.selectedPath = null;
             JHelpLabelPath.this.indexSelected = -1;
@@ -211,7 +211,7 @@ public class JHelpLabelPath
             JHelpLabelPath.this.mouseY = 0;
          }
 
-         if(JHelpLabelPath.this.fromClick == true)
+         if(JHelpLabelPath.this.fromClick)
          {
             JHelpLabelPath.this.selectedPath.points[JHelpLabelPath.this.indexSelected].x = JHelpLabelPath.this.mouseX;
             JHelpLabelPath.this.selectedPath.points[JHelpLabelPath.this.indexSelected].y = JHelpLabelPath.this.mouseY;

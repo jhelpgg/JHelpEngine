@@ -61,11 +61,6 @@ public class TextureFontGif
    {
       super(fontGifName, Texture.REFERENCE_FONT_GIF);
 
-      if(fontGifName == null)
-      {
-         throw new NullPointerException("fontGifName musn't be null");
-      }
-
       if(text == null)
       {
          throw new NullPointerException("text musn't be null");
@@ -189,7 +184,7 @@ public class TextureFontGif
          throw new NullPointerException("text musn't be null");
       }
 
-      if(this.text.equals(text) == true)
+      if(this.text.equals(text))
       {
          return;
       }

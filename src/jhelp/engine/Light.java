@@ -435,11 +435,11 @@ public final class Light
     */
    public void render(final GL gl)
    {
-      if(this.asChanged == true)
+      if(this.asChanged)
       {
          this.asChanged = false;
 
-         if(this.needRefresh == true)
+         if(this.needRefresh)
          {
             this.needRefresh = false;
 
@@ -458,7 +458,7 @@ public final class Light
             gl.glLightf(this.id, GL.GL_QUADRATIC_ATTENUATION, this.quadricAttenuation);
          }
 
-         if(this.enable == true)
+         if(this.enable)
          {
             gl.glEnable(this.id);
          }

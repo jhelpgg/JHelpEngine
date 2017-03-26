@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.gui;
@@ -24,7 +24,7 @@ import jhelp.util.gui.JHelpImage;
 
 /**
  * Component 2D with 3D scene inside
- * 
+ *
  * @author JHelp
  */
 public class JHelpComponent2DView3D
@@ -61,7 +61,7 @@ public class JHelpComponent2DView3D
 
    /**
     * Create a new instance of JHelpComponent2DView3D
-    * 
+    *
     * @param width
     *           Start width
     * @param height
@@ -87,7 +87,7 @@ public class JHelpComponent2DView3D
     */
    void pause()
    {
-      if(this.sceneRenderer.isPause() == true)
+      if(this.sceneRenderer.isPause())
       {
          return;
       }
@@ -103,7 +103,7 @@ public class JHelpComponent2DView3D
     */
    void resume()
    {
-      if(this.sceneRenderer.isPause() == false)
+      if(!this.sceneRenderer.isPause())
       {
          return;
       }
@@ -124,7 +124,7 @@ public class JHelpComponent2DView3D
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param parentWidth
     *           Parent width
     * @param parentHeight
@@ -143,7 +143,7 @@ public class JHelpComponent2DView3D
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -181,9 +181,9 @@ public class JHelpComponent2DView3D
          this.lastTimeRefesh = System.currentTimeMillis();
       }
 
-      if(this.alreadyAdded == false)
+      if(!this.alreadyAdded)
       {
-         if(this.sceneRenderer.tryRestart() == true)
+         if(this.sceneRenderer.tryRestart())
          {
             this.alreadyAdded = true;
             this.frame.add(this.componentView3D, 0);
@@ -200,7 +200,7 @@ public class JHelpComponent2DView3D
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see jhelp.gui.twoD.JHelpComponent2D#willRemove()
     */
    @Override
@@ -213,7 +213,7 @@ public class JHelpComponent2DView3D
 
    /**
     * Scene renderer for manipulate the 3D
-    * 
+    *
     * @return Scene renderer for manipulate the 3D
     */
    public JHelpSceneRenderer getJHelpSceneRenderer()
@@ -223,7 +223,7 @@ public class JHelpComponent2DView3D
 
    /**
     * The key listener
-    * 
+    *
     * @return The key listener
     */
    @Override
@@ -234,7 +234,7 @@ public class JHelpComponent2DView3D
 
    /**
     * Change/define the click on epty space listener
-    * 
+    *
     * @param clickInSpaceListener
     *           The click in empty space listener (Can us {@code null} for remove the current listener)
     */
@@ -249,13 +249,13 @@ public class JHelpComponent2DView3D
 
       if(this.clickInSpaceListener != null)
       {
-         this.sceneRenderer.addClickInSpaceListener(clickInSpaceListener);
+         this.sceneRenderer.addClickInSpaceListener(this.clickInSpaceListener);
       }
    }
 
    /**
     * Change current key listener. Use {@code null} to remove key listener
-    * 
+    *
     * @param keyListener
     *           New key listener or {@code null} to remove key listener
     */
@@ -279,7 +279,7 @@ public class JHelpComponent2DView3D
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param mouseListener
     *           New mouse listener or {@code null} to remove mouse listener
     * @see jhelp.gui.twoD.JHelpComponent2D#setMouseListener(jhelp.gui.JHelpMouseListener)

@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine.samples.equation3D;
@@ -15,27 +15,29 @@ import java.io.IOException;
 import jhelp.engine.JHelpSceneRenderer;
 import jhelp.engine.Material;
 import jhelp.engine.NodeWithMaterial.TwoSidedState;
-import jhelp.engine.Object3D;
 import jhelp.engine.Point2D;
 import jhelp.engine.Scene;
 import jhelp.engine.Texture;
+import jhelp.engine.event.Equation3DListener;
 import jhelp.engine.geom.Equation3D;
 import jhelp.engine.gui.JHelpFrame3D;
 import jhelp.engine.samples.helloWord.HelloWord3;
 import jhelp.engine.twoD.Path;
 import jhelp.engine.util.Math3D;
 import jhelp.util.debug.Debug;
+import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.UtilGUI;
 import jhelp.util.resources.Resources;
 
 public class Equation3DSample
+      implements Equation3DListener
 {
    /** Resources access */
    private static final Resources RESOURCES = new Resources(HelloWord3.class);
 
    /**
     * TODO Explains what does the method main in jhelp.engine.samples.equation3D [JHelpEngine]
-    * 
+    *
     * @param args
     */
    public static void main(final String[] args)
@@ -57,7 +59,8 @@ public class Equation3DSample
       path.appendQuad(new Point2D(0.5f, 0.5f), new Point2D(0.75f, 0f), new Point2D(0.5f, -0.5f));
       path.appendQuad(new Point2D(0.5f, -0.5f), new Point2D(0, -0.75f), new Point2D(-0.5f, -0.5f));
       path.appendQuad(new Point2D(-0.5f, -0.5f), new Point2D(-0.75f, 0), new Point2D(-0.5f, 0.5f));
-      final Object3D spiral = new Equation3D(path, 16, -2 * Math3D.TWO_PI, 2 * Math3D.TWO_PI, Math3D.PI / 32f, "10*cos(t)", "10*sin(t)", "t");
+      final Equation3D spiral = new Equation3D(path, 16, -2 * Math3D.TWO_PI, 2 * Math3D.TWO_PI, Math3D.PI / 32f, "10*cos(t)", "10*sin(t)", "t",
+            new Equation3DSample());
       spiral.setTwoSidedState(TwoSidedState.FORCE_TWO_SIDE);
 
       // Add texture material to spiral
@@ -91,5 +94,11 @@ public class Equation3DSample
 
       // Show last modifications
       scene.flush();
+   }
+
+   @Override
+   public void equation3Dready(final Equation3D equation3d)
+   {
+      Debug.printMark(DebugLevel.INFORMATION, "Ready !");
    }
 }

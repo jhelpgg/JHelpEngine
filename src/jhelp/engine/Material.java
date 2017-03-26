@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -25,7 +25,7 @@ import jhelp.xml.MarkupXML;
  * Material for 3D object<br>
  * It's a mix with diffuse an environment<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 public class Material
@@ -47,7 +47,7 @@ public class Material
 
    /**
     * Register a material
-    * 
+    *
     * @param material
     *           Material to register
     */
@@ -62,7 +62,7 @@ public class Material
 
    /**
     * New default named material
-    * 
+    *
     * @return New default named material
     */
    public static Material createNewMaterial()
@@ -72,7 +72,7 @@ public class Material
          Material.hashtableMaterials = new Hashtable<String, Material>();
       }
       String name = Material.NEW_MATERIAL_HEADER + (Material.nextID++);
-      while(Material.hashtableMaterials.containsKey(name) == true)
+      while(Material.hashtableMaterials.containsKey(name))
       {
          name = Material.NEW_MATERIAL_HEADER + (Material.nextID++);
       }
@@ -81,7 +81,7 @@ public class Material
 
    /**
     * Create a new maetirial with a specific base name
-    * 
+    *
     * @param name
     *           Base name
     * @return Created material
@@ -105,7 +105,7 @@ public class Material
 
    /**
     * Obtain material with its name
-    * 
+    *
     * @param name
     *           Material name
     * @return The material or {@link #DEFAULT_MATERIAL} if the material not exists
@@ -130,7 +130,7 @@ public class Material
 
    /**
     * Material use for pick UV
-    * 
+    *
     * @return Material use for pick UV
     */
    public static Material obtainMaterialForPickUV()
@@ -155,7 +155,7 @@ public class Material
 
    /**
     * Obtain a material or create a new one if not exists
-    * 
+    *
     * @param name
     *           Material name
     * @return Searched material or newly created
@@ -183,7 +183,7 @@ public class Material
 
    /**
     * Parse a XML markup to create a material
-    * 
+    *
     * @param markupXML
     *           Markup XML to parse
     * @return Created material
@@ -220,7 +220,7 @@ public class Material
    /**
     * Force refresh all materials
     */
-   public static final void refreshAllMaterials()
+   public static void refreshAllMaterials()
    {
       if(Material.hashtableMaterials == null)
       {
@@ -248,7 +248,7 @@ public class Material
 
    /**
     * Rename a material
-    * 
+    *
     * @param material
     *           Material to rename
     * @param newName
@@ -269,7 +269,7 @@ public class Material
       {
          throw new IllegalArgumentException("newName musn't be empty");
       }
-      if(material.name.equals(newName) == true)
+      if(material.name.equals(newName))
       {
          return;
       }
@@ -309,7 +309,7 @@ public class Material
 
    /**
     * Constructs the material
-    * 
+    *
     * @param name
     *           Material name
     */
@@ -340,7 +340,7 @@ public class Material
 
    /**
     * Render the material for a 3D object
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param glu
@@ -422,7 +422,7 @@ public class Material
 
    /**
     * Indicates if an Object is the same as the material
-    * 
+    *
     * @param object
     *           Object to compare
     * @return {@code true} if an Object is the same as the material
@@ -435,32 +435,32 @@ public class Material
       {
          return false;
       }
-      if(super.equals(object) == true)
+      if(super.equals(object))
       {
          return true;
       }
-      if((object instanceof Material) == false)
+      if(!(object instanceof Material))
       {
          return false;
       }
       final Material material = (Material) object;
-      if(material.name.equals(this.name) == true)
+      if(material.name.equals(this.name))
       {
          return true;
       }
-      if(material.colorAmbiant.equals(this.colorAmbiant) == false)
+      if(!material.colorAmbiant.equals(this.colorAmbiant))
       {
          return false;
       }
-      if(material.colorDiffuse.equals(this.colorDiffuse) == false)
+      if(!material.colorDiffuse.equals(this.colorDiffuse))
       {
          return false;
       }
-      if(material.colorEmissive.equals(this.colorEmissive) == false)
+      if(!material.colorEmissive.equals(this.colorEmissive))
       {
          return false;
       }
-      if(material.colorSpecular.equals(this.colorSpecular) == false)
+      if(!material.colorSpecular.equals(this.colorSpecular))
       {
          return false;
       }
@@ -472,15 +472,15 @@ public class Material
       {
          return false;
       }
-      if(Math3D.equal(material.specularLevel, this.specularLevel) == false)
+      if(!Math3D.equal(material.specularLevel, this.specularLevel))
       {
          return false;
       }
-      if(Math3D.equal(material.sphericRate, this.sphericRate) == false)
+      if(!Math3D.equal(material.sphericRate, this.sphericRate))
       {
          return false;
       }
-      if(Math3D.equal(material.transparency, this.transparency) == false)
+      if(!Math3D.equal(material.transparency, this.transparency))
       {
          return false;
       }
@@ -488,7 +488,8 @@ public class Material
       {
          return false;
       }
-      if((this.textureDiffuse != null) && (material.textureDiffuse != null) && (this.textureDiffuse.equals(material.textureDiffuse) == false))
+      if(this.textureDiffuse != null && !this.textureDiffuse.equals(
+              material.textureDiffuse))
       {
          return false;
       }
@@ -496,16 +497,13 @@ public class Material
       {
          return false;
       }
-      if((this.textureSpheric != null) && (material.textureSpheric != null) && (this.textureSpheric.equals(material.textureSpheric) == false))
-      {
-         return false;
-      }
-      return true;
+       return !(this.textureSpheric != null && !this.textureSpheric.equals(
+               material.textureSpheric));
    }
 
    /**
     * Ambiant color
-    * 
+    *
     * @return Ambiant color
     */
    public Color4f getColorAmbiant()
@@ -515,7 +513,7 @@ public class Material
 
    /**
     * Diffuse color
-    * 
+    *
     * @return Diffuse color
     */
    public Color4f getColorDiffuse()
@@ -525,7 +523,7 @@ public class Material
 
    /**
     * Emissive color
-    * 
+    *
     * @return Emissive color
     */
    public Color4f getColorEmissive()
@@ -535,7 +533,7 @@ public class Material
 
    /**
     * Specular color
-    * 
+    *
     * @return Specular color
     */
    public Color4f getColorSpecular()
@@ -545,7 +543,7 @@ public class Material
 
    /**
     * Return cubeMap
-    * 
+    *
     * @return cubeMap
     */
    public CubeMap getCubeMap()
@@ -555,7 +553,7 @@ public class Material
 
    /**
     * Return cubeMapRate
-    * 
+    *
     * @return cubeMapRate
     */
    public float getCubeMapRate()
@@ -565,7 +563,7 @@ public class Material
 
    /**
     * Material name
-    * 
+    *
     * @return Material name
     */
    public String getName()
@@ -575,7 +573,7 @@ public class Material
 
    /**
     * Shininess
-    * 
+    *
     * @return Shininess
     */
    public int getShininess()
@@ -585,7 +583,7 @@ public class Material
 
    /**
     * Specular level
-    * 
+    *
     * @return Specular level
     */
    public float getSpecularLevel()
@@ -595,7 +593,7 @@ public class Material
 
    /**
     * Environment rate
-    * 
+    *
     * @return Environment rate
     */
    public float getSphericRate()
@@ -605,7 +603,7 @@ public class Material
 
    /**
     * Diffuse texture
-    * 
+    *
     * @return Diffuse texture
     */
    public Texture getTextureDiffuse()
@@ -615,7 +613,7 @@ public class Material
 
    /**
     * Environment texture
-    * 
+    *
     * @return Environment texture
     */
    public Texture getTextureSpheric()
@@ -625,7 +623,7 @@ public class Material
 
    /**
     * Transparency
-    * 
+    *
     * @return Transparency
     */
    public float getTransparency()
@@ -635,7 +633,7 @@ public class Material
 
    /**
     * Indicates if the material is two sided
-    * 
+    *
     * @return {@code true} if the material is two sided
     */
    public boolean isTwoSided()
@@ -663,7 +661,7 @@ public class Material
    /**
     * Pepare material for OpenGL render.<br>
     * Use by the renderer, don't call it directly
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -696,7 +694,7 @@ public class Material
 
    /**
     * Serialize the mateirl in XML markup
-    * 
+    *
     * @return Markup represents the material
     */
    public MarkupXML saveToXML()
@@ -731,7 +729,7 @@ public class Material
 
    /**
     * Change ambiant color
-    * 
+    *
     * @param colorAmbiant
     *           New ambiant color
     */
@@ -750,7 +748,7 @@ public class Material
 
    /**
     * Change diffuse color
-    * 
+    *
     * @param colorDiffuse
     *           New diffuse color
     */
@@ -769,7 +767,7 @@ public class Material
 
    /**
     * Change emissive color
-    * 
+    *
     * @param colorEmissive
     *           New emissive color
     */
@@ -788,7 +786,7 @@ public class Material
 
    /**
     * Change specular color
-    * 
+    *
     * @param colorSpecular
     *           New specular color
     */
@@ -807,7 +805,7 @@ public class Material
 
    /**
     * Modify cubeMap
-    * 
+    *
     * @param cubeMap
     *           New cubeMap value
     */
@@ -818,7 +816,7 @@ public class Material
 
    /**
     * Modify cubeMapRate
-    * 
+    *
     * @param cubeMapRate
     *           New cubeMapRate value
     */
@@ -829,7 +827,7 @@ public class Material
 
    /**
     * Change shininess (0 <-> 128)
-    * 
+    *
     * @param shininess
     *           New shininess (0 <-> 128)
     */
@@ -844,7 +842,7 @@ public class Material
 
    /**
     * Change specular level
-    * 
+    *
     * @param specularLevel
     *           New specular level
     */
@@ -855,7 +853,7 @@ public class Material
 
    /**
     * Change environment rate
-    * 
+    *
     * @param sphericRate
     *           New environment rate
     */
@@ -867,7 +865,7 @@ public class Material
    /**
     * Change diffuse texture<br>
     * Use {@code null} to remove diffuse texture
-    * 
+    *
     * @param textureDiffuse
     *           New diffuse texture
     */
@@ -879,7 +877,7 @@ public class Material
    /**
     * Change environment texture<br>
     * Use {@code null} to remove environment texture
-    * 
+    *
     * @param textureSpheric
     *           New environment texture
     */
@@ -904,7 +902,7 @@ public class Material
 
    /**
     * Change transparency
-    * 
+    *
     * @param transparency
     *           New transparency
     */
@@ -915,7 +913,7 @@ public class Material
 
    /**
     * Change two sided state
-    * 
+    *
     * @param twoSided
     *           New two sided state
     */

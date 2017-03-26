@@ -71,7 +71,7 @@ public class Panel
       final Enumeration<Component> enumeration = this.components.elements();
       Component component;
 
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
          component = enumeration.nextElement();
 
@@ -111,7 +111,7 @@ public class Panel
       Component component;
 
       Enumeration<Constraints> enumeration = this.components.keys();
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
          constraints = enumeration.nextElement();
          component = this.components.get(constraints);
@@ -172,15 +172,16 @@ public class Panel
    @Override
    public boolean isNeedRefresh()
    {
-      if(super.isNeedRefresh() == true)
+      if(super.isNeedRefresh())
       {
          return true;
       }
 
       final Enumeration<Component> enumeration = this.components.elements();
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
-         if(enumeration.nextElement().isNeedRefresh() == true)
+         if(enumeration.nextElement()
+                       .isNeedRefresh())
          {
             return true;
          }
@@ -210,7 +211,7 @@ public class Panel
       Component component;
 
       final Enumeration<Constraints> enumeration = this.components.keys();
-      while(enumeration.hasMoreElements() == true)
+      while(enumeration.hasMoreElements())
       {
          constraints = enumeration.nextElement();
          component = this.components.get(constraints);

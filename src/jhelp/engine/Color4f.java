@@ -71,7 +71,7 @@ public class Color4f
     * 
     * @return Black default color
     */
-   private static final Color4f makeDefaultColor()
+   private static Color4f makeDefaultColor()
    {
       return Color4f.makeDefaultColor(0);
    }
@@ -83,7 +83,7 @@ public class Color4f
     *           Gray value
     * @return Gray default color
     */
-   private static final Color4f makeDefaultColor(final float gray)
+   private static Color4f makeDefaultColor(final float gray)
    {
       return Color4f.makeDefaultColor(gray, 1f);
    }
@@ -97,7 +97,7 @@ public class Color4f
     *           Alpha value
     * @return Gray default color
     */
-   private static final Color4f makeDefaultColor(final float gray, final float alpha)
+   private static Color4f makeDefaultColor(final float gray, final float alpha)
    {
       return Color4f.makeDefaultColor(gray, gray, gray, 1f);
    }
@@ -113,7 +113,7 @@ public class Color4f
     *           Blue
     * @return Default color
     */
-   private static final Color4f makeDefaultColor(final float red, final float green, final float blue)
+   private static Color4f makeDefaultColor(final float red, final float green, final float blue)
    {
       return Color4f.makeDefaultColor(red, green, blue, 1f);
    }
@@ -131,7 +131,7 @@ public class Color4f
     *           Alpha
     * @return Default color
     */
-   private static final Color4f makeDefaultColor(final float red, final float green, final float blue, final float alpha)
+   private static Color4f makeDefaultColor(final float red, final float green, final float blue, final float alpha)
    {
       final Color4f color = new Color4f(red, green, blue, alpha);
       color.defaultColor = true;
@@ -304,32 +304,28 @@ public class Color4f
       {
          return false;
       }
-      if(super.equals(object) == true)
+      if(super.equals(object))
       {
          return true;
       }
-      if((object instanceof Color4f) == false)
+      if(!(object instanceof Color4f))
       {
          return false;
       }
       final Color4f color4f = (Color4f) object;
-      if(Math3D.equal(this.alpha, color4f.alpha) == false)
+      if(!Math3D.equal(this.alpha, color4f.alpha))
       {
          return false;
       }
-      if(Math3D.equal(this.red, color4f.red) == false)
+      if(!Math3D.equal(this.red, color4f.red))
       {
          return false;
       }
-      if(Math3D.equal(this.blue, color4f.blue) == false)
+      if(!Math3D.equal(this.blue, color4f.blue))
       {
          return false;
       }
-      if(Math3D.equal(this.green, color4f.green) == false)
-      {
-         return false;
-      }
-      return true;
+      return Math3D.equal(this.green, color4f.green);
    }
 
    /**

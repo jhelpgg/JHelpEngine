@@ -21,7 +21,7 @@ import jhelp.engine.event.OptionPane2DListener;
 import jhelp.gui.ResourcesGUI;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
-import jhelp.util.gui.alphabet.AlphabetGraphitti;
+import jhelp.util.gui.alphabet.AlphabetGraffiti;
 import jhelp.util.gui.alphabet.AlphabetGreen8x16;
 import jhelp.util.gui.alphabet.AlphabetText;
 
@@ -88,7 +88,7 @@ public class OptionPane2D
 
       this.sceneRenderer = sceneRenderer;
       this.optionPane2DListener = optionPane2DListener;
-      final Dimension character = AlphabetGraphitti.NORMAL.getCharacterDimension();
+      final Dimension character = AlphabetGraffiti.NORMAL.getCharacterDimension();
       this.size = AlphabetText.obtainNumberColumnsLines(AlphabetGreen8x16.ALPHABET_GREEN8X16, width, height - character.height - 8);
       this.alphabetText = new AlphabetText(AlphabetGreen8x16.ALPHABET_GREEN8X16, this.size.width, this.size.height, "", JHelpTextAlign.CENTER, 0xFF0A7E07,
             0x800A7E07);
@@ -114,11 +114,11 @@ public class OptionPane2D
     */
    private JHelpImage createOptionPaneButton(final String text)
    {
-      final Dimension dimension = AlphabetGraphitti.NORMAL.computeTextDimension(text);
+      final Dimension dimension = AlphabetGraffiti.NORMAL.computeTextDimension(text);
       final JHelpImage image = new JHelpImage(dimension.width + 8, dimension.height + 8, 0xAAFFFFFF);
       image.startDrawMode();
       image.drawRectangle(0, 0, image.getWidth() - 1, image.getHeight() - 1, 0xFF000000);
-      AlphabetGraphitti.NORMAL.drawOn(text, JHelpTextAlign.CENTER, image, image.getWidth() >> 1, image.getHeight() >> 1, true);
+      AlphabetGraffiti.NORMAL.drawOn(text, JHelpTextAlign.CENTER, image, image.getWidth() >> 1, image.getHeight() >> 1, true);
       image.endDrawMode();
       return image;
    }
@@ -139,7 +139,7 @@ public class OptionPane2D
          throw new NullPointerException("text musn't be null");
       }
 
-      if(optionPaneButtons.validForSpecifyOptionPaneButtons() == false)
+      if(!optionPaneButtons.validForSpecifyOptionPaneButtons())
       {
          throw new IllegalArgumentException(optionPaneButtons + " not valid");
       }
@@ -220,19 +220,19 @@ public class OptionPane2D
    {
       OptionPaneButtons optionPaneButtons;
 
-      if(this.okArea.contains(x, y) == true)
+      if(this.okArea.contains(x, y))
       {
          optionPaneButtons = OptionPaneButtons.OK;
       }
-      else if(this.yesArea.contains(x, y) == true)
+      else if(this.yesArea.contains(x, y))
       {
          optionPaneButtons = OptionPaneButtons.YES;
       }
-      else if(this.noArea.contains(x, y) == true)
+      else if(this.noArea.contains(x, y))
       {
          optionPaneButtons = OptionPaneButtons.NO;
       }
-      else if(this.cancelArea.contains(x, y) == true)
+      else if(this.cancelArea.contains(x, y))
       {
          optionPaneButtons = OptionPaneButtons.CANCEL;
       }

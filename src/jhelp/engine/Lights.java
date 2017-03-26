@@ -93,7 +93,7 @@ public class Lights
     */
    public int createNewLight(String name)
    {
-      if(this.canCreateNewLight() == false)
+      if(!this.canCreateNewLight())
       {
          throw new IllegalStateException("Maximum of lights is reach");
       }
@@ -240,7 +240,8 @@ public class Lights
    {
       for(int i = 0; i < this.actualNumberOfLights; i++)
       {
-         if(this.lights[i].getName().equals(name) == true)
+         if(this.lights[i].getName()
+                          .equals(name))
          {
             return this.lights[i];
          }

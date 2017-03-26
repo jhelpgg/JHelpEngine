@@ -115,7 +115,7 @@ public class Revolution
       int an;
 
       ArrayList<Line2D> list;
-      if(omogeonous == true)
+      if(omogeonous)
       {
          list = this.path.computePathOmogenous(this.pathPrecision, start, end);
       }
@@ -255,7 +255,7 @@ public class Revolution
       this.multU = markupXML.obtainParameter(ConstantsXML.MARKUP_NODE_multU, 1f);
 
       final EnumerationIterator<MarkupXML> enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_PATH);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_PATH, " in ", markupXML.getName()));
       }

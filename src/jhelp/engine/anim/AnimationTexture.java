@@ -51,7 +51,7 @@ public class AnimationTexture
       gray.setPixels(texture);
       gray.toGray();
 
-      if(toGray == true)
+      if(toGray)
       {
          return new AnimationTexture(numberOfFrame, texture, gray, pingPong, numberOfLoop, interpolationType);
       }
@@ -208,23 +208,23 @@ public class AnimationTexture
       float frame = absoluteFrame - this.startAbsoluteFrame;
       boolean anOther = frame < this.numberOfFrame;
 
-      if(anOther == false)
+      if(!anOther)
       {
          frame = this.numberOfFrame;
       }
 
-      if(this.wayUp == false)
+      if(!this.wayUp)
       {
          frame = this.numberOfFrame - frame;
       }
 
-      if(anOther == false)
+      if(!anOther)
       {
          this.startAbsoluteFrame = absoluteFrame;
 
-         if(this.pingPong == true)
+         if(this.pingPong)
          {
-            if(this.wayUp == true)
+            if(this.wayUp)
             {
                anOther = true;
             }
@@ -232,7 +232,7 @@ public class AnimationTexture
             this.wayUp = !this.wayUp;
          }
 
-         if(anOther == false)
+         if(!anOther)
          {
             this.loopLeft--;
             anOther = this.loopLeft > 0;

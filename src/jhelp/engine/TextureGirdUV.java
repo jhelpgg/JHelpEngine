@@ -155,7 +155,7 @@ public class TextureGirdUV
       final int nb = this.shapes.size();
       for(int i = 0; i < nb; i++)
       {
-         if(this.shapes.get(i).polygon.contains(x, y) == true)
+         if(this.shapes.get(i).polygon.contains(x, y))
          {
             return i;
          }

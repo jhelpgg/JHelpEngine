@@ -23,17 +23,17 @@ import jhelp.engine.Point2D;
 public class Line2D
 {
    /** Additional information */
-   public float       additonal;
+   public       float       additonal;
    /** End value */
-   public float       end;
+   public       float       end;
    /** Path element linked */
-   public PathElement pathElement;
+   public       PathElement pathElement;
    /** End point */
-   public Point2D     pointEnd;
+   public final Point2D     pointEnd;
    /** Start point */
-   public Point2D     pointStart;
+   public final Point2D     pointStart;
    /** Start value */
-   public float       start;
+   public       float       start;
 
    /**
     * Constructs Line2D

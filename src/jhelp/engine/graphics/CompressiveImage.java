@@ -103,7 +103,7 @@ public class CompressiveImage
       {
          pixelGrabber.grabPixels();
       }
-      catch(final InterruptedException e)
+      catch(final InterruptedException ignored)
       {
       }
       // Update compressive image pixels

@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -49,7 +49,7 @@ import jhelp.util.list.EnumerationIterator;
  * Over write mode replace pixels like new one all part are copied (red, green, blue and alpha) are copied as it <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class Texture
@@ -94,7 +94,7 @@ public class Texture
 
    /**
     * Add two alpha values
-    * 
+    *
     * @param alpha1
     *           First alpha
     * @param alpha2
@@ -115,7 +115,7 @@ public class Texture
 
    /**
     * Compute Bernouilli number at t time
-    * 
+    *
     * @param n
     *           N
     * @param m
@@ -131,7 +131,7 @@ public class Texture
 
    /**
     * Compute the number of combination of N element in M
-    * 
+    *
     * @param n
     *           N
     * @param m
@@ -145,7 +145,7 @@ public class Texture
 
    /**
     * Compute <code>first + second - 128</code> limit in [0, 255]
-    * 
+    *
     * @param b1
     *           First
     * @param b2
@@ -170,7 +170,7 @@ public class Texture
 
    /**
     * Divide to part color
-    * 
+    *
     * @param b1
     *           First part
     * @param b2
@@ -186,7 +186,7 @@ public class Texture
 
    /**
     * Compute the factorial of an integer
-    * 
+    *
     * @param integer
     *           Integer
     * @return Factorial
@@ -209,7 +209,7 @@ public class Texture
 
    /**
     * Multiply 2 color parts
-    * 
+    *
     * @param b1
     *           First
     * @param b2
@@ -225,7 +225,7 @@ public class Texture
 
    /**
     * Compute cubic interpolation at a given time
-    * 
+    *
     * @param cp
     *           Current value
     * @param p1
@@ -245,7 +245,7 @@ public class Texture
 
    /**
     * Compute quadric interpolation at a given time
-    * 
+    *
     * @param cp
     *           Current value
     * @param p1
@@ -263,7 +263,7 @@ public class Texture
 
    /**
     * Register a texture
-    * 
+    *
     * @param texture
     *           Texture to register
     */
@@ -279,7 +279,7 @@ public class Texture
 
    /**
     * Subtract 2 color part
-    * 
+    *
     * @param b1
     *           First
     * @param b2
@@ -300,7 +300,7 @@ public class Texture
 
    /**
     * Unregister a texture
-    * 
+    *
     * @param texture
     *           Texture to unregister
     */
@@ -316,7 +316,7 @@ public class Texture
 
    /**
     * Load texture from file
-    * 
+    *
     * @param file
     *           Image file
     * @return The texture loaded
@@ -342,7 +342,7 @@ public class Texture
             {
                inputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -351,7 +351,7 @@ public class Texture
 
    /**
     * Obtain a texture by its name
-    * 
+    *
     * @param name
     *           Texture name
     * @return The texture or {@code null} if no texture with the given name
@@ -371,7 +371,7 @@ public class Texture
 
    /**
     * Texture for pick UV
-    * 
+    *
     * @return Texture for pick UV
     */
    public static Texture obtainTextureForPickUV()
@@ -401,7 +401,7 @@ public class Texture
 
    /**
     * Compute interpolated values cubic for a given precision
-    * 
+    *
     * @param cp
     *           Current value
     * @param p1
@@ -433,7 +433,7 @@ public class Texture
 
    /**
     * Compute interpolated values quadric for a given precision
-    * 
+    *
     * @param cp
     *           Current value
     * @param p1
@@ -479,7 +479,7 @@ public class Texture
 
    /**
     * Rename a texture
-    * 
+    *
     * @param texture
     *           Texture to rename
     * @param newName
@@ -500,7 +500,7 @@ public class Texture
       {
          throw new IllegalArgumentException("Name can't be empty");
       }
-      if(texture.textureName.equals(newName) == true)
+      if(texture.textureName.equals(newName))
       {
          return;
       }
@@ -539,7 +539,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param reference
@@ -565,7 +565,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param bufferedImage
@@ -586,7 +586,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param icon
@@ -610,7 +610,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param image
@@ -629,7 +629,7 @@ public class Texture
       {
          pixelGrabber.grabPixels();
       }
-      catch(final InterruptedException e)
+      catch(final InterruptedException ignored)
       {
       }
       this.setPixels(width, height, pixels);
@@ -638,7 +638,7 @@ public class Texture
 
    /**
     * Constructs empty Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param width
@@ -654,7 +654,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param width
@@ -675,7 +675,7 @@ public class Texture
 
    /**
     * Constructs fill color Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param width
@@ -695,7 +695,7 @@ public class Texture
 
    /**
     * Constructs fill color Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param width
@@ -713,7 +713,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param width
@@ -734,7 +734,7 @@ public class Texture
 
    /**
     * Create a new instance of Texture based on JHelpImage
-    * 
+    *
     * @param name
     *           Texture name
     * @param image
@@ -754,7 +754,7 @@ public class Texture
 
    /**
     * Constructs Texture
-    * 
+    *
     * @param name
     *           Texture name
     * @param reference
@@ -774,7 +774,7 @@ public class Texture
 
    /**
     * Add two alpha values
-    * 
+    *
     * @param alpha1
     *           First alpha
     * @param al2
@@ -794,7 +794,7 @@ public class Texture
 
    /**
     * Make a color part brighter
-    * 
+    *
     * @param part
     *           Part color
     * @param rate
@@ -815,7 +815,7 @@ public class Texture
 
    /**
     * Make a part color darker
-    * 
+    *
     * @param part
     *           Color part
     * @param rate
@@ -836,7 +836,7 @@ public class Texture
 
    /**
     * Draw a path iterator
-    * 
+    *
     * @param path
     *           Path to draw
     * @param color
@@ -889,7 +889,7 @@ public class Texture
          }
          path.next();
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -897,7 +897,7 @@ public class Texture
 
    /**
     * Draw an image in pixels array
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -911,6 +911,7 @@ public class Texture
     * @param mayTransparent
     *           Indicates if image can have alpha value
     */
+   @SuppressWarnings("SuspiciousNameCombination")
    private void drawImage(int x, int y, final byte[] pixels, int width, int height, final boolean mayTransparent)
    {
       int imageWidth;
@@ -959,7 +960,7 @@ public class Texture
          return;
       }
 
-      if(mayTransparent == true)
+      if(mayTransparent)
       {
          yThis = x + (y * this.width);
          yImage = 0;
@@ -1007,7 +1008,7 @@ public class Texture
          }
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1015,7 +1016,7 @@ public class Texture
 
    /**
     * Draw an image in pixels array
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -1057,7 +1058,7 @@ public class Texture
 
    /**
     * Draw line in mixing mode
-    * 
+    *
     * @param x1
     *           X1
     * @param y1
@@ -1157,7 +1158,7 @@ public class Texture
             }
          }
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1165,7 +1166,7 @@ public class Texture
 
    /**
     * Draw line on over write mode
-    * 
+    *
     * @param x1
     *           X1
     * @param y1
@@ -1260,7 +1261,7 @@ public class Texture
             }
          }
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1268,7 +1269,7 @@ public class Texture
 
    /**
     * Draw a set off lines
-    * 
+    *
     * @param x
     *           X array
     * @param y
@@ -1289,7 +1290,7 @@ public class Texture
 
    /**
     * Fill rectangle in mixing mode
-    * 
+    *
     * @param r
     *           Red
     * @param g
@@ -1331,7 +1332,7 @@ public class Texture
          }
          line += w;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1339,7 +1340,7 @@ public class Texture
 
    /**
     * Fill rectangle with gradient and on mixing alpha
-    * 
+    *
     * @param redTopLeft
     *           Red top left
     * @param greenTopLeft
@@ -1381,9 +1382,9 @@ public class Texture
     * @param height
     *           Height
     */
-   private void fillRectWithMix(final int redTopLeft, final int greenTopLeft, final int blueTopLeft, final int alphaTopLeft,//
-         final int redTopRight, final int greenTopRight, final int blueTopRight, final int alphaTopRight,//
-         final int redBottomLeft, final int greenBottomLeft, final int blueBottomLeft, final int alphaBottomLeft,//
+   private void fillRectWithMix(final int redTopLeft, final int greenTopLeft, final int blueTopLeft, final int alphaTopLeft, //
+         final int redTopRight, final int greenTopRight, final int blueTopRight, final int alphaTopRight, //
+         final int redBottomLeft, final int greenBottomLeft, final int blueBottomLeft, final int alphaBottomLeft, //
          final int redBottomRight, final int greenBottomRight, final int blueBottomRight, final int alphaBottomRight, //
          final int x, final int y, final int width, final int height)
    {
@@ -1414,7 +1415,7 @@ public class Texture
          }
          line += w;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1422,7 +1423,7 @@ public class Texture
 
    /**
     * Draw rectangle in over write mode
-    * 
+    *
     * @param r
     *           Red
     * @param g
@@ -1458,7 +1459,7 @@ public class Texture
          }
          line += w;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1466,7 +1467,7 @@ public class Texture
 
    /**
     * Fill rectangle with gradient and not mixing alpha
-    * 
+    *
     * @param redTopLeft
     *           Red top left
     * @param greenTopLeft
@@ -1508,9 +1509,9 @@ public class Texture
     * @param height
     *           Height
     */
-   private void fillRectWithoutMix(final int redTopLeft, final int greenTopLeft, final int blueTopLeft, final int alphaTopLeft,//
-         final int redTopRight, final int greenTopRight, final int blueTopRight, final int alphaTopRight,//
-         final int redBottomLeft, final int greenBottomLeft, final int blueBottomLeft, final int alphaBottomLeft,//
+   private void fillRectWithoutMix(final int redTopLeft, final int greenTopLeft, final int blueTopLeft, final int alphaTopLeft, //
+         final int redTopRight, final int greenTopRight, final int blueTopRight, final int alphaTopRight, //
+         final int redBottomLeft, final int greenBottomLeft, final int blueBottomLeft, final int alphaBottomLeft, //
          final int redBottomRight, final int greenBottomRight, final int blueBottomRight, final int alphaBottomRight, //
          final int x, final int y, final int width, final int height)
    {
@@ -1526,13 +1527,15 @@ public class Texture
          for(int xx = 0, ax = width - 1; xx < width; xx++, ax--)
          {
             this.pixels[index++] = (byte) (((((redTopLeft * ax) + (redTopRight * xx)) * ay) + (((redBottomLeft * ax) + (redBottomRight * xx)) * yy)) / div);
-            this.pixels[index++] = (byte) (((((greenTopLeft * ax) + (greenTopRight * xx)) * ay) + (((greenBottomLeft * ax) + (greenBottomRight * xx)) * yy)) / div);
+            this.pixels[index++] = (byte) (((((greenTopLeft * ax) + (greenTopRight * xx)) * ay) + (((greenBottomLeft * ax) + (greenBottomRight * xx)) * yy))
+                  / div);
             this.pixels[index++] = (byte) (((((blueTopLeft * ax) + (blueTopRight * xx)) * ay) + (((blueBottomLeft * ax) + (blueBottomRight * xx)) * yy)) / div);
-            this.pixels[index++] = (byte) (((((alphaTopLeft * ax) + (alphaTopRight * xx)) * ay) + (((alphaBottomLeft * ax) + (alphaBottomRight * xx)) * yy)) / div);
+            this.pixels[index++] = (byte) (((((alphaTopLeft * ax) + (alphaTopRight * xx)) * ay) + (((alphaBottomLeft * ax) + (alphaBottomRight * xx)) * yy))
+                  / div);
          }
          line += w;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1540,7 +1543,7 @@ public class Texture
 
    /**
     * Fill a shape in mixing mode
-    * 
+    *
     * @param shape
     *           Shape to fill
     * @param r
@@ -1577,7 +1580,7 @@ public class Texture
          index = line;
          for(xx = 0; xx < width; xx++)
          {
-            if(shape.contains(xx + x, yy + y) == true)
+            if(shape.contains(xx + x, yy + y))
             {
                this.pixels[index] = this.mix(this.pixels[index], red, alp, pla);
                this.pixels[index + 1] = this.mix(this.pixels[index + 1], green, alp, pla);
@@ -1588,7 +1591,7 @@ public class Texture
          }
          line += w;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1596,7 +1599,7 @@ public class Texture
 
    /**
     * Fill a shape in over write mode
-    * 
+    *
     * @param shape
     *           Shape to fill
     * @param r
@@ -1626,7 +1629,7 @@ public class Texture
          index = line;
          for(int xx = 0; xx < width; xx++)
          {
-            if(shape.contains(xx + x, yy + y) == true)
+            if(shape.contains(xx + x, yy + y))
             {
                this.pixels[index++] = r;
                this.pixels[index++] = g;
@@ -1640,7 +1643,7 @@ public class Texture
          }
          line += this.width * 4;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1648,7 +1651,7 @@ public class Texture
 
    /**
     * Limit a number in [0, 255]
-    * 
+    *
     * @param value
     *           Value to limit
     * @return Result
@@ -1672,7 +1675,7 @@ public class Texture
 
    /**
     * Mix two color part
-    * 
+    *
     * @param p1
     *           First part
     * @param p2
@@ -1693,7 +1696,7 @@ public class Texture
 
    /**
     * Mix two part color
-    * 
+    *
     * @param p1
     *           First part
     * @param par2
@@ -1713,7 +1716,7 @@ public class Texture
 
    /**
     * Remove texture from video memory
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -1734,7 +1737,7 @@ public class Texture
 
    /**
     * Get pixels inside the byte buffer to create the new texture content
-    * 
+    *
     * @param width
     *           New texture width
     * @param height
@@ -1759,7 +1762,7 @@ public class Texture
 
    /**
     * Get pixels inside the float buffer to create the new texture content
-    * 
+    *
     * @param width
     *           New texture width
     * @param height
@@ -1784,7 +1787,7 @@ public class Texture
    /**
     * Add a texture (pixel by pixel).<br>
     * Added texture must have same dimensions
-    * 
+    *
     * @param texture
     *           Texture to add
     */
@@ -1808,7 +1811,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1816,7 +1819,7 @@ public class Texture
 
    /**
     * Draw the texture on OpenGL
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -1833,7 +1836,7 @@ public class Texture
          this.videoMemoryId = BufferUtils.TEMPORARY_INT_BUFFER.get();
       }
       // If the texture need to be refresh
-      if(this.needToRefresh == true)
+      if(this.needToRefresh)
       {
          // Push pixels in video memory
          gl.glBindTexture(GL.GL_TEXTURE_2D, this.videoMemoryId);
@@ -1851,7 +1854,7 @@ public class Texture
 
    /**
     * Make the texture brighter
-    * 
+    *
     * @param rate
     *           Bright rate
     */
@@ -1875,7 +1878,7 @@ public class Texture
 
    /**
     * Change texture bright
-    * 
+    *
     * @param factor
     *           Factor for bright 0>factor>1 : darker, >1 brighter
     */
@@ -1909,7 +1912,7 @@ public class Texture
          this.pixels[i + 2] = (byte) b;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1917,7 +1920,7 @@ public class Texture
 
    /**
     * Clear the all texture with given color
-    * 
+    *
     * @param color
     *           Color to fill the texture
     */
@@ -1938,7 +1941,7 @@ public class Texture
          this.pixels[pix++] = a;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -1952,7 +1955,7 @@ public class Texture
     * <li><code>factor == 1</code> : contrast not change</li>
     * <li><code>factor &gt; 1</code> : contrast go up</li>
     * </ul>
-    * 
+    *
     * @param factor
     *           Factor contrast
     */
@@ -2014,7 +2017,7 @@ public class Texture
    /**
     * Compute <code>first + second - 128</code> limit in [0, 255] pixel by pixel of tow texture.<br>
     * Textures must have same dimension
-    * 
+    *
     * @param texture
     *           Second texture
     */
@@ -2038,7 +2041,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -2046,7 +2049,7 @@ public class Texture
 
    /**
     * Make texture darker
-    * 
+    *
     * @param rate
     *           Dark rate
     */
@@ -2091,7 +2094,7 @@ public class Texture
    /**
     * Divide by texture.<br>
     * Textures must have same dimensions
-    * 
+    *
     * @param texture
     *           Texture to divide with
     */
@@ -2115,7 +2118,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -2123,7 +2126,7 @@ public class Texture
 
    /**
     * Draw a glyph vector
-    * 
+    *
     * @param glyph
     *           Glyph vactor to draw
     * @param x
@@ -2144,7 +2147,7 @@ public class Texture
 
    /**
     * Draw a shape
-    * 
+    *
     * @param shape
     *           Shape to draw
     * @param color
@@ -2165,7 +2168,7 @@ public class Texture
 
    /**
     * Draw an image
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2196,7 +2199,7 @@ public class Texture
 
    /**
     * Draw an image
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2222,7 +2225,7 @@ public class Texture
       pixelGrabber = new PixelGrabber(image, 0, 0, width, height, pixels, 0, width);
       try
       {
-         if(pixelGrabber.grabPixels() == true)
+         if(pixelGrabber.grabPixels())
          {
             mayTransparent = true;
             colorModel = pixelGrabber.getColorModel();
@@ -2246,7 +2249,7 @@ public class Texture
 
    /**
     * Draw a JHelpImage in the texture
-    * 
+    *
     * @param x
     *           X of top-left corner
     * @param y
@@ -2265,7 +2268,7 @@ public class Texture
 
    /**
     * Draw a line
-    * 
+    *
     * @param x1
     *           X1
     * @param y1
@@ -2286,7 +2289,7 @@ public class Texture
       final byte b = (byte) color.getBlue();
       final byte a = (byte) color.getAlpha();
 
-      if((a == Math3D.BYTE_255) || (mix == false))
+      if((a == Math3D.BYTE_255) || (!mix))
       {
          this.drawLineWithoutMix(x1, y1, x2, y2, r, g, b, a);
          return;
@@ -2300,7 +2303,7 @@ public class Texture
 
    /**
     * Draw one pixel on the texture
-    * 
+    *
     * @param x
     *           Pixel X
     * @param y
@@ -2323,14 +2326,14 @@ public class Texture
       final byte a = (byte) color.getAlpha();
       int pix = (x + (y * this.width)) << 2;
 
-      if((a == Math3D.BYTE_255) || (mix == false))
+      if((a == Math3D.BYTE_255) || (!mix))
       {
          this.pixels[pix++] = r;
          this.pixels[pix++] = g;
          this.pixels[pix++] = b;
          this.pixels[pix++] = a;
 
-         if(this.autoFlush == true)
+         if(this.autoFlush)
          {
             this.flush();
          }
@@ -2354,7 +2357,7 @@ public class Texture
       this.pixels[pix + 2] = this.mix(this.pixels[pix + 2], blue, alp, pla);
       this.pixels[pix + 3] = this.add(this.pixels[pix + 3], alp);
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -2362,7 +2365,7 @@ public class Texture
 
    /**
     * Draw a rectangle
-    * 
+    *
     * @param x
     *           Up left corner X
     * @param y
@@ -2386,7 +2389,7 @@ public class Texture
 
    /**
     * Draw a string
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2404,13 +2407,13 @@ public class Texture
     */
    public void drawString(final int x, final int y, final String text, final Color color, final Font font, final boolean mix, final int precision)
    {
-      this.draw(font.createGlyphVector(Texture.CONTEXT, text),//
+      this.draw(font.createGlyphVector(Texture.CONTEXT, text), //
             x, (int) (y + font.getLineMetrics(text, Texture.CONTEXT).getAscent()), color, mix, precision);
    }
 
    /**
     * Draw a part of a texture
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2478,6 +2481,7 @@ public class Texture
       {
          System.arraycopy(texture.pixels, yy, pixels, y2, width);
          yy += texture.width << 2;
+         //noinspection SuspiciousNameCombination
          y2 += width;
       }
 
@@ -2488,7 +2492,7 @@ public class Texture
 
    /**
     * Fill a glyph vector
-    * 
+    *
     * @param glyph
     *           Glyph vector to fill
     * @param x
@@ -2507,7 +2511,7 @@ public class Texture
 
    /**
     * Fill a shape
-    * 
+    *
     * @param shape
     *           Shape to fill
     * @param color
@@ -2560,7 +2564,7 @@ public class Texture
       {
          return;
       }
-      if((a == Math3D.BYTE_255) || (mix == false))
+      if((a == Math3D.BYTE_255) || (!mix))
       {
          this.fillWithoutMix(shape, r, g, b, a, x, y, width, height);
          return;
@@ -2574,7 +2578,7 @@ public class Texture
 
    /**
     * Fill an oval
-    * 
+    *
     * @param x
     *           X up left corner
     * @param y
@@ -2595,7 +2599,7 @@ public class Texture
 
    /**
     * Fill rectangle
-    * 
+    *
     * @param x
     *           X up left corner
     * @param y
@@ -2612,7 +2616,7 @@ public class Texture
    public void fillRect(int x, int y, int width, int height, final Color color, final boolean mix)
    {
       final byte a = (byte) color.getAlpha();
-      if((a == Math3D.BYTE_0) && (mix == true))
+      if((a == Math3D.BYTE_0) && (mix))
       {
          return;
       }
@@ -2659,7 +2663,7 @@ public class Texture
       final byte g = (byte) color.getGreen();
       final byte b = (byte) color.getBlue();
 
-      if((a == Math3D.BYTE_255) || (mix == false))
+      if((a == Math3D.BYTE_255) || (!mix))
       {
          this.fillRectWithoutMix(r, g, b, a, x, y, width, height);
          return;
@@ -2670,7 +2674,7 @@ public class Texture
 
    /**
     * Fill a gradient rectangle
-    * 
+    *
     * @param x
     *           X top left corner
     * @param y
@@ -2698,7 +2702,7 @@ public class Texture
       final int abl = colorBottomLeft.getAlpha();
       final int abr = colorBottomRight.getAlpha();
 
-      if((atl == 0) && (atr == 0) && (abl == 0) && (abr == 0) && (mix == true))
+      if((atl == 0) && (atr == 0) && (abl == 0) && (abr == 0) && (mix))
       {
          return;
       }
@@ -2757,7 +2761,7 @@ public class Texture
       final int gbr = colorBottomRight.getGreen();
       final int bbr = colorBottomRight.getBlue();
 
-      if(((atl == 255) && (atr == 255) && (abl == 255) && (abr == 255)) || (mix == false))
+      if(((atl == 255) && (atr == 255) && (abl == 255) && (abr == 255)) || (!mix))
       {
          this.fillRectWithoutMix(rtl, gtl, btl, atl, rtr, gtr, btr, atr, rbl, gbl, bbl, abl, rbr, gbr, bbr, abr, x, y, width, height);
          return;
@@ -2768,7 +2772,7 @@ public class Texture
 
    /**
     * Fill a String
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -2788,30 +2792,34 @@ public class Texture
             (int) (y + font.getLineMetrics(text, Texture.CONTEXT).getAscent()), color, mix);
    }
 
+   public void flipBoth()
+   {
+      final JHelpImage image = this.toJHelpImage();
+      image.startDrawMode();
+      image.flipBoth();
+      image.endDrawMode();
+      this.setImage(image);
+   }
+
    /**
     * Flip texture horizontally
     */
    public void flipHorizontal()
    {
-      final int time = this.height >> 1;
-      final int size = this.width << 2;
-      final byte[] line = new byte[size];
-      int up = 0;
-      int down = this.pixels.length - size;
+      final JHelpImage image = this.toJHelpImage();
+      image.startDrawMode();
+      image.flipHorizontal();
+      image.endDrawMode();
+      this.setImage(image);
+   }
 
-      for(int i = 0; i < time; i++)
-      {
-         System.arraycopy(this.pixels, up, line, 0, size);
-         System.arraycopy(this.pixels, down, this.pixels, up, size);
-         System.arraycopy(line, 0, this.pixels, down, size);
-         up += size;
-         down -= size;
-      }
-
-      if(this.autoFlush == true)
-      {
-         this.flush();
-      }
+   public void flipVertical()
+   {
+      final JHelpImage image = this.toJHelpImage();
+      image.startDrawMode();
+      image.flipVertical();
+      image.endDrawMode();
+      this.setImage(image);
    }
 
    /**
@@ -2826,7 +2834,7 @@ public class Texture
     * Developer additional information.<br>
     * Its an opaque value, that can be use by the API user.<br>
     * The texture just carry it
-    * 
+    *
     * @return Developer additional information
     */
    public Object getAdditionalInformation()
@@ -2836,7 +2844,7 @@ public class Texture
 
    /**
     * Texture's height
-    * 
+    *
     * @return Texture's height
     */
    public int getHeight()
@@ -2846,7 +2854,7 @@ public class Texture
 
    /**
     * Texture ID
-    * 
+    *
     * @return Texture ID
     */
    public int getTextureID()
@@ -2856,7 +2864,7 @@ public class Texture
 
    /**
     * Return textureName
-    * 
+    *
     * @return textureName
     */
    public String getTextureName()
@@ -2866,7 +2874,7 @@ public class Texture
 
    /**
     * Return textureReference
-    * 
+    *
     * @return textureReference
     */
    public String getTextureReference()
@@ -2876,7 +2884,7 @@ public class Texture
 
    /**
     * Texture's width
-    * 
+    *
     * @return Texture's width
     */
    public int getWidth()
@@ -2902,7 +2910,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -2910,7 +2918,7 @@ public class Texture
 
    /**
     * Return autoFlush
-    * 
+    *
     * @return autoFlush
     */
    public boolean isAutoFlush()
@@ -2919,9 +2927,8 @@ public class Texture
    }
 
    /**
-    * 
-    Indicaes if a texture is exactly the same as this one
-    * 
+    * Indicaes if a texture is exactly the same as this one
+    *
     * @param texture
     *           Texture to ccompre with
     * @return {@code true} if excatly the same
@@ -2968,7 +2975,7 @@ public class Texture
    /**
     * Multiply by a texture.<br>
     * Textures must have same dimensions
-    * 
+    *
     * @param texture
     *           Texture to multiply with
     */
@@ -2992,7 +2999,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3000,7 +3007,7 @@ public class Texture
 
    /**
     * Obtain a parcel of the texture
-    * 
+    *
     * @param x
     *           X of up-left corner rectangle in texture
     * @param y
@@ -3106,7 +3113,7 @@ public class Texture
     * Modify developer additional information.<br>
     * Its an opaque value, that can be use by the API user.<br>
     * The texture just carry it
-    * 
+    *
     * @param additionalInformation
     *           Information to carry
     */
@@ -3118,7 +3125,7 @@ public class Texture
    /**
     * Apply an alpha map.<br>
     * Alpha map must have same dimensions
-    * 
+    *
     * @param texture
     *           Alpha map
     */
@@ -3151,7 +3158,7 @@ public class Texture
          }
          this.pixels[i + 3] = (byte) c;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3159,7 +3166,7 @@ public class Texture
 
    /**
     * Modify autoFlush
-    * 
+    *
     * @param autoFlush
     *           New autoFlush value
     */
@@ -3170,7 +3177,7 @@ public class Texture
 
    /**
     * Change the texture pixels with image ones
-    * 
+    *
     * @param image
     *           Image to put in the texture
     */
@@ -3185,7 +3192,7 @@ public class Texture
 
    /**
     * Change texture pixels
-    * 
+    *
     * @param width
     *           New width
     * @param height
@@ -3208,7 +3215,7 @@ public class Texture
 
    /**
     * Change texture pixels
-    * 
+    *
     * @param width
     *           New width
     * @param height
@@ -3242,7 +3249,7 @@ public class Texture
    /**
     * Override by an other texture.<br>
     * If dimensions are different, the texture dimension will change
-    * 
+    *
     * @param texture
     *           Texture that override
     */
@@ -3263,7 +3270,7 @@ public class Texture
 
    /**
     * Change texture reference
-    * 
+    *
     * @param textureReference
     *           New reference
     */
@@ -3278,7 +3285,7 @@ public class Texture
 
    /**
     * Move texture pixels
-    * 
+    *
     * @param x
     *           X translation
     * @param y
@@ -3312,7 +3319,7 @@ public class Texture
 
       temp = null;
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3321,7 +3328,7 @@ public class Texture
    /**
     * Subtract a texture.<br>
     * Textures must have same dimensions
-    * 
+    *
     * @param texture
     *           Texture to subtract
     */
@@ -3345,7 +3352,7 @@ public class Texture
          index += 2;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3353,7 +3360,7 @@ public class Texture
 
    /**
     * Transform texture in BufferedImage
-    * 
+    *
     * @return BufferedImage
     */
    public BufferedImage toBufferedImage()
@@ -3383,7 +3390,7 @@ public class Texture
 
    /**
     * Transform texture to compressive image
-    * 
+    *
     * @return Compressive image
     */
    public CompressiveImage toCompressiveImage()
@@ -3417,7 +3424,7 @@ public class Texture
          this.pixels[i + 2] = c;
       }
 
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3448,7 +3455,7 @@ public class Texture
          this.pixels[i + 1] = c;
          this.pixels[i + 2] = c;
       }
-      if(this.autoFlush == true)
+      if(this.autoFlush)
       {
          this.flush();
       }
@@ -3456,7 +3463,7 @@ public class Texture
 
    /**
     * Convert to an image of the same size
-    * 
+    *
     * @return Converted image
     */
    public JHelpImage toJHelpImage()
@@ -3480,7 +3487,7 @@ public class Texture
 
    /**
     * Transform the Texture in JHelpImage (It will be scaled if need)
-    * 
+    *
     * @param width
     *           Image width
     * @param height
@@ -3508,7 +3515,7 @@ public class Texture
 
    /**
     * Return needToRefresh
-    * 
+    *
     * @return needToRefresh
     */
    public boolean willBeRefresh()

@@ -59,7 +59,7 @@ public class JHelpFrame3D
       implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener, NodeListener
 {
    /** Default title */
-   private static final String      JHELP_FRAME_DEAULT_TITLE = "JHelp Frame".intern();
+   private static final String      JHELP_FRAME_DEAULT_TITLE = "JHelp Frame";
    /** Canvas for 3D */
    private final GLCanvas           canvas;
    /** Indicates if use the default move */
@@ -457,13 +457,13 @@ public class JHelpFrame3D
       final Scene scene = this.sceneRenderer.getScene();
       final Stack<Node> stack = new Stack<Node>();
       stack.push(scene.getRoot());
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          final Node node = stack.pop();
          node.addNodeListener(this);
+         //noinspection StatementWithEmptyBody
          for(final Iterator<Node> children = node.getChildren(); children.hasNext(); stack.push(children.next()))
          {
-            ;
          }
       }
    }
@@ -518,9 +518,9 @@ public class JHelpFrame3D
    @Override
    public void keyPressed(final KeyEvent e)
    {
-      if(this.defaultMouvment == true)
+      if(this.defaultMouvment)
       {
-         if((e.isAltDown() == false) || (e.isShiftDown() == false) || (e.isControlDown() == false))
+         if((!e.isAltDown()) || (!e.isShiftDown()) || (!e.isControlDown()))
          {
             return;
          }
@@ -625,36 +625,36 @@ public class JHelpFrame3D
       if(this.defaultMouvment)
       {
          float factor = 0.01f;
-         if(e.isShiftDown() == true)
+         if(e.isShiftDown())
          {
             factor = 0.1f;
 
-            if(e.isControlDown() == true)
+            if(e.isControlDown())
             {
                factor = 1f;
             }
          }
-         else if(e.isAltDown() == true)
+         else if(e.isAltDown())
          {
             factor = 0.001f;
 
-            if(e.isControlDown() == true)
+            if(e.isControlDown())
             {
                factor = 0.0001f;
             }
          }
 
          final Scene scene = this.sceneRenderer.getScene();
-         if((left == true) && (right == true))
+         if((left) && (right))
          {
             scene.translate(dx * factor, -dy * factor, 0);
          }
-         else if(left == true)
+         else if(left)
          {
             scene.rotateAngleX(dy);
             scene.rotateAngleY(dx);
          }
-         else if(right == true)
+         else if(right)
          {
             scene.translate(0, 0, -dy * factor);
          }

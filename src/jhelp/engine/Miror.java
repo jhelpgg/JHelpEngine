@@ -93,7 +93,7 @@ public class Miror
     */
    Texture startRender(final Scene scene)
    {
-      if(this.nodeWithMaterial.isVisible() == false)
+      if(!this.nodeWithMaterial.isVisible())
       {
          return null;
       }

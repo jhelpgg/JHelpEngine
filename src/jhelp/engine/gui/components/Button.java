@@ -117,7 +117,7 @@ public class Button
    {
       texture.fillString(x + 5, y + 5, this.text, this.foreGround, this.font, true);
 
-      if(this.clicked == true)
+      if(this.clicked)
       {
          texture.drawLine(x, y, x + this.width, y, ColorsUtil.SHADOW_DARK, true);
          texture.drawLine(x, y + 1, x, y + this.height, ColorsUtil.SHADOW_DARK, true);
@@ -215,7 +215,7 @@ public class Button
          throw new NullPointerException("font musn't be null");
       }
 
-      if(this.font.equals(font) == false)
+      if(!this.font.equals(font))
       {
          this.font = font;
 
@@ -238,7 +238,7 @@ public class Button
          throw new NullPointerException("foreGround musn't be null");
       }
 
-      if(this.foreGround.equals(foreGround) == false)
+      if(!this.foreGround.equals(foreGround))
       {
          this.foreGround = foreGround;
 
@@ -259,7 +259,7 @@ public class Button
          throw new NullPointerException("text musn't be null");
       }
 
-      if(this.text.equals(text) == false)
+      if(!this.text.equals(text))
       {
          this.text = text;
 

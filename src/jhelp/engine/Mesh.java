@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.engine;
@@ -36,7 +36,7 @@ import jhelp.xml.MarkupXML;
  * <br>
  * Last modification : 25 janv. 2009<br>
  * Version 0.0.1<br>
- * 
+ *
  * @author JHelp
  */
 public class Mesh
@@ -50,7 +50,11 @@ public class Mesh
                                                                  @Override
                                                                  protected void doSimpleAction(final Object3D object)
                                                                  {
-                                                                    Debug.println(DebugLevel.VERBOSE, "Just flush");// "Delayed compute for OBJ start");
+                                                                    Debug.println(DebugLevel.VERBOSE, "Just flush");                                                                                // "Delayed
+                                                                                                                                                                                                    // compute
+                                                                                                                                                                                                    // for
+                                                                                                                                                                                                    // OBJ
+                                                                                                                                                                                                    // start");
                                                                     // LapsTime.startMeasure();
                                                                     // object.computeUVfromMax(1, 1);
                                                                     // final LapsTime lapsTime = LapsTime.endMeasure();
@@ -63,7 +67,7 @@ public class Mesh
 
    /**
     * Fill an object with a format OBJ informations
-    * 
+    *
     * @see ObjLoader
     * @param object3D
     *           Object to fill
@@ -115,13 +119,13 @@ public class Mesh
       int index = 0;
 
       final boolean hasUV = uvFace.getSize() > 0;
-      if(hasUV == false)
+      if(!hasUV)
       {
          mesh.uv.add(new Point2D());
       }
 
       final boolean hasNormal = normalFace.getSize() > 0;
-      if(hasNormal == false)
+      if(!hasNormal)
       {
          mesh.normals.add(new Point3D());
       }
@@ -135,7 +139,7 @@ public class Mesh
          {
             mesh.actualFacePoints.insert(code - startPoint, 0);
 
-            if(hasUV == true)
+            if(hasUV)
             {
                mesh.actualFaceUV.insert(uvFace.getInteger(index) - startUV, 0);
             }
@@ -144,7 +148,7 @@ public class Mesh
                mesh.actualFaceUV.insert(0, 0);
             }
 
-            if(hasNormal == true)
+            if(hasNormal)
             {
                mesh.actualFaceNormals.insert(normalFace.getInteger(index) - startNormal, 0);
             }
@@ -167,7 +171,7 @@ public class Mesh
          }
       }
 
-      if(hasUV == false)
+      if(!hasUV)
       {
          Debug.println(DebugLevel.WARNING, "No uv !");
 
@@ -193,7 +197,7 @@ public class Mesh
          // ThreadManager.THREAD_MANAGER.delayedThread(Mesh.delayedComputeUV, object3D, 1234L);
       }
 
-      if(hasNormal == false)
+      if(!hasNormal)
       {
          Debug.println(DebugLevel.WARNING, "No normals !");
 
@@ -257,7 +261,7 @@ public class Mesh
    /**
     * Automatic compute of UV for a face.<br>
     * This compute choose the XY, XZ or YZ plane
-    * 
+    *
     * @param facePoints
     *           Face point
     * @param faceUV
@@ -312,7 +316,7 @@ public class Mesh
    /**
     * Automatic compute of UV for a face.<br>
     * This compute use the XY plane
-    * 
+    *
     * @param box
     *           Bounding box
     * @param facePoints
@@ -342,7 +346,7 @@ public class Mesh
       {
          point = this.points.get(facePoints.getInteger(i));
          uv = new Point2D(//
-               multU * ((point.getX() - minX) / gapX),//
+               multU * ((point.getX() - minX) / gapX), //
                multV * ((point.getY() - minY) / gapY));
          index = this.uv.indexOf(uv);
          if(index < 0)
@@ -357,7 +361,7 @@ public class Mesh
    /**
     * Automatic compute of UV far a face.<br>
     * This compute use the XZ plane
-    * 
+    *
     * @param box
     *           Bounding box
     * @param facePoints
@@ -387,7 +391,7 @@ public class Mesh
       {
          point = this.points.get(facePoints.getInteger(i));
          uv = new Point2D(//
-               multU * ((point.getX() - minX) / gapX),//
+               multU * ((point.getX() - minX) / gapX), //
                multV * ((point.getZ() - minZ) / gapZ));
          index = this.uv.indexOf(uv);
          if(index < 0)
@@ -402,7 +406,7 @@ public class Mesh
    /**
     * Automatic compute of UV far a face.<br>
     * This compute use the YZ plane
-    * 
+    *
     * @param box
     *           Bounding box
     * @param facePoints
@@ -432,7 +436,7 @@ public class Mesh
       {
          point = this.points.get(facePoints.getInteger(i));
          uv = new Point2D(//
-               multU * ((point.getY() - minY) / gapY),//
+               multU * ((point.getY() - minY) / gapY), //
                multV * ((point.getZ() - minZ) / gapZ));
          index = this.uv.indexOf(uv);
          if(index < 0)
@@ -447,7 +451,7 @@ public class Mesh
    /**
     * Automatic compute of UV for a face.<br>
     * This compute is spherical
-    * 
+    *
     * @param sphere
     *           Bounding sphere
     * @param facePoints
@@ -473,7 +477,7 @@ public class Mesh
          point = this.points.get(facePoints.getInteger(i)).substract(center);
          norme = point.length();
          uv = new Point2D(//
-               multU * (float) ((Math.atan2(point.getY(), point.getX()) + Math.PI) / (2d * Math.PI)),//
+               multU * (float) ((Math.atan2(point.getY(), point.getX()) + Math.PI) / (2d * Math.PI)), //
                multV * (float) (Math.acos(point.getZ() / norme) / Math.PI));
          // Debug.println("Mesh.computeUVspherical(" + uv + ")");
          index = this.uv.indexOf(uv);
@@ -488,7 +492,7 @@ public class Mesh
 
    /**
     * Create a copy of an array of integers
-    * 
+    *
     * @param list
     *           Array to copy
     * @return Copy
@@ -508,15 +512,15 @@ public class Mesh
 
    /**
     * Create a face markup
-    * 
+    *
     * @param face
     *           Face to convert
     * @return Created markup
     */
    private MarkupXML createFaceXML(final ArrayInt face)
    {
-      final MarkupXML faceXML = new MarkupXML(ConstantsXML.MARKUP_FACE);
-      final StringBuffer stringBuffer = new StringBuffer();
+      final MarkupXML     faceXML      = new MarkupXML(ConstantsXML.MARKUP_FACE);
+      final StringBuilder stringBuffer = new StringBuilder();
 
       final int length = face.getSize();
       for(int index = 0; index < length; index++)
@@ -535,7 +539,7 @@ public class Mesh
     * This translation can translate neighbor vertex, the translation apply to them depends of the solidity.<br>
     * If you specify a 0 solidity, then neighbor don't move, 1, all vertex translate in the same translate, some where between,
     * the object morph
-    * 
+    *
     * @param indexPoint
     *           Vertex index to translate
     * @param forbiden
@@ -572,12 +576,12 @@ public class Mesh
             }
          }
 
-         if(isGoodFace == true)
+         if(isGoodFace)
          {
             for(int i = arrayInt.getSize() - 1; i >= 0; i--)
             {
                index = arrayInt.getInteger(i);
-               if(forbiden.contains(index) == false)
+               if(!forbiden.contains(index))
                {
                   forbiden.add(index);
                   neighbors.add(index);
@@ -627,12 +631,12 @@ public class Mesh
                   }
                }
 
-               if(isGoodFace == true)
+               if(isGoodFace)
                {
                   for(int ii = arrayInt.getSize() - 1; ii >= 0; ii--)
                   {
                      index = arrayInt.getInteger(ii);
-                     if(forbiden.contains(index) == false)
+                     if(!forbiden.contains(index))
                      {
                         forbiden.add(index);
                         temp.add(index);
@@ -655,7 +659,7 @@ public class Mesh
     */
    private void makeMeshValid()
    {
-      if(this.mayBeUnvalid == false)
+      if(!this.mayBeUnvalid)
       {
          return;
       }
@@ -717,7 +721,7 @@ public class Mesh
 
    /**
     * Render a face of the mesh
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param facePoints
@@ -765,7 +769,7 @@ public class Mesh
 
    /**
     * Render a vertex
-    * 
+    *
     * @param gl
     *           OpenGL context
     * @param point
@@ -784,7 +788,7 @@ public class Mesh
 
    /**
     * Obtain UV shapes
-    * 
+    *
     * @param width
     *           With of desired bound
     * @param height
@@ -827,7 +831,7 @@ public class Mesh
 
    /**
     * Render the mesh
-    * 
+    *
     * @param gl
     *           OpenGL context
     */
@@ -845,7 +849,7 @@ public class Mesh
     * Add a face of normals.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param faceNormals
     *           Face of normals to add
     */
@@ -859,7 +863,7 @@ public class Mesh
     * Add a face of points.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param facePoints
     *           Face point to add
     */
@@ -873,7 +877,7 @@ public class Mesh
     * Add a face of UV.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param faceUV
     *           Face UV to add
     */
@@ -887,7 +891,7 @@ public class Mesh
     * Add a normal.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param normal
     *           Normal to add
     * @return Normal's index
@@ -903,7 +907,7 @@ public class Mesh
     * Add a position.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param point
     *           Point to add
     * @return Point's index
@@ -920,7 +924,7 @@ public class Mesh
     * Add a UV.<br>
     * beware on using this method directly.<br>
     * It may a strange result if you don't know what you doing
-    * 
+    *
     * @param uv
     *           UV to add
     * @return UV's index
@@ -934,7 +938,7 @@ public class Mesh
 
    /**
     * Add a vertex to the actual face
-    * 
+    *
     * @param vertex
     *           Vertex to add
     */
@@ -993,7 +997,7 @@ public class Mesh
 
    /**
     * Compute bounding box
-    * 
+    *
     * @return Bounding box
     */
    public synchronized VirtualBox computeBox()
@@ -1012,7 +1016,7 @@ public class Mesh
 
    /**
     * Compute bounding sphere
-    * 
+    *
     * @return Bounding sphere
     */
    public synchronized VirtualSphere computeSphere()
@@ -1042,7 +1046,7 @@ public class Mesh
     * Automatic compute of UV.<br>
     * This compute use the XY, YZ or XZ plane for each face.<br>
     * The choose of the plane depends where the points are located
-    * 
+    *
     * @param multU
     *           Multiply U
     * @param multV
@@ -1062,7 +1066,7 @@ public class Mesh
    /**
     * Automatic compute of UV.<br>
     * This compute is based on XY plane
-    * 
+    *
     * @param multU
     *           Multiply U
     * @param multV
@@ -1083,7 +1087,7 @@ public class Mesh
    /**
     * Automatic compute of UV.<br>
     * This compute is based on XZ plane
-    * 
+    *
     * @param multU
     *           Multiply U
     * @param multV
@@ -1104,7 +1108,7 @@ public class Mesh
    /**
     * Automatic compute of UV.<br>
     * This compute is based on YZ plane
-    * 
+    *
     * @param multU
     *           Multiply U
     * @param multV
@@ -1125,7 +1129,7 @@ public class Mesh
    /**
     * Automatic compute of UV.<br>
     * This compute is spherical
-    * 
+    *
     * @param multU
     *           Multiply U
     * @param multV
@@ -1160,7 +1164,7 @@ public class Mesh
 
    /**
     * Normals index list for each face
-    * 
+    *
     * @return Normals index list for each face
     */
    public List<ArrayInt> getFaceNormals()
@@ -1170,7 +1174,7 @@ public class Mesh
 
    /**
     * Points index list for each face
-    * 
+    *
     * @return Points index list for each face
     */
    public List<ArrayInt> getFacePoints()
@@ -1180,7 +1184,7 @@ public class Mesh
 
    /**
     * UV index list for each face
-    * 
+    *
     * @return UV index list for each face
     */
    public List<ArrayInt> getFaceUV()
@@ -1190,7 +1194,7 @@ public class Mesh
 
    /**
     * Normals list
-    * 
+    *
     * @return Normals list
     */
    public List<Point3D> getNormals()
@@ -1200,7 +1204,7 @@ public class Mesh
 
    /**
     * Points list
-    * 
+    *
     * @return Points list
     */
    public List<Point3D> getPoints()
@@ -1210,7 +1214,7 @@ public class Mesh
 
    /**
     * UV list
-    * 
+    *
     * @return UV list
     */
    public List<Point2D> getUV()
@@ -1218,9 +1222,19 @@ public class Mesh
       return Collections.unmodifiableList(this.uv);
    }
 
+   public synchronized void inverseNormals()
+   {
+      for(final Point3D normal : this.normals)
+      {
+         normal.x *= -1f;
+         normal.y *= -1f;
+         normal.z *= -1f;
+      }
+   }
+
    /**
     * Actual last point index
-    * 
+    *
     * @return Actual last point index
     */
    public synchronized int lastIndexPoint()
@@ -1230,7 +1244,7 @@ public class Mesh
 
    /**
     * Load mesh from XML
-    * 
+    *
     * @param markupXML
     *           Markup to parse
     * @throws Exception
@@ -1252,7 +1266,7 @@ public class Mesh
 
       // Point list
       EnumerationIterator<MarkupXML> enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_POINTS);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_POINTS, " in ", markupXML.getName()));
       }
@@ -1261,7 +1275,7 @@ public class Mesh
       {
          final StringTokenizer stringTokenizer = new StringTokenizer(markup.getText());
          Point3D point;
-         while(stringTokenizer.hasMoreElements() == true)
+         while(stringTokenizer.hasMoreElements())
          {
             point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
                   Float.parseFloat(stringTokenizer.nextToken()));
@@ -1275,7 +1289,7 @@ public class Mesh
 
       // UV list
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_UV);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_UV, " in ", markupXML.getName()));
       }
@@ -1285,7 +1299,7 @@ public class Mesh
       {
          final StringTokenizer stringTokenizer = new StringTokenizer(markup.getText());
          Point2D point;
-         while(stringTokenizer.hasMoreElements() == true)
+         while(stringTokenizer.hasMoreElements())
          {
             point = new Point2D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()));
             this.uv.add(point);
@@ -1298,7 +1312,7 @@ public class Mesh
 
       // Normals list
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_NORMALS);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_NORMALS, " in ", markupXML.getName()));
       }
@@ -1308,7 +1322,7 @@ public class Mesh
       {
          final StringTokenizer stringTokenizer = new StringTokenizer(markup.getText());
          Point3D point;
-         while(stringTokenizer.hasMoreElements() == true)
+         while(stringTokenizer.hasMoreElements())
          {
             point = new Point3D(Float.parseFloat(stringTokenizer.nextToken()), Float.parseFloat(stringTokenizer.nextToken()),
                   Float.parseFloat(stringTokenizer.nextToken()));
@@ -1322,7 +1336,7 @@ public class Mesh
 
       // Points face
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_FACE_POINTS);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_FACE_POINTS, " in ", markupXML.getName()));
       }
@@ -1336,7 +1350,7 @@ public class Mesh
          for(final MarkupXML face : markup.obtainChildren(ConstantsXML.MARKUP_FACE))
          {
             final StringTokenizer stringTokenizer = new StringTokenizer(face.getText());
-            while(stringTokenizer.hasMoreTokens() == true)
+            while(stringTokenizer.hasMoreTokens())
             {
                this.actualFacePoints.add(Integer.parseInt(stringTokenizer.nextToken()));
             }
@@ -1352,7 +1366,7 @@ public class Mesh
       // UV face
 
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_FACE_UV);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_FACE_UV, " in ", markupXML.getName()));
       }
@@ -1366,7 +1380,7 @@ public class Mesh
          for(final MarkupXML face : markup.obtainChildren(ConstantsXML.MARKUP_FACE))
          {
             final StringTokenizer stringTokenizer = new StringTokenizer(face.getText());
-            while(stringTokenizer.hasMoreTokens() == true)
+            while(stringTokenizer.hasMoreTokens())
             {
                this.actualFaceUV.add(Integer.parseInt(stringTokenizer.nextToken()));
             }
@@ -1382,7 +1396,7 @@ public class Mesh
       // Normals face
 
       enumerationIterator = markupXML.obtainChildren(ConstantsXML.MARKUP_FACE_NORMALS);
-      if(enumerationIterator.hasMoreElements() == false)
+      if(!enumerationIterator.hasMoreElements())
       {
          throw new IllegalArgumentException(UtilText.concatenate("Missing mendatory child ", ConstantsXML.MARKUP_FACE_NORMALS, " in ", markupXML.getName()));
       }
@@ -1396,7 +1410,7 @@ public class Mesh
          for(final MarkupXML face : markup.obtainChildren(ConstantsXML.MARKUP_FACE))
          {
             final StringTokenizer stringTokenizer = new StringTokenizer(face.getText());
-            while(stringTokenizer.hasMoreTokens() == true)
+            while(stringTokenizer.hasMoreTokens())
             {
                this.actualFaceNormals.add(Integer.parseInt(stringTokenizer.nextToken()));
             }
@@ -1415,7 +1429,7 @@ public class Mesh
     * This translation can translate neighbor vertex, the translation apply to them depends of the solidity.<br>
     * If you specify a 0 solidity, then neighbor don't move, 1, all vertex translate in the same translate, some where between,
     * the object morph
-    * 
+    *
     * @param indexPoint
     *           Vertex index to translate
     * @param vx
@@ -1438,7 +1452,7 @@ public class Mesh
     * If you specify a 0 solidity, then neighbor don't move, 1, all vertex translate in the same translate, some where between,
     * the object morph<br>
     * You specify a near deep to determine the level of points are translate the same way as the specified index
-    * 
+    *
     * @param indexPoint
     *           Vertex index to translate
     * @param vx
@@ -1468,7 +1482,7 @@ public class Mesh
 
    /**
     * Multiply UV
-    * 
+    *
     * @param multU
     *           U multiplier
     * @param multV
@@ -1484,7 +1498,7 @@ public class Mesh
 
    /**
     * Triangularize the mesh
-    * 
+    *
     * @return Triangle set
     */
    public Triangles obtainTriangles()
@@ -1554,7 +1568,7 @@ public class Mesh
 
    /**
     * Save the mesh to XML
-    * 
+    *
     * @return Markup created
     */
    public synchronized MarkupXML saveToXML()

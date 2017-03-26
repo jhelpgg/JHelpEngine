@@ -109,7 +109,7 @@ public class Font3D
 
       float dx = 0, dy = 0, cx = 0, cy = 0, fx, fy, nx, ny, vz2;
       float[] temp = new float[2];
-      while(borderIterator.isDone() == false)
+      while(!borderIterator.isDone())
       {
          switch(borderIterator.currentSegment(temp))
          {
@@ -164,7 +164,7 @@ public class Font3D
       borderIterator.reset();
       dx = dy = cx = cy = fx = fy = 0;
       Polygon3D polygon3D = new Polygon3D(borderIterator.getWindingRule());
-      while(borderIterator.isDone() == false)
+      while(!borderIterator.isDone())
       {
          switch(borderIterator.currentSegment(temp))
          {
@@ -198,7 +198,7 @@ public class Font3D
       borderIterator.reset();
       dx = dy = cx = cy = fx = fy = 0;
       polygon3D = new Polygon3D(borderIterator.getWindingRule());
-      while(borderIterator.isDone() == false)
+      while(!borderIterator.isDone())
       {
          switch(borderIterator.currentSegment(temp))
          {

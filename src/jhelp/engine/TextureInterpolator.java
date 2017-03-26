@@ -169,7 +169,7 @@ public class TextureInterpolator
 
       this.factor = factor;
 
-      if((UtilMath.isNul(factor) == true) || (UtilMath.equals(factor, 1) == true))
+      if((UtilMath.isNul(factor)) || (UtilMath.equals(factor, 1)))
       {
          Scramble.scramble(this.indexes);
          this.actualInterpolationType = this.interpolationType;
@@ -196,6 +196,7 @@ public class TextureInterpolator
 
       final double rotcaf = 1.0 - this.factor;
       int nb, bn, index, minX, maxX, minY, maxY, w, h, pix;
+      assert this.actualInterpolationType != null;
       switch(this.actualInterpolationType)
       {
          case MELTED:

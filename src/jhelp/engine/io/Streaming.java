@@ -106,7 +106,7 @@ public class Streaming
          {
             Thread.sleep(1);
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
 
@@ -121,7 +121,7 @@ public class Streaming
       {
          Thread.sleep(10);
       }
-      catch(final Exception exception)
+      catch(final Exception ignored)
       {
       }
 
@@ -154,7 +154,7 @@ public class Streaming
       {
          Thread.sleep(10);
       }
-      catch(final Exception exception)
+      catch(final Exception ignored)
       {
       }
 
@@ -171,7 +171,7 @@ public class Streaming
       {
          Thread.sleep(10);
       }
-      catch(final Exception exception)
+      catch(final Exception ignored)
       {
       }
 
@@ -240,7 +240,7 @@ public class Streaming
       byte[] data;
 
       // For each stream
-      while((this.thread != null) && (this.streams.isEmpty() == false))
+      while((this.thread != null) && (!this.streams.isEmpty()))
       {
          // Get the stream
          stream = this.streams.outQueue();
@@ -268,7 +268,7 @@ public class Streaming
          {
             Thread.sleep(10);
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
       }

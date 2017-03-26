@@ -76,7 +76,7 @@ public class CubeMap
     */
    public void bind(final GL gl)
    {
-      if(this.isComplete() == false)
+      if(!this.isComplete())
       {
          // Not complete, so quit
          return;
@@ -95,7 +95,7 @@ public class CubeMap
          this.videoMemoryID = BufferUtils.TEMPORARY_INT_BUFFER.get();
       }
 
-      if(this.neeedRefresh == true)
+      if(this.neeedRefresh)
       {
          // If the cube map need to be refresh, refresh it
          gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, this.videoMemoryID);
